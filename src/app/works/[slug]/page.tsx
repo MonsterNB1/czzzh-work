@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Viewer3D from "@/components/Viewer3D";
 
-const works: Record<string, { title: string; cat: string; en: string; desc: string; meta: string[] }> = {
+const works: Record<string, { title: string; cat: string; en: string; desc: string; meta: string[]; video?: string }> = {
   bottle: {
     title: "Bottle",
     en: "STOP MOTION · 2021",
@@ -15,6 +15,7 @@ const works: Record<string, { title: string; cat: string; en: string; desc: stri
     cat: "动画",
     desc: "桃子和火不伙为妖怪开了一家小饭馆，一本食谱打破平静。B站752.8万播放，获金龙奖最佳系列动画。",
     meta: ["上色 / 色检 / 后期", "B站 752.8万播放", "金龙奖最佳系列动画"],
+    video: "https://player.bilibili.com/player.html?season_id=43359&autoplay=0",
   },
   wamao: {
     title: "瓦猫",
@@ -130,15 +131,26 @@ export default async function WorkDetailPage({
         <div className="mt-16">
           <div className="relative overflow-hidden rounded-xl border-2 border-cyan-400/30 bg-black/60 p-2 shadow-[0_0_60px_rgba(0,255,255,0.1)]">
             <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
-              <Viewer3D />
-              {/* Screen glare */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 30%, transparent 70%, rgba(0,255,255,0.02) 100%)",
-                }}
-              />
+              {work.video ? (
+                <iframe
+                  src={work.video}
+                  className="h-full w-full"
+                  allowFullScreen
+                  scrolling="no"
+                  frameBorder="0"
+                />
+              ) : (
+                <>
+                  <Viewer3D />
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 30%, transparent 70%, rgba(0,255,255,0.02) 100%)",
+                    }}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
