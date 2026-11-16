@@ -57,7 +57,7 @@ export default function Home() {
           <img
             src="/logo.png"
             alt="logo"
-            className="h-96 w-96 object-contain"
+            className="h-[28rem] w-[28rem] object-contain"
             style={{
               filter:
                 "invert(1) brightness(2) drop-shadow(0 0 40px rgba(0,255,255,0.5)) drop-shadow(0 0 80px rgba(0,255,255,0.2))",
