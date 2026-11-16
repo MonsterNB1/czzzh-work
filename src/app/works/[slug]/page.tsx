@@ -15,7 +15,7 @@ const works: Record<string, { title: string; cat: string; en: string; desc: stri
     cat: "动画",
     desc: "桃子和火不伙为妖怪开了一家小饭馆，一本食谱打破平静。B站752.8万播放，获金龙奖最佳系列动画。",
     meta: ["上色 / 色检 / 后期", "B站 752.8万播放", "金龙奖最佳系列动画"],
-    video: "https://player.bilibili.com/player.html?season_id=43359&autoplay=0",
+    video: "https://www.bilibili.com/bangumi/play/ss43359",
   },
   wamao: {
     title: "瓦猫",
@@ -132,13 +132,24 @@ export default async function WorkDetailPage({
           <div className="relative overflow-hidden rounded-xl border-2 border-cyan-400/30 bg-black/60 p-2 shadow-[0_0_60px_rgba(0,255,255,0.1)]">
             <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
               {work.video ? (
-                <iframe
-                  src={work.video}
-                  className="h-full w-full"
-                  allowFullScreen
-                  scrolling="no"
-                  frameBorder="0"
-                />
+                <a
+                  href={work.video}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex h-full w-full items-center justify-center"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/60 to-purple-950/40" />
+                  <div className="relative z-10 text-center">
+                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-cyan-400 bg-cyan-400/10 transition-all group-hover:scale-110 group-hover:bg-cyan-400/20 group-hover:shadow-[0_0_30px_rgba(0,255,255,0.4)]">
+                      <svg className="h-8 w-8 text-cyan-300" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <p className="mt-4 text-sm tracking-widest text-cyan-400">
+                      在 Bilibili 上观看 →
+                    </p>
+                  </div>
+                </a>
               ) : (
                 <>
                   <Viewer3D />
