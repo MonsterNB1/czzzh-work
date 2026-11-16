@@ -83,6 +83,18 @@ export default function WordGallery() {
       className="relative flex h-screen w-full cursor-pointer items-center justify-center overflow-hidden"
       onClick={next}
     >
+      {/* Mouse-follow cyan glow */}
+      <div
+        className="pointer-events-none absolute h-[600px] w-[600px] rounded-full"
+        style={{
+          left: `calc(50% + ${mouse.x * 50}% - 300px)`,
+          top: `calc(50% + ${mouse.y * 50}% - 300px)`,
+          background:
+            "radial-gradient(circle, rgba(0,255,255,0.08) 0%, transparent 60%)",
+          transition: "left 0.15s ease-out, top 0.15s ease-out",
+        }}
+      />
+
       {/* Pager */}
       <div className="absolute left-6 top-1/2 z-20 flex -translate-y-1/2 flex-col gap-4">
         {slides.map((_, i) => (
