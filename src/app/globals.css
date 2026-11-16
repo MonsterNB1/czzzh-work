@@ -135,6 +135,12 @@ body {
 }
 
 /* Boot animation */
+@keyframes crtOn {
+  0% { height: 4px; opacity: 1; }
+  60% { height: 100%; opacity: 1; }
+  100% { height: 100%; opacity: 0.1; }
+}
+
 .boot-line {
   opacity: 0;
   animation: bootLine 0.1s forwards;

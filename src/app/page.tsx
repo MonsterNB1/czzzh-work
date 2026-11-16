@@ -1,71 +1,32 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const lines = [
-  "$ czzzh --intro",
-  "",
-  "> name: 蔡振昊",
-  "> role: animator / designer / editor",
-  "> based in: hangzhou, cn",
-  "> focus: motion · 3D · post-production",
-  "",
-];
+import Viewer3D from "@/components/Viewer3D";
 
 export default function Home() {
-  const [visibleLines, setVisibleLines] = useState(0);
-
-  useEffect(() => {
-    if (visibleLines < lines.length) {
-      const t = setTimeout(() => setVisibleLines((v) => v + 1), 120);
-      return () => clearTimeout(t);
-    }
-  }, [visibleLines]);
-
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20">
-      {/* Terminal window */}
-      <div className="border border-cyan-500/30 bg-black/40 rounded-sm">
-        {/* Title bar */}
-        <div className="flex items-center gap-2 border-b border-cyan-500/20 px-4 py-2">
-          <div className="h-2 w-2 rounded-full bg-red-500/60" />
-          <div className="h-2 w-2 rounded-full bg-yellow-500/60" />
-          <div className="h-2 w-2 rounded-full bg-green-500/60" />
-          <span className="ml-3 text-xs text-cyan-600">czzzh@portfolio — bash</span>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 font-mono text-sm leading-relaxed">
-          {lines.slice(0, visibleLines).map((line, i) => (
-            <div key={i} className={line.startsWith(">") ? "text-cyan-300" : "text-cyan-500"}>
-              {line || "\u00A0"}
-            </div>
-          ))}
-          {visibleLines >= lines.length && (
-            <div className="mt-6 flex gap-4">
-              <Link
-                href="/works"
-                className="border border-cyan-500/50 bg-cyan-500/10 px-5 py-2 text-cyan-300 transition-all hover:bg-cyan-500/20 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]"
-              >
-                $ ./view_works
-              </Link>
-              <Link
-                href="/contact"
-                className="border border-cyan-500/20 px-5 py-2 text-cyan-500 transition-all hover:border-cyan-500/50 hover:text-cyan-300"
-              >
-                $ ./contact
-              </Link>
-            </div>
-          )}
-        </div>
+    <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-16">
+      {/* 3D centerpiece */}
+      <div className="h-64 w-64 sm:h-80 sm:w-80">
+        <Viewer3D />
       </div>
 
-      {/* Bottom status bar */}
-      <div className="mt-8 flex justify-between text-xs text-cyan-700">
-        <span>[STATUS: online]</span>
-        <span>[v2026.11]</span>
-      </div>
+      {/* Name */}
+      <h1 className="mt-8 text-center text-4xl font-light tracking-tight text-cyan-100 sm:text-6xl">
+        蔡振昊
+      </h1>
+      <p className="mt-3 text-center text-sm tracking-widest text-cyan-500">
+        ANIMATOR · DESIGNER · EDITOR
+      </p>
+      <p className="mt-6 max-w-md text-center text-sm leading-relaxed text-cyan-600">
+        专注动画、视觉设计与后期制作，现居杭州。
+      </p>
+
+      {/* CTA */}
+      <Link
+        href="/works"
+        className="mt-10 border border-cyan-500/30 px-8 py-3 text-xs tracking-widest text-cyan-400 transition-all hover:border-cyan-400 hover:text-cyan-200 hover:shadow-[0_0_20px_rgba(0,255,255,0.15)]"
+      >
+        VIEW WORKS
+      </Link>
     </section>
   );
 }
