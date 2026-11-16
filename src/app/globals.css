@@ -1,18 +1,179 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --crt-bg: #060a0f;
+  --crt-cyan: #00ffff;
+  --crt-cyan-dim: #0a8a8a;
+  --crt-cyan-bright: #66ffff;
+  --crt-amber: #ffb000;
+  --crt-text: #b8ffff;
+  --crt-text-dim: #4a7a7a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-background: var(--crt-bg);
+  --color-foreground: var(--crt-text);
+  --color-crt: var(--crt-cyan);
+  --color-crt-dim: var(--crt-cyan-dim);
+  --color-crt-bright: var(--crt-cyan-bright);
+  --color-crt-amber: var(--crt-amber);
+  --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--crt-cyan-dim) transparent;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--crt-bg);
+  color: var(--crt-text);
+  font-family: var(--font-geist-mono), monospace;
+  overflow-x: hidden;
+}
+
+/* CRT text glow */
+.glow {
+  text-shadow:
+    0 0 5px var(--crt-cyan),
+    0 0 10px var(--crt-cyan),
+    0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.glow-dim {
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.glow-amber {
+  text-shadow:
+    0 0 5px var(--crt-amber),
+    0 0 15px rgba(255, 176, 0, 0.4);
+}
+
+/* Scanlines overlay */
+.crt-scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* Screen flicker */
+.crt-flicker {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(0, 255, 255, 0.02);
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+/* Vignette */
+.crt-vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9996;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+/* Screen noise */
+.crt-noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: noise 0.2s steps(3) infinite;
+}
+
+@keyframes noise {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-2px, 1px); }
+  66% { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* CRT curvature wrapper */
+.crt-screen {
+  position: relative;
+  min-height: 100vh;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Blinking cursor */
+.cursor::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Boot animation */
+.boot-line {
+  opacity: 0;
+  animation: bootLine 0.1s forwards;
+}
+
+@keyframes bootLine {
+  to { opacity: 1; }
+}
+
+/* Terminal link hover */
+.term-link {
+  position: relative;
+  transition: color 0.15s;
+}
+
+.term-link:hover {
+  color: var(--crt-cyan-bright);
+  text-shadow: 0 0 10px var(--crt-cyan);
+}
+
+.term-link::before {
+  content: "> ";
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.term-link:hover::before {
+  opacity: 1;
+}
+
+/* Project card */
+.term-card {
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  background: rgba(0, 255, 255, 0.02);
+  transition: all 0.2s;
+}
+
+.term-card:hover {
+  border-color: rgba(0, 255, 255, 0.5);
+  background: rgba(0, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
 }
