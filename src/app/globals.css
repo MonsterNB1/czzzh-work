@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --crt-bg: #060a0f;
+  --crt-bg: #020408;
   --crt-cyan: #00ffff;
   --crt-cyan-dim: #0a8a8a;
-  --crt-cyan-bright: #66ffff;
+  --crt-cyan-bright: #88ffff;
   --crt-amber: #ffb000;
-  --crt-text: #b8ffff;
-  --crt-text-dim: #4a7a7a;
+  --crt-text: #e8ffff;
+  --crt-text-dim: #5a9a9a;
 }
 
 @theme inline {
@@ -15,7 +15,7 @@
   --color-foreground: var(--crt-text);
   --color-crt: var(--crt-cyan);
   --color-crt-dim: var(--crt-cyan-dim);
-  --color-crt-bright: var(--crt-cyan-bright);
+  --color-crt-bright: var(--crt-crt-bright);
   --color-crt-amber: var(--crt-amber);
   --font-sans: var(--font-geist-mono);
   --font-mono: var(--font-geist-mono);
@@ -26,6 +26,10 @@
   scrollbar-color: var(--crt-cyan-dim) transparent;
 }
 
+html {
+  background: #020408;
+}
+
 body {
   background: var(--crt-bg);
   color: var(--crt-text);
@@ -33,25 +37,19 @@ body {
   overflow-x: hidden;
 }
 
-/* CRT text glow */
+/* CRT text glow - stronger */
 .glow {
   text-shadow:
-    0 0 5px var(--crt-cyan),
-    0 0 10px var(--crt-cyan),
-    0 0 20px rgba(0, 255, 255, 0.3);
+    0 0 8px var(--crt-cyan),
+    0 0 20px var(--crt-cyan),
+    0 0 40px rgba(0, 255, 255, 0.4);
 }
 
 .glow-dim {
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
-.glow-amber {
-  text-shadow:
-    0 0 5px var(--crt-amber),
-    0 0 15px rgba(255, 176, 0, 0.4);
-}
-
-/* Scanlines overlay */
+/* Scanlines - stronger */
 .crt-scanlines {
   pointer-events: none;
   position: fixed;
@@ -59,8 +57,8 @@ body {
   z-index: 9998;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 0, 0, 0.15) 0px,
-    rgba(0, 0, 0, 0.15) 1px,
+    rgba(0, 0, 0, 0.25) 0px,
+    rgba(0, 0, 0, 0.25) 1px,
     transparent 1px,
     transparent 3px
   );
@@ -73,7 +71,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9997;
-  background: rgba(0, 255, 255, 0.02);
+  background: rgba(0, 255, 255, 0.03);
   animation: flicker 0.15s infinite;
 }
 
@@ -83,7 +81,7 @@ body {
   100% { opacity: 0.98; }
 }
 
-/* Vignette */
+/* Vignette - stronger */
 .crt-vignette {
   pointer-events: none;
   position: fixed;
@@ -91,8 +89,8 @@ body {
   z-index: 9996;
   background: radial-gradient(
     ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.4) 100%
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
   );
 }
 
@@ -102,7 +100,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9995;
-  opacity: 0.03;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: noise 0.2s steps(3) infinite;
 }
@@ -114,7 +112,7 @@ body {
   100% { transform: translate(0, 0); }
 }
 
-/* CRT curvature wrapper */
+/* CRT curvature */
 .crt-screen {
   position: relative;
   min-height: 100vh;
@@ -134,52 +132,44 @@ body {
   51%, 100% { opacity: 0; }
 }
 
-/* Boot animation */
+/* Boot */
 @keyframes crtOn {
   0% { height: 4px; opacity: 1; }
-  60% { height: 100%; opacity: 1; }
-  100% { height: 100%; opacity: 0.1; }
+  60% { height: 100vh; opacity: 1; }
+  100% { height: 100vh; opacity: 0.1; }
 }
 
-.boot-line {
-  opacity: 0;
-  animation: bootLine 0.1s forwards;
+/* CRT page transition - TV off/on */
+@keyframes crtOff {
+  0% { transform: scaleY(1); opacity: 1; filter: brightness(2); }
+  40% { transform: scaleY(0.005); opacity: 1; filter: brightness(3); }
+  100% { transform: scaleY(0.005); opacity: 0; filter: brightness(3); }
 }
 
-@keyframes bootLine {
-  to { opacity: 1; }
+@keyframes crtOnTransition {
+  0% { transform: scaleY(0.005); opacity: 1; filter: brightness(3); }
+  60% { transform: scaleY(1); opacity: 1; filter: brightness(1.5); }
+  100% { transform: scaleY(1); opacity: 1; filter: brightness(1); }
 }
 
-/* Terminal link hover */
-.term-link {
-  position: relative;
-  transition: color 0.15s;
+.crt-transition-off {
+  animation: crtOff 0.45s ease-in forwards;
+  transform-origin: center;
 }
 
-.term-link:hover {
-  color: var(--crt-cyan-bright);
-  text-shadow: 0 0 10px var(--crt-cyan);
+.crt-transition-on {
+  animation: crtOnTransition 0.5s ease-out forwards;
+  transform-origin: center;
 }
 
-.term-link::before {
-  content: "> ";
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.term-link:hover::before {
-  opacity: 1;
-}
-
-/* Project card */
 .term-card {
-  border: 1px solid rgba(0, 255, 255, 0.15);
-  background: rgba(0, 255, 255, 0.02);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  background: rgba(0, 255, 255, 0.03);
   transition: all 0.2s;
 }
 
 .term-card:hover {
-  border-color: rgba(0, 255, 255, 0.5);
-  background: rgba(0, 255, 255, 0.05);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.6);
+  background: rgba(0, 255, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
