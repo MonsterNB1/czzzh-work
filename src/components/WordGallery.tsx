@@ -45,13 +45,6 @@ const slides = [
   },
 ];
 
-const cardPositions = [
-  { x: -360, y: -200, scale: 1.2, depth: 40 },
-  { x: 320, y: -160, scale: 1.0, depth: 30 },
-  { x: -280, y: 160, scale: 1.5, depth: 55 },
-  { x: 360, y: 200, scale: 1.3, depth: 45 },
-];
-
 export default function WordGallery() {
   const [index, setIndex] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -84,11 +77,11 @@ export default function WordGallery() {
       onClick={next}
     >
       {/* Pager */}
-      <div className="absolute left-8 top-1/2 flex -translate-y-1/2 flex-col gap-3">
+      <div className="absolute left-6 top-1/2 z-20 flex -translate-y-1/2 flex-col gap-4">
         {slides.map((_, i) => (
           <div
             key={i}
-            className={`text-sm font-bold transition-colors ${
+            className={`text-lg font-bold transition-colors ${
               i === index ? "text-white" : "text-cyan-800"
             }`}
           >
@@ -97,45 +90,55 @@ export default function WordGallery() {
         ))}
       </div>
 
-      {/* Cards */}
+      {/* Cards - really big, positioned around center */}
       {slide.items.map((item, i) => {
-        const pos = cardPositions[i];
+        // 4 corners relative to center, with parallax offset
+        const offsets = [
+          { baseX: -320, baseY: -180, depth: 50, scale: 1 },   // top-left
+          { baseX: 340, baseY: -140, depth: 35, scale: 0.85 }, // top-right
+          { baseX: -300, baseY: 200, depth: 65, scale: 1.15 }, // bottom-left
+          { baseX: 320, baseY: 180, depth: 45, scale: 1 },     // bottom-right
+        ];
+        const o = offsets[i];
         return (
           <div
             key={`${index}-${i}`}
-            className="absolute"
+            className="absolute left-1/2 top-1/2"
             style={{
-              transform: `translate(calc(-50% + ${pos.x + mouse.x * pos.depth}px), calc(-50% + ${pos.y + mouse.y * pos.depth}px)) scale(${pos.scale})`,
+              transform: `translate(calc(-50% + ${o.baseX + mouse.x * o.depth}px), calc(-50% + ${o.baseY + mouse.y * o.depth}px)) scale(${o.scale})`,
               opacity: visible ? 1 : 0,
-              transition: `opacity 0.3s ease-out, transform 0.2s ease-out`,
+              transition: "opacity 0.3s ease-out",
+              zIndex: 5,
             }}
           >
-            <div className="w-44 rounded-sm border border-cyan-500/30 bg-gradient-to-br from-cyan-950/60 to-purple-950/40 p-4 shadow-[0_0_30px_rgba(0,255,255,0.15)] backdrop-blur-sm">
-              <div className="h-28 w-full rounded-sm bg-gradient-to-br from-cyan-800/30 to-purple-800/20" />
-              <div className="mt-3 text-base font-bold text-cyan-200">{item.title}</div>
-              <div className="text-xs text-cyan-600">{item.cat}</div>
+            <div className="w-52 rounded-md border border-cyan-500/30 bg-gradient-to-br from-cyan-950/70 to-purple-950/50 p-4 shadow-[0_0_40px_rgba(0,255,255,0.15)]">
+              <div className="h-32 w-full rounded-sm bg-gradient-to-br from-cyan-800/40 to-purple-800/30" />
+              <div className="mt-3 text-lg font-bold text-cyan-100">{item.title}</div>
+              <div className="text-xs text-cyan-500">{item.cat}</div>
             </div>
           </div>
         );
       })}
 
-      {/* Center word - pure white, bold, 2x */}
+      {/* Center word - huge, pure white, bold */}
       <div
         className="relative z-10 text-center"
         style={{
-          transform: `translate(${mouse.x * -15}px, ${mouse.y * -15}px)`,
+          transform: `translate(${mouse.x * -20}px, ${mouse.y * -20}px)`,
           opacity: visible ? 1 : 0,
-          transition: "opacity 0.3s ease-out, transform 0.2s ease-out",
+          transition: "opacity 0.3s ease-out",
         }}
       >
-        <h1 className="text-8xl font-bold tracking-tight text-white sm:text-9xl">
+        <h1 className="text-[10rem] font-bold leading-none tracking-tight text-white sm:text-[12rem]">
           {slide.word}
         </h1>
-        <p className="mt-4 text-sm font-bold tracking-[0.5em] text-cyan-400">{slide.en}</p>
+        <p className="mt-6 text-base font-bold tracking-[0.6em] text-cyan-400">
+          {slide.en}
+        </p>
       </div>
 
       {/* Hint */}
-      <div className="absolute bottom-12 text-xs tracking-widest text-cyan-700">
+      <div className="absolute bottom-10 z-20 text-xs tracking-widest text-cyan-600">
         CLICK TO EXPLORE →
       </div>
     </div>
