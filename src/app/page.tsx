@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WordGallery from "@/components/WordGallery";
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handle = (e: MouseEvent) => {
+      setMouse({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handle);
+    return () => window.removeEventListener("mousemove", handle);
+  }, []);
 
   return (
     <div className="relative h-screen w-full overflow-hidden" style={{ perspective: "1200px" }}>
-      {/* Layer 2 (back): main content - WordGallery */}
+      {/* Layer 2 (back): main content */}
       <div
         className="absolute inset-0"
         style={{
@@ -20,7 +29,7 @@ export default function Home() {
         <WordGallery />
       </div>
 
-      {/* Layer 1 (front): cover with logo */}
+      {/* Layer 1 (front): cover */}
       <div
         className="absolute inset-0 z-10 flex cursor-pointer flex-col items-center justify-center bg-[#020408]"
         onClick={() => setEntered(true)}
@@ -31,17 +40,38 @@ export default function Home() {
           pointerEvents: entered ? "none" : "auto",
         }}
       >
-        {/* Logo - inverted to white for dark bg */}
-        <img
-          src="/logo.png"
-          alt="logo"
-          className="h-48 w-48 object-contain"
+        {/* Mouse-follow glow */}
+        <div
+          className="pointer-events-none absolute h-[500px] w-[500px] rounded-full"
           style={{
-            filter: "invert(1) brightness(2) drop-shadow(0 0 20px rgba(0,255,255,0.4))",
+            left: mouse.x - 250,
+            top: mouse.y - 250,
+            background:
+              "radial-gradient(circle, rgba(0,255,255,0.12) 0%, transparent 70%)",
+            transition: "left 0.1s ease-out, top 0.1s ease-out",
           }}
         />
-        <p className="mt-8 text-sm tracking-[0.5em] text-cyan-400">CZH</p>
-        <p className="mt-2 text-xs tracking-widest text-cyan-700">click to enter</p>
+
+        {/* Logo - 3x bigger */}
+        <div className="relative">
+          <img
+            src="/logo.png"
+            alt="logo"
+            className="h-96 w-96 object-contain"
+            style={{
+              filter:
+                "invert(1) brightness(2) drop-shadow(0 0 40px rgba(0,255,255,0.5)) drop-shadow(0 0 80px rgba(0,255,255,0.2))",
+            }}
+          />
+        </div>
+
+        <p className="mt-10 text-2xl font-light tracking-[0.3em] text-cyan-100">
+          蔡振昊个人作品集
+        </p>
+        <p className="mt-3 text-xs tracking-[0.4em] text-cyan-500">
+          CAI ZHENHAO — PORTFOLIO
+        </p>
+        <p className="mt-8 text-[10px] tracking-widest text-cyan-800">click to enter</p>
       </div>
     </div>
   );
