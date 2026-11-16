@@ -121,8 +121,10 @@ export default function WordGallery() {
               transform: `translate(calc(-50% + ${o.baseX + mouse.x * o.depth}px), calc(-50% + ${o.baseY + mouse.y * o.depth}px))`,
               opacity: visible ? 1 : 0,
               transition: "opacity 0.3s ease-out",
-              zIndex: 5,
+              zIndex: 10,
+              pointerEvents: "auto",
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             <div
               style={{
