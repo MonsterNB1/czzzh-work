@@ -1,46 +1,47 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 
 const slides = [
   {
     word: "动画",
     en: "ANIMATION",
     items: [
-      { title: "怪兽小馆", cat: "Ink" },
-      { title: "Bottle", cat: "Stop-mo" },
-      { title: "瓦猫", cat: "Stop-mo" },
-      { title: "挂画", cat: "Opera" },
+      { title: "怪兽小馆", cat: "Ink", slug: "monster_diner" },
+      { title: "Bottle", cat: "Stop-mo", slug: "bottle" },
+      { title: "瓦猫", cat: "Stop-mo", slug: "wamao" },
+      { title: "挂画", cat: "Opera", slug: "guahua" },
     ],
   },
   {
     word: "设计",
     en: "DESIGN",
     items: [
-      { title: "海报", cat: "Print" },
-      { title: "封面", cat: "Video" },
-      { title: "宣发", cat: "Keyart" },
-      { title: "周边", cat: "Merch" },
+      { title: "海报", cat: "Print", slug: "posters" },
+      { title: "封面", cat: "Video", slug: "covers" },
+      { title: "宣发", cat: "Keyart", slug: "keyart" },
+      { title: "周边", cat: "Merch", slug: "merch" },
     ],
   },
   {
     word: "AIGC",
     en: "GENERATIVE",
     items: [
-      { title: "河神纪元", cat: "Game Art" },
-      { title: "角色", cat: "Character" },
-      { title: "道具", cat: "Prop" },
-      { title: "地图", cat: "Map" },
+      { title: "河神纪元", cat: "Game Art", slug: "river_gods" },
+      { title: "角色", cat: "Character", slug: "river_gods" },
+      { title: "道具", cat: "Prop", slug: "river_gods" },
+      { title: "地图", cat: "Map", slug: "river_gods" },
     ],
   },
   {
     word: "后期",
     en: "POST",
     items: [
-      { title: "起底工作室", cat: "Doc" },
-      { title: "剪辑", cat: "Edit" },
-      { title: "调色", cat: "Grade" },
-      { title: "包装", cat: "Pack" },
+      { title: "起底工作室", cat: "Doc", slug: "media_unlocked" },
+      { title: "剪辑", cat: "Edit", slug: "media_unlocked" },
+      { title: "调色", cat: "Grade", slug: "media_unlocked" },
+      { title: "包装", cat: "Pack", slug: "media_unlocked" },
     ],
   },
 ];
@@ -80,7 +81,7 @@ export default function WordGallery() {
 
   return (
     <div
-      className="relative flex h-screen w-full cursor-pointer items-center justify-center overflow-hidden"
+      className="relative flex h-screen w-full items-center justify-center overflow-hidden"
       onClick={next}
     >
       {/* Mouse-follow cyan glow */}
@@ -109,7 +110,7 @@ export default function WordGallery() {
         ))}
       </div>
 
-      {/* Cards with independent floating + glow */}
+      {/* Cards - clickable links */}
       {slide.items.map((item, i) => {
         const o = offsets[i];
         return (
@@ -123,14 +124,15 @@ export default function WordGallery() {
               zIndex: 5,
             }}
           >
-            {/* Floating wrapper */}
             <div
               style={{
                 animation: `floatCard${i} ${o.floatDur}s ease-in-out ${o.floatDelay}s infinite`,
               }}
             >
-              <div
-                className="w-52 rounded-md border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-950/80 to-purple-950/60 p-4"
+              <Link
+                href={`/works/${item.slug}`}
+                onClick={(e) => e.stopPropagation()}
+                className="block w-52 rounded-md border-2 border-cyan-400/50 bg-gradient-to-br from-cyan-950/80 to-purple-950/60 p-4 transition-all duration-200 hover:border-cyan-300 hover:shadow-[0_0_40px_rgba(0,255,255,0.4)]"
                 style={{
                   boxShadow:
                     "0 0 20px rgba(0,255,255,0.3), 0 0 40px rgba(0,255,255,0.15), inset 0 0 20px rgba(0,255,255,0.05)",
@@ -140,7 +142,7 @@ export default function WordGallery() {
                 <div className="h-32 w-full rounded-sm bg-gradient-to-br from-cyan-800/40 to-purple-800/30" />
                 <div className="mt-3 text-lg font-bold text-white">{item.title}</div>
                 <div className="text-xs text-cyan-400">{item.cat}</div>
-              </div>
+              </Link>
             </div>
           </div>
         );
@@ -148,7 +150,7 @@ export default function WordGallery() {
 
       {/* Center word */}
       <div
-        className="relative z-10 text-center"
+        className="relative z-10 text-center pointer-events-none"
         style={{
           transform: `translate(${mouse.x * -20}px, ${mouse.y * -20}px)`,
           opacity: visible ? 1 : 0,
@@ -164,11 +166,10 @@ export default function WordGallery() {
       </div>
 
       {/* Hint */}
-      <div className="absolute bottom-10 z-20 text-xs tracking-widest text-cyan-600">
+      <div className="absolute bottom-10 z-20 text-xs tracking-widest text-cyan-600 pointer-events-none">
         CLICK TO EXPLORE →
       </div>
 
-      {/* Floating keyframes */}
       <style>{`
         @keyframes floatCard0 {
           0%, 100% { translate: 0 0; rotate: 0deg; }
