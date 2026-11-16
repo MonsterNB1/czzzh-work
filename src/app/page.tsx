@@ -47,7 +47,7 @@ export default function Home() {
             left: mouse.x - 250,
             top: mouse.y - 250,
             background:
-              "radial-gradient(circle, rgba(0,255,255,0.12) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(0,255,255,0.2) 0%, rgba(0,255,255,0.06) 40%, transparent 70%)",
             transition: "left 0.1s ease-out, top 0.1s ease-out",
           }}
         />

@@ -90,7 +90,7 @@ export default function WordGallery() {
           left: `calc(50% + ${mouse.x * 50}% - 300px)`,
           top: `calc(50% + ${mouse.y * 50}% - 300px)`,
           background:
-            "radial-gradient(circle, rgba(0,255,255,0.08) 0%, transparent 60%)",
+            "radial-gradient(circle, rgba(0,255,255,0.18) 0%, rgba(0,255,255,0.05) 40%, transparent 70%)",
           transition: "left 0.15s ease-out, top 0.15s ease-out",
         }}
       />
