@@ -45,14 +45,11 @@ const slides = [
   },
 ];
 
-// Positions for 4 cards around center, 3 depth layers
 const cardPositions = [
-  // layer 0 (far, smaller)
-  { x: -180, y: -100, scale: 0.6, depth: 20 },
-  { x: 160, y: -80, scale: 0.5, depth: 15 },
-  // layer 1 (mid)
-  { x: -140, y: 80, scale: 0.8, depth: 35 },
-  { x: 180, y: 100, scale: 0.7, depth: 30 },
+  { x: -360, y: -200, scale: 1.2, depth: 40 },
+  { x: 320, y: -160, scale: 1.0, depth: 30 },
+  { x: -280, y: 160, scale: 1.5, depth: 55 },
+  { x: 360, y: 200, scale: 1.3, depth: 45 },
 ];
 
 export default function WordGallery() {
@@ -86,13 +83,13 @@ export default function WordGallery() {
       className="relative flex h-screen w-full cursor-pointer items-center justify-center overflow-hidden"
       onClick={next}
     >
-      {/* Pager numbers on left */}
-      <div className="absolute left-6 top-1/2 flex -translate-y-1/2 flex-col gap-2">
+      {/* Pager */}
+      <div className="absolute left-8 top-1/2 flex -translate-y-1/2 flex-col gap-3">
         {slides.map((_, i) => (
           <div
             key={i}
-            className={`text-xs transition-colors ${
-              i === index ? "text-cyan-300" : "text-cyan-800"
+            className={`text-sm font-bold transition-colors ${
+              i === index ? "text-white" : "text-cyan-800"
             }`}
           >
             {String(i + 1).padStart(2, "0")}
@@ -100,7 +97,7 @@ export default function WordGallery() {
         ))}
       </div>
 
-      {/* Scattered cards at different depths */}
+      {/* Cards */}
       {slide.items.map((item, i) => {
         const pos = cardPositions[i];
         return (
@@ -113,32 +110,32 @@ export default function WordGallery() {
               transition: `opacity 0.3s ease-out, transform 0.2s ease-out`,
             }}
           >
-            <div className="w-36 rounded-sm border border-cyan-500/30 bg-gradient-to-br from-cyan-950/60 to-purple-950/40 p-3 shadow-[0_0_20px_rgba(0,255,255,0.1)] backdrop-blur-sm">
-              <div className="h-20 w-full rounded-sm bg-gradient-to-br from-cyan-800/30 to-purple-800/20" />
-              <div className="mt-2 text-xs text-cyan-300">{item.title}</div>
-              <div className="text-[10px] text-cyan-600">{item.cat}</div>
+            <div className="w-44 rounded-sm border border-cyan-500/30 bg-gradient-to-br from-cyan-950/60 to-purple-950/40 p-4 shadow-[0_0_30px_rgba(0,255,255,0.15)] backdrop-blur-sm">
+              <div className="h-28 w-full rounded-sm bg-gradient-to-br from-cyan-800/30 to-purple-800/20" />
+              <div className="mt-3 text-base font-bold text-cyan-200">{item.title}</div>
+              <div className="text-xs text-cyan-600">{item.cat}</div>
             </div>
           </div>
         );
       })}
 
-      {/* Center word */}
+      {/* Center word - pure white, bold, 2x */}
       <div
         className="relative z-10 text-center"
         style={{
-          transform: `translate(${mouse.x * -10}px, ${mouse.y * -10}px)`,
+          transform: `translate(${mouse.x * -15}px, ${mouse.y * -15}px)`,
           opacity: visible ? 1 : 0,
           transition: "opacity 0.3s ease-out, transform 0.2s ease-out",
         }}
       >
-        <h1 className="text-5xl font-light tracking-tight text-cyan-100 sm:text-7xl">
+        <h1 className="text-8xl font-bold tracking-tight text-white sm:text-9xl">
           {slide.word}
         </h1>
-        <p className="mt-2 text-xs tracking-[0.4em] text-cyan-500">{slide.en}</p>
+        <p className="mt-4 text-sm font-bold tracking-[0.5em] text-cyan-400">{slide.en}</p>
       </div>
 
       {/* Hint */}
-      <div className="absolute bottom-10 text-[10px] tracking-widest text-cyan-700">
+      <div className="absolute bottom-12 text-xs tracking-widest text-cyan-700">
         CLICK TO EXPLORE →
       </div>
     </div>
