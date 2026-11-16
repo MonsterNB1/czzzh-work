@@ -1,10 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 import Viewer3D from "@/components/Viewer3D";
-
-const R2_BASE = "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
+import MonsterDinerPlayer from "@/components/MonsterDinerPlayer";
 
 const works: Record<string, { title: string; cat: string; en: string; desc: string; meta: string[]; video?: string }> = {
   bottle: {
@@ -84,11 +80,12 @@ export function generateStaticParams() {
   return Object.keys(works).map((slug) => ({ slug }));
 }
 
-export default function WorkDetailPage({
+export default async function WorkDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const work = works[slug] ?? {
     title: slug,
     en: "",
@@ -96,13 +93,11 @@ export default function WorkDetailPage({
     desc: "",
     meta: [],
   };
-  const [ep, setEp] = useState(1);
   const isMonsterDiner = slug === "monster_diner";
 
   return (
     <div className="min-h-screen pt-24">
       <div className="mx-auto max-w-5xl px-6 pb-32">
-        {/* Back link */}
         <Link
           href="/"
           className="text-xs tracking-widest text-cyan-600 transition-colors hover:text-cyan-300"
@@ -110,18 +105,15 @@ export default function WorkDetailPage({
           ← BACK
         </Link>
 
-        {/* Title */}
         <p className="mt-10 text-xs tracking-[0.4em] text-cyan-500">{work.en}</p>
         <h1 className="mt-4 text-6xl font-bold tracking-tight text-white sm:text-8xl">
           {work.title}
         </h1>
 
-        {/* Description */}
         <p className="mt-8 max-w-xl text-base leading-relaxed text-cyan-300">
           {work.desc}
         </p>
 
-        {/* Meta */}
         <div className="mt-8 flex flex-wrap gap-2">
           {work.meta.map((m) => (
             <span
@@ -133,71 +125,47 @@ export default function WorkDetailPage({
           ))}
         </div>
 
-        {/* Media area - CRT screen frame */}
-        <div className="mt-16">
-          <div className="relative overflow-hidden rounded-xl border-2 border-cyan-400/30 bg-black/60 p-2 shadow-[0_0_60px_rgba(0,255,255,0.1)]">
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
-              {isMonsterDiner ? (
-                <video
-                  key={ep}
-                  controls
-                  className="h-full w-full"
-                  src={`${R2_BASE}/ep${ep}.mp4`}
-                  preload="metadata"
-                />
-              ) : work.video ? (
-                <a
-                  href={work.video}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative flex h-full w-full items-center justify-center"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/60 to-purple-950/40" />
-                  <div className="relative z-10 text-center">
-                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-cyan-400 bg-cyan-400/10 transition-all group-hover:scale-110 group-hover:bg-cyan-400/20 group-hover:shadow-[0_0_30px_rgba(0,255,255,0.4)]">
-                      <svg className="h-8 w-8 text-cyan-300" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+        {isMonsterDiner ? (
+          <MonsterDinerPlayer />
+        ) : (
+          <div className="mt-16">
+            <div className="relative overflow-hidden rounded-xl border-2 border-cyan-400/30 bg-black/60 p-2 shadow-[0_0_60px_rgba(0,255,255,0.1)]">
+              <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
+                {work.video ? (
+                  <a
+                    href={work.video}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex h-full w-full items-center justify-center"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/60 to-purple-950/40" />
+                    <div className="relative z-10 text-center">
+                      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-cyan-400 bg-cyan-400/10 transition-all group-hover:scale-110 group-hover:bg-cyan-400/20 group-hover:shadow-[0_0_30px_rgba(0,255,255,0.4)]">
+                        <svg className="h-8 w-8 text-cyan-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                      <p className="mt-4 text-sm tracking-widest text-cyan-400">
+                        在 Bilibili 上观看 →
+                      </p>
                     </div>
-                    <p className="mt-4 text-sm tracking-widest text-cyan-400">
-                      在 Bilibili 上观看 →
-                    </p>
-                  </div>
-                </a>
-              ) : (
-                <>
-                  <Viewer3D />
-                  <div
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 30%, transparent 70%, rgba(0,255,255,0.02) 100%)",
-                    }}
-                  />
-                </>
-              )}
+                  </a>
+                ) : (
+                  <>
+                    <Viewer3D />
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 30%, transparent 70%, rgba(0,255,255,0.02) 100%)",
+                      }}
+                    />
+                  </>
+                )}
+              </div>
             </div>
           </div>
-
-          {/* Episode selector for 怪兽小馆 */}
-          {isMonsterDiner && (
-            <div className="mt-6 flex flex-wrap gap-2">
-              {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-                <button
-                  key={n}
-                  onClick={() => setEp(n)}
-                  className={`h-10 w-10 border text-sm transition-all ${
-                    ep === n
-                      ? "border-cyan-400 bg-cyan-400/20 text-cyan-200 shadow-[0_0_15px_rgba(0,255,255,0.3)]"
-                      : "border-cyan-500/30 text-cyan-500 hover:border-cyan-400/60 hover:text-cyan-300"
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
