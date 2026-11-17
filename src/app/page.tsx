@@ -18,10 +18,15 @@ export default function Home() {
         {/* big "Hi, I'm" + smaller name, left aligned */}
         <div className="absolute" style={{ left: "13%", top: "15%" }}>
           <p className="hand text-5xl sm:text-7xl font-bold text-marker leading-none">
-            Hi～
+            Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
           </p>
           <h1 className="hand text-2xl sm:text-3xl font-bold text-marker mt-3">
-            I&apos;m 蔡振昊
+            I&apos;m{" "}
+            <span className="tracking-[0.12em] inline-flex">
+              <span className="inline-block -rotate-3">蔡</span>
+              <span className="inline-block rotate-2">振</span>
+              <span className="inline-block -rotate-1">昊</span>
+            </span>
           </h1>
 
           {/* four directions, hand-placed */}

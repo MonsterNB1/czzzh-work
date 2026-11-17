@@ -8,13 +8,12 @@
   font-display: swap;
   unicode-range: U+0000-024F, U+2000-206F, U+2100-214F, U+2460-24FF, U+FF00-FFEF;
 }
-/* Chinese — Biaoxiaozhi Wujie Hei */
+/* Chinese — Biaoxiaozhi Wujie Hei (own family, used as CJK fallback in stack) */
 @font-face {
-  font-family: "MixedHand";
-  src: url("/fonts/wujie-hei.ttf") format("truetype");
+  font-family: "WujieHei";
+  src: url("/fonts/wujie.woff2") format("woff2");
   font-weight: 400 900;
   font-display: swap;
-  unicode-range: U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF;
 }
 
 :root {
@@ -58,7 +57,7 @@ body {
   background-image:
     linear-gradient(var(--paper-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-size: 8px 8px;
   background-opacity: 0.35;
 }
 
@@ -74,10 +73,10 @@ body {
 
 /* handwritten helpers */
 .hand {
-  font-family: "MixedHand", "PingFang SC", system-ui, cursive;
+  font-family: "MixedHand", "WujieHei", "PingFang SC", system-ui, cursive;
 }
 .note {
-  font-family: "MixedHand", "PingFang SC", system-ui, cursive;
+  font-family: "MixedHand", "WujieHei", "PingFang SC", system-ui, cursive;
 }
 
 /* tape strip look for polaroids */
