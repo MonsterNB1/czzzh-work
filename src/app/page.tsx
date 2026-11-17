@@ -63,9 +63,9 @@ export default function Home() {
         {/* ===== RIGHT PAGE ===== */}
         <div
           className="absolute hidden sm:block"
-          style={{ right: "17%", top: "20%", width: "28%" }}
+          style={{ left: "55%", top: "17%", width: "30%" }}
         >
-          <p className="note text-[13px] leading-relaxed text-[#2b2b2b] text-center">
+          <p className="note text-[13px] leading-relaxed text-[#2b2b2b] text-left">
             I&apos;m a multidisciplinary creative working across animation, design
             and post — strong visuals, thoughtful storytelling.
           </p>
@@ -74,14 +74,16 @@ export default function Home() {
         {/* retro TV on the right page */}
         <div
           className="absolute hidden md:block"
-          style={{ right: "22%", bottom: "8%" }}
+          style={{ left: "68%", top: "46%", transform: "translateX(-50%)" }}
         >
           <div className="relative">
-            <img
-              src="/assets/scrapbook/retro-tv.png"
-              alt=""
-              className="photo-shadow w-40 h-auto"
-            />
+            <div className="overflow-hidden" style={{ height: "228px" }}>
+              <img
+                src="/assets/scrapbook/retro-tv.png"
+                alt=""
+                className="photo-shadow w-56 h-auto block"
+              />
+            </div>
             <Link
               href="/works"
               className="note absolute text-[10px] text-[#2b2b2b] hover:text-marker"
