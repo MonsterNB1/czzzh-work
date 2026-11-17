@@ -80,27 +80,21 @@ export default function WorksPage() {
   const current = sections[active];
   const router = useRouter();
 
-  // zoom-into-the-polaroid transition
-  const [zoom, setZoom] = useState<
-    null | { src: string; from: { left: number; top: number; width: number; height: number } }
-  >(null);
-  const [zoomed, setZoomed] = useState(false);
+  // leaving the notebook: the room goes dark, then the TV lights up
+  const [leaving, setLeaving] = useState(false);
 
   const open = (e: React.MouseEvent, it: Item) => {
     if (!it.slug) return;
     e.preventDefault();
-    const img = (e.currentTarget as HTMLElement).querySelector("img");
-    const r = (img ?? (e.currentTarget as HTMLElement)).getBoundingClientRect();
-    setZoom({
-      src: it.cover ?? "",
-      from: { left: r.left, top: r.top, width: r.width, height: r.height },
-    });
-    requestAnimationFrame(() => requestAnimationFrame(() => setZoomed(true)));
-    window.setTimeout(() => router.push(`/works/${it.slug}`), 640);
+    setLeaving(true);
+    window.setTimeout(() => router.push(`/works/${it.slug}`), 520);
   };
 
   return (
-    <div className="grid-bg fixed inset-0 overflow-hidden">
+    <div
+      className="grid-bg fixed inset-0 overflow-hidden"
+      style={{ "--wb": "min(calc(100vw - 32px), 1280px)" } as React.CSSProperties}
+    >
       {/* ===== the notebook: rotates 90° clockwise into the standing view ===== */}
       <div className="absolute left-1/2 top-0 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 mt-[88px] pointer-events-none">
         <div className="book-rotate">
@@ -116,7 +110,10 @@ export default function WorksPage() {
       {/* ===== index tabs: dropped half, active card pulled back up ===== */}
       <div
         className="absolute z-10 flex gap-5"
-        style={{ right: "16%", top: 150 + TABS_DROP }}
+        style={{
+          right: "calc(50vw - 0.3675 * var(--wb) + 15px)",
+          top: "calc(88px + 0.068 * var(--wb) + " + TABS_DROP + "px)",
+        }}
       >
         {sections.map((s, i) => (
           <div
@@ -141,9 +138,14 @@ export default function WorksPage() {
       {/* ===== the white sheet ===== */}
       <div
         className="absolute z-20 overflow-y-auto sheet-paper"
-        style={{ left: "14.5%", right: "14.5%", top: "216px", bottom: "0" }}
+        style={{
+          left: "calc(50vw - 0.3675 * var(--wb))",
+          width: "calc(0.735 * var(--wb))",
+          top: "calc(88px + 0.141 * var(--wb))",
+          bottom: "0",
+        }}
       >
-        <div key={current.key} className="pt-16 pb-28 px-16 sheet-content">
+        <div key={current.key} className="pt-16 pb-28 px-16 sheet-content mx-auto max-w-[820px]">
           {/* category as the page title */}
           <div className="flex items-baseline justify-center gap-3">
             <h1 className="hand text-5xl sm:text-6xl font-bold text-ink-blue">{current.title}</h1>
@@ -188,27 +190,8 @@ export default function WorksPage() {
         </div>
       </div>
 
-      {/* ===== zoom-into-polaroid transition ===== */}
-      {zoom && (
-        <div className="fixed inset-0 z-[90] pointer-events-none">
-          <div
-            className="absolute inset-0 bg-[#0d0e0d] transition-opacity duration-500"
-            style={{ opacity: zoomed ? 1 : 0 }}
-          />
-          <div
-            className="absolute overflow-hidden"
-            style={{
-              left: zoomed ? 0 : zoom.from.left,
-              top: zoomed ? 0 : zoom.from.top,
-              width: zoomed ? "100vw" : zoom.from.width,
-              height: zoomed ? "100vh" : zoom.from.height,
-              transition: "all 0.6s cubic-bezier(0.65, 0, 0.3, 1)",
-            }}
-          >
-            <img src={zoom.src} alt="" className="w-full h-full object-cover" />
-          </div>
-        </div>
-      )}
+      {/* ===== lights out ===== */}
+      {leaving && <div className="lights-out fixed inset-0 z-[90] pointer-events-none bg-[#0a0a09]" />}
 
       {/* back arrow */}
       <Link
