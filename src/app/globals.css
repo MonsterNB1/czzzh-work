@@ -315,3 +315,56 @@ body {
   animation: navwiggle 0.3s ease-in-out infinite;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cellipse cx='40' cy='20' rx='36' ry='17' fill='none' stroke='%23e8922a' stroke-width='2.5' stroke-linecap='round'/%3E%3Cellipse cx='40' cy='20' rx='33' ry='15' fill='none' stroke='%23e8922a' stroke-width='1.5' opacity='0.5'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
+/* ===== TV room: one DOM, two very different stages ===== */
+.tv-stage {
+  padding: 104px 8px 26px;
+}
+.tv-frame {
+  width: 100%;
+}
+.tv-notes {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tv-episodes {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .tv-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 86px 0 8px;
+  }
+  .tv-frame {
+    width: min(calc(100vw - 8px), calc((100vh - 96px) * 1.393));
+  }
+  .tv-notes {
+    position: absolute;
+    right: 0.8%;
+    top: 54%;
+    width: 22.5%;
+    margin-top: 0;
+    gap: 0;
+    align-items: flex-end;
+  }
+  .tv-episodes {
+    width: auto;
+    margin-top: 30%;
+    margin-right: 19%;
+  }
+}
+
+/* the "still tuning in" ring shown while the first frame arrives */
+@keyframes tv-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tv-spin {
+  animation: tv-spin 0.9s linear infinite;
+}

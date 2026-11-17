@@ -8,25 +8,119 @@ const px = (k: number) => `calc(${k} * var(--wb))`;
 
 export default function Home() {
   return (
-    <div className="grid-bg relative min-h-screen w-full overflow-hidden flex items-start justify-center px-4 pt-24 pb-8">
-      {/* the open two-page spread — bigger, lifted up */}
+    <div className="grid-bg relative min-h-screen w-full overflow-hidden md:flex md:items-start md:justify-center md:px-4 md:pt-24 md:pb-8">
+      {/* =================== phone / narrow screens =================== */}
+      {/* the two-page spread cannot be read on a 390px viewport, so phones get
+          a single sheet with the same handwriting and the same tape-and-paper feel */}
+      <div className="md:hidden px-5 pt-24 pb-10">
+        <div className="relative bg-[#fbfaf4] border border-[#e6e0cf] shadow-[0_20px_44px_-20px_rgba(60,45,25,0.5)] rotate-[-0.7deg] px-6 pt-9 pb-8">
+          <span className="tape -top-2 left-10 -rotate-2" style={{ width: 58, height: 14 }} />
+
+          <p className="hand font-bold text-marker leading-[0.9] text-[64px]">
+            Hi<span className="text-[22px] align-super">～</span>
+          </p>
+          <h1 className="hand font-bold text-marker text-[22px] mt-3 leading-[1.3]">
+            I&apos;m{" "}
+            <span className="tracking-[0.12em] inline-flex">
+              <span className="inline-block -rotate-3">蔡</span>
+              <span className="inline-block rotate-2">振</span>
+              <span className="inline-block -rotate-1">昊</span>
+            </span>
+          </h1>
+
+          <div className="mt-6 grid grid-cols-2 gap-y-2 gap-x-3">
+            {[
+              ["动画", "Animation"],
+              ["设计", "Design"],
+              ["视频", "Video"],
+              ["AIGC", ""],
+            ].map(([zh, en]) => (
+              <div key={zh} className="flex items-baseline gap-1.5">
+                <span className="hand font-bold text-ink-blue text-[17px] leading-[1.4]">
+                  {zh}
+                </span>
+                {en && <span className="note text-[#2b2b2b] text-[12px] leading-[1.4]">{en}</span>}
+              </div>
+            ))}
+          </div>
+
+          <p className="note text-[13px] leading-[1.65] text-[#2b2b2b] mt-7">
+            I&apos;m a multidisciplinary creative working across animation, design and post —
+            strong visuals, thoughtful storytelling.
+          </p>
+
+          <div className="mt-9 flex items-end gap-5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/scrapbook/polaroid.webp"
+              alt=""
+              width={340}
+              height={412}
+              decoding="async"
+              className="photo-shadow h-auto block w-[44%] rotate-[-4deg]"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/scrapbook/polaroid.webp"
+              alt=""
+              width={340}
+              height={412}
+              decoding="async"
+              className="photo-shadow h-auto block w-[44%] rotate-[5deg] -mb-1"
+            />
+          </div>
+
+          <Link href="/works" className="mt-10 flex flex-col items-center group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/scrapbook/retro-tv-440.webp"
+              alt=""
+              width={641}
+              height={855}
+              decoding="async"
+              className="photo-shadow w-[62%] h-auto block"
+            />
+            <span className="note text-[13px] text-[#2b2b2b] mt-3 group-hover:text-marker">
+              try changing the channel →
+            </span>
+          </Link>
+
+          <Link href="/works" className="mt-6 flex justify-end">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/scrapbook/arrow-red.webp" alt="see work" className="h-9 w-auto block" />
+          </Link>
+        </div>
+
+        <div className="mt-8 flex justify-between note text-[12px] text-ink-soft">
+          <span>© 2026 Czzzh</span>
+          <span>Hangzhou — China</span>
+        </div>
+      </div>
+
+      {/* =================== tablet and up: the open spread =================== */}
       <div
-        className="relative w-full max-w-7xl -mt-2"
+        className="relative hidden md:block w-full max-w-7xl -mt-2"
         style={
           {
             "--wb": "min(calc(100vw - 32px), 1280px)",
           } as React.CSSProperties
         }
       >
-        <img
-          src="/assets/scrapbook/notebook-open.webp"
-          alt=""
-          width={1888}
-          height={971}
-          className="w-full h-auto block"
-          draggable={false}
-          fetchPriority="high"
-        />
+        {/* phones must not spend 146KB on a book they will never see:
+            the media query keeps the artwork off small screens */}
+        <picture className="block w-full">
+          <source media="(min-width: 768px)" srcSet="/assets/scrapbook/notebook-open.webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/assets/blank.svg"
+            alt=""
+            width={1888}
+            height={971}
+            className="w-full h-auto block"
+            draggable={false}
+            fetchPriority="high"
+          />
+        </picture>
 
         {/* ===== LEFT PAGE ===== */}
         {/* big "Hi, I'm" + smaller name, left aligned */}
@@ -172,14 +266,18 @@ export default function Home() {
         >
           <div className="relative">
             <div className="overflow-hidden" style={{ aspectRatio: "0.982" }}>
-              <img
-                src="/assets/scrapbook/retro-tv.webp"
-                alt=""
-                width={641}
-                height={855}
-                className="photo-shadow w-full h-auto block"
-                decoding="async"
-              />
+              <picture className="block w-full">
+                <source media="(min-width: 768px)" srcSet="/assets/scrapbook/retro-tv.webp" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/blank.svg"
+                  alt=""
+                  width={641}
+                  height={855}
+                  className="photo-shadow w-full h-auto block"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <Link
               href="/works"
@@ -212,10 +310,10 @@ export default function Home() {
       </div>
 
       {/* footer */}
-      <div className="absolute bottom-4 left-6 note text-sm text-ink-soft">
+      <div className="hidden md:block absolute bottom-4 left-6 note text-sm text-ink-soft">
         © 2026 Czzzh, All rights reserved
       </div>
-      <div className="absolute bottom-4 right-6 note text-sm text-ink-soft">
+      <div className="hidden md:block absolute bottom-4 right-6 note text-sm text-ink-soft">
         Hangzhou — China
       </div>
     </div>

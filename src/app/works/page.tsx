@@ -113,22 +113,113 @@ export default function WorksPage() {
   };
 
   return (
-    <div
-      className="grid-bg fixed inset-0 overflow-hidden"
-      style={{ "--wb": "min(calc(100vw - 32px), 1280px)" } as React.CSSProperties}
-    >
+    <>
+      {/* =================== phone / narrow screens =================== */}
+      <div className="md:hidden grid-bg min-h-screen px-4 pt-24 pb-16">
+        {/* the four tabs become a row of paper tabs across the top */}
+        <div className="flex gap-2 justify-center">
+          {sections.map((s, i) => (
+            <button
+              key={s.key}
+              onClick={() => setActive(i)}
+              className={`hand px-3 py-2.5 text-[13px] leading-none bg-[#fbf9f1] shadow-[0_6px_14px_-8px_rgba(60,45,25,0.5)] transition-transform ${
+                i === active
+                  ? "text-marker -translate-y-1.5 border-b-2 border-marker"
+                  : "text-[#5c5c5c] rotate-[0.6deg]"
+              }`}
+            >
+              {s.title}
+            </button>
+          ))}
+        </div>
+
+        <div key={current.key} className="mt-5 bg-[#f9faf5] border border-[#e6e0cf] shadow-[0_18px_40px_-20px_rgba(60,45,25,0.45)] px-4 pt-8 pb-10 sheet-content">
+          <div className="flex items-baseline justify-center gap-2.5">
+            <h1 className="hand text-[34px] font-bold text-ink-blue leading-none">{current.title}</h1>
+            <span className="note text-[11px] text-[#8a8a80]">{current.en}</span>
+          </div>
+
+          <div className="mt-7 space-y-8">
+            {current.groups.map((g, gi) => (
+              <div key={gi}>
+                {g.label && (
+                  <div className="hand text-[12px] text-marker mb-2.5">{g.label}</div>
+                )}
+                <div className="grid grid-cols-2 gap-x-3 gap-y-5 items-start">
+                  {g.items.map((it, idx) => (
+                    <Link
+                      key={it.title}
+                      href={it.slug ? `/works/${it.slug}` : "#"}
+                      onClick={(e) => open(e, it)}
+                      className={`group block ${it.slug ? "cursor-pointer" : "cursor-default"}`}
+                    >
+                      <div
+                        className="polaroid-card"
+                        style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
+                      >
+                        {it.cover ? (
+                          <picture className="block w-full">
+                            <source
+                              media="(max-width: 767px)"
+                              srcSet={it.cover.replace(".webp", "-400.webp")}
+                            />
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/assets/blank.svg"
+                              alt={it.title}
+                              loading={gi === 0 && idx < 4 ? "eager" : "lazy"}
+                              decoding="async"
+                              className="block w-full h-auto"
+                            />
+                          </picture>
+                        ) : (
+                          <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
+                        )}
+                        <div className="hand text-[10px] text-marker leading-tight text-center absolute left-1 right-1 bottom-[7px]">
+                          {it.title}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Link href="/" className="mt-8 flex items-center gap-2 note text-[13px] text-ink-soft">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/scrapbook/arrow-red.webp" alt="" className="h-6 w-auto rotate-180" />
+          回到首页
+        </Link>
+
+        <div className="mt-14 flex justify-between note text-[12px] text-ink-soft">
+          <span>© 2026 Czzzh</span>
+          <span>Hangzhou — China</span>
+        </div>
+      </div>
+
+      {/* =================== tablet and up: the standing notebook =================== */}
+      <div
+        className="hidden md:block grid-bg fixed inset-0 overflow-hidden"
+        style={{ "--wb": "min(calc(100vw - 32px), 1280px)" } as React.CSSProperties}
+      >
       {/* ===== the notebook: rotates 90° clockwise into the standing view ===== */}
       <div className="absolute left-1/2 top-0 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 mt-[88px] pointer-events-none">
         <div className="book-rotate">
-          <img
-            src="/assets/scrapbook/notebook-open.webp"
-            alt=""
-            width={1888}
-            height={971}
-            className="w-full h-auto block"
-            fetchPriority="high"
-            draggable={false}
-          />
+          <picture className="block w-full">
+            <source media="(min-width: 768px)" srcSet="/assets/scrapbook/notebook-open.webp" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/blank.svg"
+              alt=""
+              width={1888}
+              height={971}
+              className="w-full h-auto block"
+              fetchPriority="high"
+              draggable={false}
+            />
+          </picture>
         </div>
       </div>
 
@@ -198,13 +289,17 @@ export default function WorksPage() {
                         style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
                       >
                         {it.cover ? (
-                          <img
-                            src={it.cover}
-                            alt={it.title}
-                            loading={gi === 0 && idx < 3 ? "eager" : "lazy"}
-                            decoding="async"
-                            className="block w-full h-auto"
-                          />
+                          <picture className="block w-full">
+                            <source media="(min-width: 768px)" srcSet={it.cover} />
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/assets/blank.svg"
+                              alt={it.title}
+                              loading={gi === 0 && idx < 3 ? "eager" : "lazy"}
+                              decoding="async"
+                              className="block w-full h-auto"
+                            />
+                          </picture>
                         ) : (
                           <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
                         )}
@@ -221,8 +316,6 @@ export default function WorksPage() {
         </div>
       </div>
 
-      {/* ===== lights out ===== */}
-      {leaving && <div className="lights-out fixed inset-0 z-[90] pointer-events-none bg-[#0a0a09]" />}
 
       {/* back arrow */}
       <Link
@@ -236,6 +329,10 @@ export default function WorksPage() {
           className="h-8 w-auto photo-shadow group-hover:-translate-x-1 transition-transform"
         />
       </Link>
-    </div>
+      </div>
+
+      {/* ===== lights out: one shared overlay for both layouts ===== */}
+      {leaving && <div className="lights-out fixed inset-0 z-[90] pointer-events-none bg-[#0a0a09]" />}
+    </>
   );
 }

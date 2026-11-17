@@ -22,13 +22,13 @@ export default function VinylPlayer() {
     <button
       onClick={toggle}
       aria-label={playing ? "暂停音乐" : "播放音乐"}
-      className="relative block h-16 w-16 -rotate-6 cursor-pointer"
+      className="relative block h-11 w-11 md:h-16 md:w-16 -rotate-6 cursor-pointer"
     >
       {/* vinyl */}
       <img
         src="/assets/scrapbook/vinyl.webp"
         alt=""
-        className="photo-shadow h-16 w-16 rounded-full"
+        className="photo-shadow h-11 w-11 md:h-16 md:w-16 rounded-full"
         style={{ animation: playing ? "vinylspin 2.4s linear infinite" : "none" }}
       />
       {/* tonearm: pivot base at top-right, slim arm swings onto record */}
