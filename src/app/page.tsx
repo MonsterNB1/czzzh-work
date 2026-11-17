@@ -83,14 +83,19 @@ export default function Home() {
         {/* retro TV on the right page */}
         <div
           className="absolute hidden md:block"
-          style={{ left: "68%", top: "46%", transform: "translateX(-50%)" }}
+          style={{
+            left: "68%",
+            top: "46%",
+            width: "24.6%",
+            transform: "translateX(-50%)",
+          }}
         >
           <div className="relative">
-            <div className="overflow-hidden" style={{ height: "228px" }}>
+            <div className="overflow-hidden" style={{ aspectRatio: "0.982" }}>
               <img
                 src="/assets/scrapbook/retro-tv.png"
                 alt=""
-                className="photo-shadow w-56 h-auto block"
+                className="photo-shadow w-full h-auto block"
               />
             </div>
             <Link
