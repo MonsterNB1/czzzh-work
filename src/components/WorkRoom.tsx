@@ -127,10 +127,10 @@ export default function WorkRoom({ work }: { work: Work }) {
 
         {/* ===== notes taped under the control knobs ===== */}
         <div
-          className="absolute hidden md:block"
+          className="absolute hidden md:flex flex-col items-end"
           style={{ right: "0.6%", top: "54%", width: "24%" }}
         >
-          <div className="note-tape relative bg-[#fbf9f1] px-3 py-3 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[-1.5deg]">
+          <div className="note-tape relative w-full bg-[#fbf9f1] px-3 py-3 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[-1.5deg]">
             <span className="tape -top-2.5 left-1/2 -translate-x-1/2 -rotate-3" />
             <p className="hand text-[clamp(9px,0.85vw,12px)] text-marker">{work.en}</p>
             <p className="hand text-[clamp(14px,1.4vw,21px)] text-ink-blue mt-1">{work.title}</p>
@@ -147,7 +147,7 @@ export default function WorkRoom({ work }: { work: Work }) {
           </div>
 
           {work.episodesBase && work.episodes ? (
-            <div className="note-tape relative mt-3 inline-block bg-[#fbf9f1] px-2.5 py-2 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[1.5deg]">
+            <div className="note-tape relative mt-3 bg-[#fbf9f1] px-2.5 py-2 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[1.5deg]">
               <span className="tape -top-2 right-2 rotate-2" />
               <p className="hand text-[clamp(9px,0.8vw,12px)] text-marker">集数 Episodes</p>
               <div className="mt-1.5 grid grid-cols-6 gap-0.5">
