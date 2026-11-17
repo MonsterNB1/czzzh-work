@@ -201,7 +201,7 @@ export default function WorksPage() {
                           <img
                             src={it.cover}
                             alt={it.title}
-                            loading="lazy"
+                            loading={gi === 0 && idx < 3 ? "eager" : "lazy"}
                             decoding="async"
                             className="block w-full h-auto"
                           />
