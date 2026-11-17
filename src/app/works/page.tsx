@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 type Item = { title: string; cover?: string; slug?: string };
@@ -83,11 +83,33 @@ export default function WorksPage() {
   // leaving the notebook: the room goes dark, then the TV lights up
   const [leaving, setLeaving] = useState(false);
 
+  const navTimer = useRef<number | null>(null);
+
+
+  // the dark overlay must never survive a navigation: drop it after the push
+  // and also whenever the browser restores this page (back / forward / bfcache)
+  useEffect(() => {
+    const cancel = () => {
+      if (navTimer.current) {
+        window.clearTimeout(navTimer.current);
+        navTimer.current = null;
+      }
+      setLeaving(false);
+    };
+    window.addEventListener("popstate", cancel);
+    window.addEventListener("pageshow", cancel);
+    return () => {
+      window.removeEventListener("popstate", cancel);
+      window.removeEventListener("pageshow", cancel);
+    };
+  }, []);
+
   const open = (e: React.MouseEvent, it: Item) => {
     if (!it.slug) return;
     e.preventDefault();
     setLeaving(true);
-    window.setTimeout(() => router.push(`/works/${it.slug}`), 520);
+    navTimer.current = window.setTimeout(() => router.push(`/works/${it.slug}`), 520);
+    window.setTimeout(() => setLeaving(false), 1500);
   };
 
   return (

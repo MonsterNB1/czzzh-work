@@ -140,6 +140,7 @@ body {
   animation: bookrotate 1.05s cubic-bezier(0.3, 0.62, 0.24, 1) both;
 }
 
+
 /* index tabs slide up out of the leather, then the paper covers them */
 @keyframes tabout {
   from { opacity: 0; transform: translateY(-22px); }
@@ -233,8 +234,13 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes lightsout-back {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 .lights-out {
-  animation: lightsout 0.5s ease forwards;
+  /* goes dark, then always fades away on its own — never a permanent black screen */
+  animation: lightsout 0.5s ease forwards, lightsout-back 0.35s ease 0.9s forwards;
 }
 
 /* ===== work detail: the retro TV powers on ===== */
