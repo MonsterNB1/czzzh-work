@@ -2,11 +2,22 @@
 
 import Link from "next/link";
 
+// every size below is expressed as a fraction of the book width (--wb),
+// so the whole spread scales as one piece on any window.
+const px = (k: number) => `calc(${k} * var(--wb))`;
+
 export default function Home() {
   return (
     <div className="grid-bg relative min-h-screen w-full overflow-hidden flex items-start justify-center px-4 pt-24 pb-8">
       {/* the open two-page spread — bigger, lifted up */}
-      <div className="relative w-full max-w-7xl -mt-2">
+      <div
+        className="relative w-full max-w-7xl -mt-2"
+        style={
+          {
+            "--wb": "min(calc(100vw - 32px), 1280px)",
+          } as React.CSSProperties
+        }
+      >
         <img
           src="/assets/scrapbook/notebook-open.png"
           alt=""
@@ -16,11 +27,17 @@ export default function Home() {
 
         {/* ===== LEFT PAGE ===== */}
         {/* big "Hi, I'm" + smaller name, left aligned */}
-        <div className="absolute" style={{ left: "13%", top: "15%" }}>
-          <p className="hand text-5xl sm:text-7xl font-bold text-marker leading-none">
+        <div className="absolute" style={{ left: "13%", top: "13%" }}>
+          <p
+            className="hand font-bold text-marker leading-none"
+            style={{ fontSize: px(0.0792) }}
+          >
             Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
           </p>
-          <h1 className="hand text-2xl sm:text-3xl font-bold text-marker mt-3">
+          <h1
+            className="hand font-bold text-marker leading-[1.2]"
+            style={{ fontSize: px(0.033), marginTop: px(0.0132) }}
+          >
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
               <span className="inline-block -rotate-3">蔡</span>
@@ -30,19 +47,68 @@ export default function Home() {
           </h1>
 
           {/* four directions, hand-placed */}
-          <div className="mt-6">
-            <div className="flex items-baseline gap-2">
-              <span className="hand text-2xl font-bold text-ink-blue">动画</span>
-              <span className="note text-base text-[#2b2b2b]">Animation</span>
-              <span className="hand text-xl font-bold text-ink-blue ml-6 -rotate-6">AIGC</span>
+          <div style={{ marginTop: px(0.0235) }}>
+            <div className="flex items-baseline" style={{ columnGap: px(0.0088) }}>
+              <span
+                className="hand font-bold text-ink-blue leading-[1.5]"
+                style={{ fontSize: px(0.0264) }}
+              >
+                动画
+              </span>
+              <span
+                className="note text-[#2b2b2b] leading-[1.5]"
+                style={{ fontSize: px(0.0176) }}
+              >
+                Animation
+              </span>
+              <span
+                className="hand font-bold text-ink-blue leading-[1.4] -rotate-6"
+                style={{ fontSize: px(0.022), marginLeft: px(0.0264) }}
+              >
+                AIGC
+              </span>
             </div>
-            <div className="flex items-baseline gap-2 ml-6 mt-2 -rotate-2 inline-block">
-              <span className="hand text-2xl font-bold text-ink-blue">设计</span>
-              <span className="note text-base text-[#2b2b2b]">Design</span>
+            <div
+              className="flex items-baseline -rotate-2 inline-block"
+              style={{
+                columnGap: px(0.0088),
+                marginLeft: px(0.0264),
+                marginTop: px(0.0088),
+              }}
+            >
+              <span
+                className="hand font-bold text-ink-blue leading-[1.5]"
+                style={{ fontSize: px(0.0264) }}
+              >
+                设计
+              </span>
+              <span
+                className="note text-[#2b2b2b] leading-[1.5]"
+                style={{ fontSize: px(0.0176) }}
+              >
+                Design
+              </span>
             </div>
-            <div className="flex items-baseline gap-2 ml-2 mt-2 rotate-1 inline-block">
-              <span className="hand text-2xl font-bold text-ink-blue">视频</span>
-              <span className="note text-base text-[#2b2b2b]">Video</span>
+            <div
+              className="flex items-baseline rotate-1 inline-block"
+              style={{
+                columnGap: px(0.0088),
+                marginLeft: px(0.019),
+                marginTop: px(0.0088),
+              }}
+            >
+              <span
+                className="hand font-bold text-ink-blue leading-[1.5]"
+                style={{ fontSize: px(0.0264) }}
+              >
+                视频
+              </span>
+              <span
+                className="note text-[#2b2b2b] leading-[1.5]"
+                style={{ fontSize: px(0.0176) }}
+              >
+                Video
+              </span>
             </div>
           </div>
         </div>
@@ -50,22 +116,24 @@ export default function Home() {
         {/* two decorative polaroids on the left page — kept low so they don't cover text */}
         <div
           className="absolute hidden md:block"
-          style={{ left: "11%", bottom: "4%", transform: "rotate(-4deg)" }}
+          style={{ left: "11%", bottom: "2%", transform: "rotate(-4deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.png"
             alt=""
-            className="photo-shadow w-32 h-auto"
+            className="photo-shadow h-auto block"
+            style={{ width: px(0.13) }}
           />
         </div>
         <div
           className="absolute hidden md:block"
-          style={{ left: "24%", bottom: "4%", transform: "rotate(5deg)" }}
+          style={{ left: "24%", bottom: "2%", transform: "rotate(5deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.png"
             alt=""
-            className="photo-shadow w-32 h-auto"
+            className="photo-shadow h-auto block"
+            style={{ width: px(0.13) }}
           />
         </div>
 
@@ -74,7 +142,10 @@ export default function Home() {
           className="absolute hidden sm:block"
           style={{ left: "55%", top: "17%", width: "30%" }}
         >
-          <p className="note text-[13px] leading-relaxed text-[#2b2b2b] text-left">
+          <p
+            className="note leading-relaxed text-[#2b2b2b] text-left"
+            style={{ fontSize: px(0.0143) }}
+          >
             I&apos;m a multidisciplinary creative working across animation, design
             and post — strong visuals, thoughtful storytelling.
           </p>
@@ -100,8 +171,13 @@ export default function Home() {
             </div>
             <Link
               href="/works"
-              className="note absolute text-[10px] text-[#2b2b2b] hover:text-marker"
-              style={{ left: "18%", top: "36%", width: "50%" }}
+              className="note absolute text-[#2b2b2b] hover:text-marker"
+              style={{
+                left: "18%",
+                top: "36%",
+                width: "50%",
+                fontSize: px(0.011),
+              }}
             >
               try changing the channel →
             </Link>
@@ -117,7 +193,8 @@ export default function Home() {
           <img
             src="/assets/scrapbook/arrow-red.png"
             alt="see work"
-            className="h-8 w-auto photo-shadow group-hover:translate-x-1 transition-transform"
+            className="w-auto block photo-shadow group-hover:translate-x-1 transition-transform"
+            style={{ height: px(0.0352) }}
           />
         </Link>
       </div>

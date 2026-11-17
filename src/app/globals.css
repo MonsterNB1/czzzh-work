@@ -147,8 +147,8 @@ body {
 }
 .tab-card {
   position: relative;
-  width: 64px;
-  height: 104px;
+  width: calc(0.0704 * var(--wb, 909px));
+  height: calc(0.1144 * var(--wb, 909px));
   background: linear-gradient(180deg, #eeeade 0%, #ded9cb 100%);
   border-radius: 4px 4px 0 0;
   display: flex;
