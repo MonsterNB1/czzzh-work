@@ -83,8 +83,14 @@ export default function WorkRoom({ work }: { work: Work }) {
     };
   }, [ep]);
 
+  // one extra TLS handshake shaved off the wait between tap and first frame
+  const mediaOrigin = work.episodesBase ?? (work.video ? work.video.slice(0, work.video.lastIndexOf("/")) : "");
+
   return (
     <div className="grid-bg min-h-screen md:fixed md:inset-0 md:overflow-hidden">
+      {mediaOrigin ? <link rel="preconnect" href={mediaOrigin} crossOrigin="anonymous" /> : null}
+      {mediaOrigin ? <link rel="dns-prefetch" href={mediaOrigin} /> : null}
+
       {/* back to the notebook */}
       <Link
         href="/works"
@@ -269,6 +275,17 @@ export default function WorkRoom({ work }: { work: Work }) {
                   ))}
                 </div>
               </div>
+            ) : null}
+
+            {work.external ? (
+              <a
+                href={work.external}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="md:hidden note text-[12px] text-ink-soft underline decoration-dotted underline-offset-4 mx-1 mt-1"
+              >
+                信号太慢？去 B 站看正片 →
+              </a>
             ) : null}
           </div>
         </div>
