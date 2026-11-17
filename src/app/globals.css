@@ -3,7 +3,7 @@
 /* English / Latin handwritten — Mengqi CP */
 @font-face {
   font-family: "MixedHand";
-  src: url("/fonts/mengqi-cp.ttf") format("truetype");
+  src: url("/fonts/mengqi-cp.woff2") format("woff2");
   font-weight: 400 700;
   font-display: swap;
   unicode-range: U+0000-024F, U+2000-206F, U+2100-214F, U+2460-24FF, U+FF00-FFEF;
@@ -35,9 +35,7 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-blue: var(--ink-blue);
   --color-marker: var(--marker-red);
-  --font-hand: var(--font-hand);
-  --font-note: var(--font-note);
-  --font-body: var(--font-body);
+  --font-body: ui-sans-serif, system-ui, -apple-system, "PingFang SC", sans-serif;
 }
 
 html {

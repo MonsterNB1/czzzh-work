@@ -19,10 +19,13 @@ export default function Home() {
         }
       >
         <img
-          src="/assets/scrapbook/notebook-open.png"
+          src="/assets/scrapbook/notebook-open.webp"
           alt=""
+          width={1888}
+          height={971}
           className="w-full h-auto block"
           draggable={false}
+          fetchPriority="high"
         />
 
         {/* ===== LEFT PAGE ===== */}
@@ -119,9 +122,12 @@ export default function Home() {
           style={{ left: "11%", bottom: "2%", transform: "rotate(-4deg)" }}
         >
           <img
-            src="/assets/scrapbook/polaroid.png"
+            src="/assets/scrapbook/polaroid.webp"
             alt=""
+            width={340}
+            height={412}
             className="photo-shadow h-auto block"
+            decoding="async"
             style={{ width: px(0.13) }}
           />
         </div>
@@ -130,9 +136,12 @@ export default function Home() {
           style={{ left: "24%", bottom: "2%", transform: "rotate(5deg)" }}
         >
           <img
-            src="/assets/scrapbook/polaroid.png"
+            src="/assets/scrapbook/polaroid.webp"
             alt=""
+            width={340}
+            height={412}
             className="photo-shadow h-auto block"
+            decoding="async"
             style={{ width: px(0.13) }}
           />
         </div>
@@ -164,9 +173,12 @@ export default function Home() {
           <div className="relative">
             <div className="overflow-hidden" style={{ aspectRatio: "0.982" }}>
               <img
-                src="/assets/scrapbook/retro-tv.png"
+                src="/assets/scrapbook/retro-tv.webp"
                 alt=""
+                width={641}
+                height={855}
                 className="photo-shadow w-full h-auto block"
+                decoding="async"
               />
             </div>
             <Link
@@ -191,7 +203,7 @@ export default function Home() {
           style={{ right: "9%", bottom: "5%" }}
         >
           <img
-            src="/assets/scrapbook/arrow-red.png"
+            src="/assets/scrapbook/arrow-red.webp"
             alt="see work"
             className="w-auto block photo-shadow group-hover:translate-x-1 transition-transform"
             style={{ height: px(0.0352) }}

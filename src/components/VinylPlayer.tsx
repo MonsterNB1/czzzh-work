@@ -26,7 +26,7 @@ export default function VinylPlayer() {
     >
       {/* vinyl */}
       <img
-        src="/assets/scrapbook/vinyl.png"
+        src="/assets/scrapbook/vinyl.webp"
         alt=""
         className="photo-shadow h-16 w-16 rounded-full"
         style={{ animation: playing ? "vinylspin 2.4s linear infinite" : "none" }}
@@ -59,7 +59,7 @@ export default function VinylPlayer() {
         </div>
       </div>
 
-      <audio ref={audioRef} src="/music.mp3" loop />
+      <audio ref={audioRef} src="/music.mp3" loop preload="none" />
 
       <style jsx>{`
         @keyframes vinylspin {

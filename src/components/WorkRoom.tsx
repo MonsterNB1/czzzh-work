@@ -44,7 +44,7 @@ export default function WorkRoom({ work }: { work: Work }) {
       {/* back to the notebook */}
       <Link href="/works" className="absolute z-40 group" style={{ left: "3.2%", top: "15%" }}>
         <img
-          src="/assets/scrapbook/arrow-red.png"
+          src="/assets/scrapbook/arrow-red.webp"
           alt="back"
           className="h-8 w-auto rotate-180 transition-transform group-hover:-translate-x-1"
         />

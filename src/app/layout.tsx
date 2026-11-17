@@ -1,24 +1,6 @@
 import type { Metadata } from "next";
-import { Edu_TAS_Beginner, Schoolbell, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-
-const hand = Edu_TAS_Beginner({
-  variable: "--font-hand",
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-const note = Schoolbell({
-  variable: "--font-note",
-  subsets: ["latin"],
-  weight: ["400"],
-});
-
-const inter = Inter({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -30,10 +12,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="zh-CN"
-      className={`${hand.variable} ${note.variable} ${inter.variable} h-full antialiased`}
-    >
+    <html lang="zh-CN" className="h-full antialiased">
+      <head>
+        {/* the two local faces carry almost all the text — start them early */}
+        <link
+          rel="preload"
+          href="/fonts/wujie.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/mengqi-cp.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#f5f1e6] text-[#2b2b2b]">
         <Navbar />
         <main className="flex-1">{children}</main>

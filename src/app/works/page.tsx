@@ -21,10 +21,10 @@ const sections: Section[] = [
     groups: [
       {
         items: [
-          { title: "怪兽小馆 国创动画", cover: "/assets/works/monster-diner.png", slug: "monster_diner" },
-          { title: "Bottle 原创动画", cover: "/assets/works/bottle.png", slug: "bottle" },
-          { title: "挂画 戏曲动画", cover: "/assets/works/gua-hua.png", slug: "guahua" },
-          { title: "瓦猫 定格动画", cover: "/assets/works/wamiao.png", slug: "wamao" },
+          { title: "怪兽小馆 国创动画", cover: "/assets/works/monster-diner.webp", slug: "monster_diner" },
+          { title: "Bottle 原创动画", cover: "/assets/works/bottle.webp", slug: "bottle" },
+          { title: "挂画 戏曲动画", cover: "/assets/works/gua-hua.webp", slug: "guahua" },
+          { title: "瓦猫 定格动画", cover: "/assets/works/wamiao.webp", slug: "wamao" },
         ],
       },
     ],
@@ -121,9 +121,12 @@ export default function WorksPage() {
       <div className="absolute left-1/2 top-0 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 mt-[88px] pointer-events-none">
         <div className="book-rotate">
           <img
-            src="/assets/scrapbook/notebook-open.png"
+            src="/assets/scrapbook/notebook-open.webp"
             alt=""
+            width={1888}
+            height={971}
             className="w-full h-auto block"
+            fetchPriority="high"
             draggable={false}
           />
         </div>
@@ -195,7 +198,13 @@ export default function WorksPage() {
                         style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
                       >
                         {it.cover ? (
-                          <img src={it.cover} alt={it.title} className="block w-full h-auto" />
+                          <img
+                            src={it.cover}
+                            alt={it.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="block w-full h-auto"
+                          />
                         ) : (
                           <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
                         )}
@@ -222,7 +231,7 @@ export default function WorksPage() {
         style={{ left: "5%", bottom: "6%" }}
       >
         <img
-          src="/assets/scrapbook/arrow-red.png"
+          src="/assets/scrapbook/arrow-red.webp"
           alt="back"
           className="h-8 w-auto photo-shadow group-hover:-translate-x-1 transition-transform"
         />
