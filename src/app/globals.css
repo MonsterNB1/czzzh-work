@@ -1,175 +1,129 @@
 @import "tailwindcss";
 
+/* English / Latin handwritten — Mengqi CP */
+@font-face {
+  font-family: "MixedHand";
+  src: url("/fonts/mengqi-cp.ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+0000-024F, U+2000-206F, U+2100-214F, U+2460-24FF, U+FF00-FFEF;
+}
+/* Chinese — Biaoxiaozhi Wujie Hei */
+@font-face {
+  font-family: "MixedHand";
+  src: url("/fonts/wujie-hei.ttf") format("truetype");
+  font-weight: 400 900;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF;
+}
+
 :root {
-  --crt-bg: #020408;
-  --crt-cyan: #00ffff;
-  --crt-cyan-dim: #0a8a8a;
-  --crt-cyan-bright: #88ffff;
-  --crt-amber: #ffb000;
-  --crt-text: #e8ffff;
-  --crt-text-dim: #5a9a9a;
+  --paper: #f5f1e6;
+  --paper-deep: #ede7d6;
+  --paper-line: #c9c2ae;
+  --ink-blue: #2b4bd8;
+  --ink-blue-deep: #1f3bb0;
+  --marker-red: #d9303a;
+  --ink: #2b2b2b;
+  --ink-soft: #6b6557;
+  --leather: #161412;
 }
 
 @theme inline {
-  --color-background: var(--crt-bg);
-  --color-foreground: var(--crt-text);
-  --color-crt: var(--crt-cyan);
-  --color-crt-dim: var(--crt-cyan-dim);
-  --color-crt-bright: var(--crt-crt-bright);
-  --color-crt-amber: var(--crt-amber);
-  --font-sans: var(--font-geist-mono);
-  --font-mono: var(--font-geist-mono);
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--crt-cyan-dim) transparent;
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-blue: var(--ink-blue);
+  --color-marker: var(--marker-red);
+  --font-hand: var(--font-hand);
+  --font-note: var(--font-note);
+  --font-body: var(--font-body);
 }
 
 html {
-  background: #020408;
+  background: var(--paper);
 }
 
 body {
-  background: var(--crt-bg);
-  color: var(--crt-text);
-  font-family: var(--font-geist-mono), monospace;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
-/* CRT text glow - stronger */
-.glow {
-  text-shadow:
-    0 0 8px var(--crt-cyan),
-    0 0 20px var(--crt-cyan),
-    0 0 40px rgba(0, 255, 255, 0.4);
+/* subtle graph-paper grid, like the taliahhh outer area */
+.grid-bg {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-opacity: 0.35;
 }
 
-.glow-dim {
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-/* Scanlines - stronger */
-.crt-scanlines {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.25) 0px,
-    rgba(0, 0, 0, 0.25) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  mix-blend-mode: multiply;
-}
-
-/* Screen flicker */
-.crt-flicker {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9997;
-  background: rgba(0, 255, 255, 0.03);
-  animation: flicker 0.15s infinite;
-}
-
-@keyframes flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
-}
-
-/* Vignette - stronger */
-.crt-vignette {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9996;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(0, 0, 0, 0.6) 100%
+/* ruled notebook lines (used behind hero) */
+.ruled-bg {
+  background-color: #faf7ee;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(120, 110, 90, 0.28) 32px
   );
 }
 
-/* Screen noise */
-.crt-noise {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9995;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: noise 0.2s steps(3) infinite;
+/* handwritten helpers */
+.hand {
+  font-family: "MixedHand", "PingFang SC", system-ui, cursive;
+}
+.note {
+  font-family: "MixedHand", "PingFang SC", system-ui, cursive;
 }
 
-@keyframes noise {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(-2px, 1px); }
-  66% { transform: translate(1px, -1px); }
-  100% { transform: translate(0, 0); }
+/* tape strip look for polaroids */
+.tape {
+  position: absolute;
+  width: 92px;
+  height: 26px;
+  background: rgba(220, 210, 170, 0.55);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(1px);
 }
 
-/* CRT curvature */
-.crt-screen {
-  position: relative;
-  min-height: 100vh;
-  border-radius: 20px;
-  overflow: hidden;
+/* soft drop shadow like a photo lying on paper */
+.photo-shadow {
+  filter: drop-shadow(3px 6px 8px rgba(60, 50, 30, 0.22));
 }
 
-/* Blinking cursor */
-.cursor::after {
-  content: "█";
-  animation: blink 1s step-end infinite;
-  margin-left: 2px;
+/* subtle float for scattered photos */
+@keyframes drift {
+  0%, 100% { translate: 0 0; rotate: var(--rot, 0deg); }
+  50% { translate: 0 -9px; rotate: calc(var(--rot, 0deg) + 1.5deg); }
+}
+.drift {
+  animation: drift 6s ease-in-out infinite;
 }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+/* link underline squiggle on hover */
+.squiggle {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='6' viewBox='0 0 40 6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3 T30 3 T40 3' fill='none' stroke='%232b4bd8' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 40px 6px;
+  padding-bottom: 6px;
 }
 
-/* Boot */
-@keyframes crtOn {
-  0% { height: 4px; opacity: 1; }
-  60% { height: 100vh; opacity: 1; }
-  100% { height: 100vh; opacity: 0.1; }
+/* nav link wiggle on hover */
+@keyframes navwiggle {
+  0%, 100% { transform: rotate(0deg) translate(0, 0); }
+  25% { transform: rotate(-3deg) translate(-1px, -1px); }
+  50% { transform: rotate(2deg) translate(1px, 0); }
+  75% { transform: rotate(-1deg) translate(-1px, 1px); }
 }
-
-/* CRT page transition - TV off/on */
-@keyframes crtOff {
-  0% { transform: scaleY(1); opacity: 1; filter: brightness(2); }
-  40% { transform: scaleY(0.005); opacity: 1; filter: brightness(3); }
-  100% { transform: scaleY(0.005); opacity: 0; filter: brightness(3); }
+.nav-wiggle {
+  display: inline-block;
+  transition: opacity 0.2s;
 }
-
-@keyframes crtOnTransition {
-  0% { transform: scaleY(0.005); opacity: 1; filter: brightness(3); }
-  60% { transform: scaleY(1); opacity: 1; filter: brightness(1.5); }
-  100% { transform: scaleY(1); opacity: 1; filter: brightness(1); }
-}
-
-.crt-transition-off {
-  animation: crtOff 0.45s ease-in forwards;
-  transform-origin: center;
-}
-
-.crt-transition-on {
-  animation: crtOnTransition 0.5s ease-out forwards;
-  transform-origin: center;
-}
-
-.term-card {
-  border: 1px solid rgba(0, 255, 255, 0.2);
-  background: rgba(0, 255, 255, 0.03);
-  transition: all 0.2s;
-}
-
-.term-card:hover {
-  border-color: rgba(0, 255, 255, 0.6);
-  background: rgba(0, 255, 255, 0.08);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+.nav-wiggle:hover {
+  animation: navwiggle 0.3s ease-in-out infinite;
 }
