@@ -130,7 +130,10 @@ export default function WorkRoom({ work }: { work: Work }) {
             style={{ right: "0.8%", top: "54%", width: "22.5%" }}
           >
             <div className="w-full bg-[#fbf9f1] px-3 py-3 shadow-[0_8px_16px_-9px_rgba(60,45,25,0.5)] rotate-[-1.5deg]">
-              <span className="tape -top-2.5 left-1/2 -translate-x-1/2 -rotate-3" />
+              <span
+                className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-3"
+                style={{ width: 64, height: 15 }}
+              />
               <p className="hand text-[clamp(9px,0.85vw,12px)] text-marker">{work.en}</p>
               <p className="hand text-[clamp(14px,1.4vw,21px)] text-ink-blue mt-1">{work.title}</p>
               <p className="note text-[clamp(9px,0.82vw,12px)] leading-[1.45] text-[#2b2b2b] mt-1.5">
@@ -146,9 +149,14 @@ export default function WorkRoom({ work }: { work: Work }) {
             </div>
 
             {work.episodesBase && work.episodes ? (
-              <div className="relative z-10 mt-[26%] mr-[19%] bg-[#fbf9f1] px-2.5 py-2 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[1.5deg]">
-                <span className="tape -top-2 right-2 rotate-2" />
-                <p className="hand text-[clamp(9px,0.8vw,12px)] text-marker">集数 Episodes</p>
+              <div className="relative z-10 mt-[30%] mr-[19%] bg-[#fbf9f1] px-2.5 py-2 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[1.5deg]">
+                <span
+                  className="tape -top-2.5 right-3 rotate-2"
+                  style={{ width: 44, height: 13 }}
+                />
+                <p className="hand text-[clamp(9px,0.8vw,12px)] leading-[1.35] text-marker">
+                集数 Episodes
+              </p>
                 <div className="mt-1.5 grid grid-cols-6 gap-0.5">
                   {Array.from({ length: work.episodes }, (_, i) => i + 1).map((n) => (
                     <button
