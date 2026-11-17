@@ -42,7 +42,7 @@ export default function WorkRoom({ work }: { work: Work }) {
   return (
     <div className="grid-bg fixed inset-0 overflow-hidden">
       {/* back to the notebook */}
-      <Link href="/works" className="absolute z-40 group" style={{ left: "3.5%", top: "13%" }}>
+      <Link href="/works" className="absolute z-40 group" style={{ left: "3.2%", top: "15%" }}>
         <img
           src="/assets/scrapbook/arrow-red.png"
           alt="back"
@@ -50,11 +50,11 @@ export default function WorkRoom({ work }: { work: Work }) {
         />
       </Link>
 
-      {/* ===== TV + note, kept as one centred unit ===== */}
-      <div className="absolute inset-0 flex items-center justify-center gap-6 px-5 pt-24 pb-8">
+      {/* ===== the TV fills the room ===== */}
+      <div className="absolute inset-0 flex items-center justify-center pt-[86px] pb-1">
         <div
-          className="tv-frame relative min-w-0"
-          style={{ width: "100%", maxWidth: "min(1150px, 72vh * 1.393, 100vw - 300px)" }}
+          className="tv-frame relative"
+          style={{ width: "min(calc(100vw - 8px), calc((100vh - 96px) * 1.393))" }}
         >
           <img
             src="/assets/scrapbook/tv-red.webp"
@@ -125,16 +125,21 @@ export default function WorkRoom({ work }: { work: Work }) {
           </div>
         </div>
 
-        {/* ===== info taped beside the TV ===== */}
-        <div className="hidden md:block w-[220px] shrink-0">
-          <div className="note-tape relative bg-[#fbf9f1] px-4 py-4 shadow-[0_10px_22px_-10px_rgba(80,65,35,0.45)]">
-            <span className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-2" />
-            <p className="hand text-[11px] text-marker">{work.en}</p>
-            <p className="hand text-xl text-ink-blue mt-1.5">{work.title}</p>
-            <p className="note text-[10px] leading-relaxed text-[#2b2b2b] mt-2.5">{work.desc}</p>
-            <div className="mt-2.5 space-y-1">
+        {/* ===== notes taped under the control knobs ===== */}
+        <div
+          className="absolute hidden md:block"
+          style={{ right: "0.6%", top: "54%", width: "24%" }}
+        >
+          <div className="note-tape relative bg-[#fbf9f1] px-3 py-3 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[-1.5deg]">
+            <span className="tape -top-2.5 left-1/2 -translate-x-1/2 -rotate-3" />
+            <p className="hand text-[clamp(9px,0.85vw,12px)] text-marker">{work.en}</p>
+            <p className="hand text-[clamp(14px,1.4vw,21px)] text-ink-blue mt-1">{work.title}</p>
+            <p className="note text-[clamp(9px,0.82vw,12px)] leading-[1.45] text-[#2b2b2b] mt-1.5">
+              {work.desc}
+            </p>
+            <div className="mt-1.5 space-y-0.5">
               {work.meta.map((m) => (
-                <p key={m} className="note text-[9px] text-[#7a7a72]">
+                <p key={m} className="note text-[clamp(8px,0.72vw,11px)] text-[#7a7a72]">
                   · {m}
                 </p>
               ))}
@@ -142,15 +147,15 @@ export default function WorkRoom({ work }: { work: Work }) {
           </div>
 
           {work.episodesBase && work.episodes ? (
-            <div className="note-tape relative mt-5 bg-[#fbf9f1] px-3 py-3 shadow-[0_10px_22px_-10px_rgba(80,65,35,0.45)]">
-              <span className="tape -top-2.5 right-3 rotate-2" />
-              <p className="hand text-[10px] text-marker">集数 Episodes</p>
-              <div className="mt-2 grid grid-cols-6 gap-1">
+            <div className="note-tape relative mt-3 inline-block bg-[#fbf9f1] px-2.5 py-2 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] rotate-[1.5deg]">
+              <span className="tape -top-2 right-2 rotate-2" />
+              <p className="hand text-[clamp(9px,0.8vw,12px)] text-marker">集数 Episodes</p>
+              <div className="mt-1.5 grid grid-cols-6 gap-0.5">
                 {Array.from({ length: work.episodes }, (_, i) => i + 1).map((n) => (
                   <button
                     key={n}
                     onClick={() => pickEp(n)}
-                    className={`hand text-[11px] leading-none py-1 rounded-sm transition-colors ${
+                    className={`hand text-[clamp(9px,0.85vw,12px)] leading-none py-0.5 rounded-[2px] transition-colors ${
                       ep === n ? "text-marker bg-[#f3e6d0]" : "text-[#8a8a80] hover:text-ink-blue"
                     }`}
                   >
