@@ -112,7 +112,180 @@ body {
   padding-bottom: 6px;
 }
 
-/* nav link wiggle on hover */
+/* page entrance: slide up like scrolling to a new notebook page */
+@keyframes pagein {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-in {
+  animation: pagein 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ===== works page: book stands up (rotate 90deg clockwise) ===== */
+@keyframes bookrotate {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(50%) rotate(45deg) scale(1.25);
+  }
+  100% {
+    transform: translateY(100%) rotate(90deg) scale(1.5);
+  }
+}
+.book-rotate {
+  transform-origin: 50% 50%;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: bookrotate 1.05s cubic-bezier(0.3, 0.62, 0.24, 1) both;
+}
+
+/* index tabs slide up out of the leather, then the paper covers them */
+@keyframes tabout {
+  from { opacity: 0; transform: translateY(-22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tab-card {
+  position: relative;
+  width: 64px;
+  height: 104px;
+  background: linear-gradient(180deg, #eeeade 0%, #ded9cb 100%);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10px;
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.65) inset, 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: tabout 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.tab-card-active {
+  background: linear-gradient(180deg, #fbf8ee 0%, #e8e3d3 100%);
+}
+.tab-card-active::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 44%;
+  height: 2px;
+  background: #d9303a;
+  border-radius: 2px;
+}
+
+/* the paper sheet that carries the projects */
+@keyframes sheetup {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sheet-paper {
+  background: #f9faf5;
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 -3px 0 rgba(255, 255, 255, 0.85) inset,
+    0 -10px 20px rgba(90, 75, 45, 0.07) inset,
+    12px 0 16px -12px rgba(90, 75, 45, 0.25) inset,
+    -12px 0 16px -12px rgba(90, 75, 45, 0.25) inset;
+  scrollbar-width: none;
+  opacity: 0;
+  animation: sheetup 0.65s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards;
+}
+.sheet-paper::-webkit-scrollbar {
+  display: none;
+}
+
+/* content swap when a tab is clicked */
+@keyframes contentin {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sheet-content {
+  animation: contentin 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* home text drifting out while the book turns */
+@keyframes fadeDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(60px); }
+}
+.home-fade-down {
+  animation: fadeDown 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes fadeUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-60px); }
+}
+.home-fade-up {
+  animation: fadeUp 0.55s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes arrowin {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.arrow-in {
+  opacity: 0;
+  animation: arrowin 0.5s ease 1.5s forwards;
+}
+
+/* ===== work detail: the retro TV powers on ===== */
+@keyframes tvup {
+  from { opacity: 0; transform: scale(0.93); }
+  to { opacity: 1; transform: scale(1); }
+}
+.tv-frame {
+  animation: tvup 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+@keyframes screenon {
+  0% { filter: brightness(0.2) contrast(0.6); }
+  60% { filter: brightness(1.25) contrast(1.05); }
+  100% { filter: brightness(1) contrast(1); }
+}
+.tv-screen {
+  animation: screenon 1s ease 0.5s both;
+  border-radius: 3% / 12%;
+}
+
+/* faint CRT scanlines on the screen */
+@keyframes flicker {
+  0%, 100% { opacity: 0.22; }
+  50% { opacity: 0.16; }
+}
+.tv-scanline {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.22;
+  animation: flicker 4s steps(20) infinite;
+}
+
+/* polaroid card: frame grows with the photo's own aspect ratio */
+.polaroid-card {
+  position: relative;
+  width: 100%;
+  padding: 9px 9px 30px;
+  background: #fdfcf7;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 8px 18px -6px rgba(80, 65, 35, 0.3);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), rotate 0.3s ease;
+}
+.polaroid-card:hover {
+  rotate: 0deg !important;
+  transform: scale(1.05) translateY(-2px);
+  z-index: 5;
+}
+.polaroid-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+/* nav link hover: hand-drawn orange circle */
 @keyframes navwiggle {
   0%, 100% { transform: rotate(0deg) translate(0, 0); }
   25% { transform: rotate(-3deg) translate(-1px, -1px); }
@@ -122,7 +295,10 @@ body {
 .nav-wiggle {
   display: inline-block;
   transition: opacity 0.2s;
+  padding: 2px 8px;
+  border-radius: 50%;
 }
 .nav-wiggle:hover {
   animation: navwiggle 0.3s ease-in-out infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 40'%3E%3Cellipse cx='40' cy='20' rx='36' ry='17' fill='none' stroke='%23e8922a' stroke-width='2.5' stroke-linecap='round'/%3E%3Cellipse cx='40' cy='20' rx='33' ry='15' fill='none' stroke='%23e8922a' stroke-width='1.5' opacity='0.5'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }

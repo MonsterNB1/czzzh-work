@@ -1,129 +1,227 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const polaroids = [
+type Item = { title: string; cover?: string; slug?: string };
+
+type Section = {
+  key: string;
+  title: string;
+  en: string;
+  groups: { label?: string; items: Item[] }[];
+};
+
+const sections: Section[] = [
   {
+    key: "animation",
     title: "动画",
     en: "Animation",
-    rot: -6,
-    x: -260,
-    y: -100,
-    depth: 30,
-    items: "怪兽小馆 · Bottle · 瓦猫 · 挂画",
-    href: "/works/monster_diner",
+    groups: [
+      {
+        items: [
+          { title: "怪兽小馆 国创动画", cover: "/assets/works/monster-diner.png", slug: "monster_diner" },
+          { title: "Bottle 原创动画", cover: "/assets/works/bottle.png", slug: "bottle" },
+          { title: "挂画 戏曲动画", cover: "/assets/works/gua-hua.png", slug: "guahua" },
+          { title: "瓦猫 定格动画", cover: "/assets/works/wamiao.png", slug: "wamao" },
+        ],
+      },
+    ],
   },
   {
+    key: "design",
     title: "设计",
     en: "Design",
-    rot: 4,
-    x: 260,
-    y: -120,
-    depth: 46,
-    items: "海报 · 封面 · 宣发 · 周边",
-    href: "/works/posters",
+    groups: [
+      {
+        label: "游戏项目",
+        items: [
+          { title: "《驱逐虚空》" },
+          { title: "SNK" },
+          { title: "小冰冰传奇" },
+          { title: "蔚蓝档案" },
+          { title: "仙境传说 3" },
+        ],
+      },
+      { label: "其他项目", items: [{ title: "剧本宣发系列" }] },
+    ],
   },
   {
+    key: "video",
+    title: "视频",
+    en: "Video",
+    groups: [
+      {
+        items: [
+          { title: "中国日报 · 起底工作室" },
+          { title: "绿城 · 江澜鸣翠" },
+          { title: "阿里国际站采购节" },
+          { title: "支付宝广告开场片" },
+          { title: "中国美院毕业季" },
+          { title: "美的智慧家" },
+          { title: "阿里黑科技" },
+        ],
+      },
+    ],
+  },
+  {
+    key: "aigc",
     title: "AIGC",
     en: "Generative",
-    rot: 5,
-    x: -250,
-    y: 140,
-    depth: 58,
-    items: "河神纪元 · 角色 · 道具 · 地图",
-    href: "/works/river_gods",
-  },
-  {
-    title: "后期",
-    en: "Post",
-    rot: -4,
-    x: 270,
-    y: 150,
-    depth: 40,
-    items: "起底工作室 · 剪辑 · 调色 · 包装",
-    href: "/works/media_unlocked",
+    groups: [{ items: [{ title: "河神纪元 · 角色" }, { title: "河神纪元 · 地图" }] }],
   },
 ];
 
-export default function WorksPage() {
-  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+const TABS_DROP = 30; // idle cards dip down; the active one is pulled back up
 
-  useEffect(() => {
-    const h = (e: MouseEvent) =>
-      setMouse({
-        x: (e.clientX / window.innerWidth - 0.5) * 2,
-        y: (e.clientY / window.innerHeight - 0.5) * 2,
-      });
-    window.addEventListener("mousemove", h);
-    return () => window.removeEventListener("mousemove", h);
-  }, []);
+export default function WorksPage() {
+  const [active, setActive] = useState(0);
+  const current = sections[active];
+  const router = useRouter();
+
+  // zoom-into-the-polaroid transition
+  const [zoom, setZoom] = useState<
+    null | { src: string; from: { left: number; top: number; width: number; height: number } }
+  >(null);
+  const [zoomed, setZoomed] = useState(false);
+
+  const open = (e: React.MouseEvent, it: Item) => {
+    if (!it.slug) return;
+    e.preventDefault();
+    const img = (e.currentTarget as HTMLElement).querySelector("img");
+    const r = (img ?? (e.currentTarget as HTMLElement)).getBoundingClientRect();
+    setZoom({
+      src: it.cover ?? "",
+      from: { left: r.left, top: r.top, width: r.width, height: r.height },
+    });
+    requestAnimationFrame(() => requestAnimationFrame(() => setZoomed(true)));
+    window.setTimeout(() => router.push(`/works/${it.slug}`), 640);
+  };
 
   return (
-    <div className="grid-bg relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4 pt-28 pb-16">
-      <div className="relative w-full max-w-5xl">
-        <div className="ruled-bg relative rounded-[2px] px-8 py-16 sm:px-20 sm:py-20 shadow-[0_18px_50px_rgba(80,65,35,0.18)] min-h-[70vh]">
+    <div className="grid-bg fixed inset-0 overflow-hidden">
+      {/* ===== the notebook: rotates 90° clockwise into the standing view ===== */}
+      <div className="absolute left-1/2 top-0 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 mt-[88px] pointer-events-none">
+        <div className="book-rotate">
           <img
-            src="/assets/scrapbook/rings.png"
+            src="/assets/scrapbook/notebook-open.png"
             alt=""
-            aria-hidden
-            className="photo-shadow pointer-events-none absolute -right-8 top-1/2 h-[112%] -translate-y-1/2 hidden md:block"
+            className="w-full h-auto block"
+            draggable={false}
           />
-          <div className="pointer-events-none absolute -left-5 top-0 h-full w-5 rounded-l-sm bg-[#161412]/90 hidden md:block" />
-
-          <div className="relative z-10 text-center">
-            <h1 className="hand text-5xl sm:text-7xl font-bold text-marker">Works</h1>
-            <p className="note mt-3 text-ink-soft">—— 夹在本子里的照片 ——</p>
-          </div>
-
-          {polaroids.map((p, i) => (
-            <div
-              key={p.title}
-              className="absolute left-1/2 top-1/2 z-20 hidden md:block"
-              style={{
-                transform: `translate(calc(-50% + ${p.x + mouse.x * p.depth}px), calc(-50% + ${p.y + mouse.y * p.depth}px))`,
-              }}
-            >
-              <Link href={p.href} className="group block">
-                <div
-                  className="drift relative"
-                  style={{ ["--rot" as string]: `${p.rot}deg`, animationDelay: `${i * 0.7}s` }}
-                >
-                  <img
-                    src="/assets/scrapbook/polaroid.png"
-                    alt=""
-                    className="photo-shadow relative w-44 h-auto"
-                  />
-                  <div className="absolute left-1/2 top-[34%] -translate-x-1/2 text-center w-full">
-                    <div className="hand text-2xl font-bold text-ink-blue group-hover:text-marker transition-colors">
-                      {p.title}
-                    </div>
-                    <div className="note text-[11px] text-ink-soft mt-1">{p.en}</div>
-                  </div>
-                  <div className="note absolute bottom-4 left-1/2 w-40 -translate-x-1/2 text-center text-[10px] leading-tight text-ink-soft">
-                    {p.items}
-                  </div>
-                  <span className="tape -top-3 left-1/2 -translate-x-1/2 -rotate-3" />
-                </div>
-              </Link>
-            </div>
-          ))}
         </div>
       </div>
 
-      {/* mobile list */}
-      <div className="mt-8 grid w-full max-w-md grid-cols-2 gap-4 md:hidden">
-        {polaroids.map((p) => (
-          <Link
-            key={p.title}
-            href={p.href}
-            className="rounded-sm border border-[#d8d0bb] bg-[#faf7ee] p-4 shadow-sm"
+      {/* ===== index tabs: dropped half, active card pulled back up ===== */}
+      <div
+        className="absolute z-10 flex gap-5"
+        style={{ right: "16%", top: 150 + TABS_DROP }}
+      >
+        {sections.map((s, i) => (
+          <div
+            key={s.key}
+            className="transition-transform duration-300 ease-out"
+            style={{
+              transform: i === active ? `translateY(-${TABS_DROP}px)` : "none",
+              zIndex: i === active ? 2 : 1,
+            }}
           >
-            <div className="hand text-2xl font-bold text-ink-blue">{p.title}</div>
-            <div className="note text-[11px] text-ink-soft mt-1">{p.en}</div>
-          </Link>
+            <button
+              onClick={() => setActive(i)}
+              className={`tab-card ${i === active ? "tab-card-active" : ""}`}
+              style={{ animationDelay: `${1.0 + i * 0.05}s` }}
+            >
+              <span className="note text-[11px] text-[#5c5c5c]">{s.title}</span>
+            </button>
+          </div>
         ))}
       </div>
+
+      {/* ===== the white sheet ===== */}
+      <div
+        className="absolute z-20 overflow-y-auto sheet-paper"
+        style={{ left: "14.5%", right: "14.5%", top: "216px", bottom: "0" }}
+      >
+        <div key={current.key} className="pt-16 pb-28 px-16 sheet-content">
+          {/* category as the page title */}
+          <div className="flex items-baseline justify-center gap-3">
+            <h1 className="hand text-5xl sm:text-6xl font-bold text-ink-blue">{current.title}</h1>
+            <span className="note text-[13px] text-[#8a8a80]">{current.en}</span>
+          </div>
+
+          <div className="mt-14 space-y-12">
+            {current.groups.map((g, gi) => (
+              <div key={gi}>
+                <div className="grid grid-cols-3 gap-x-5 gap-y-8 items-start justify-items-start">
+                  {g.label && (
+                    <div className="col-span-3 hand text-[15px] text-marker mb-1 text-left">
+                      {g.label}
+                    </div>
+                  )}
+                  {g.items.map((it, idx) => (
+                    <Link
+                      key={it.title}
+                      href={it.slug ? `/works/${it.slug}` : "#"}
+                      onClick={(e) => open(e, it)}
+                      className={`group w-full ${it.slug ? "cursor-pointer" : "cursor-default"}`}
+                    >
+                      <div
+                        className="polaroid-card"
+                        style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
+                      >
+                        {it.cover ? (
+                          <img src={it.cover} alt={it.title} className="block w-full h-auto" />
+                        ) : (
+                          <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
+                        )}
+                        <div className="hand text-[10px] text-marker leading-tight text-center absolute left-1 right-1 bottom-[9px]">
+                          {it.title}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== zoom-into-polaroid transition ===== */}
+      {zoom && (
+        <div className="fixed inset-0 z-[90] pointer-events-none">
+          <div
+            className="absolute inset-0 bg-[#0d0e0d] transition-opacity duration-500"
+            style={{ opacity: zoomed ? 1 : 0 }}
+          />
+          <div
+            className="absolute overflow-hidden"
+            style={{
+              left: zoomed ? 0 : zoom.from.left,
+              top: zoomed ? 0 : zoom.from.top,
+              width: zoomed ? "100vw" : zoom.from.width,
+              height: zoomed ? "100vh" : zoom.from.height,
+              transition: "all 0.6s cubic-bezier(0.65, 0, 0.3, 1)",
+            }}
+          >
+            <img src={zoom.src} alt="" className="w-full h-full object-cover" />
+          </div>
+        </div>
+      )}
+
+      {/* back arrow */}
+      <Link
+        href="/"
+        className="absolute z-30 hidden md:block group arrow-in"
+        style={{ left: "5%", bottom: "6%" }}
+      >
+        <img
+          src="/assets/scrapbook/arrow-red.png"
+          alt="back"
+          className="h-8 w-auto photo-shadow group-hover:-translate-x-1 transition-transform"
+        />
+      </Link>
     </div>
   );
 }

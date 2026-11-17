@@ -30,11 +30,20 @@ export default function Home() {
           </h1>
 
           {/* four directions, hand-placed */}
-          <div className="mt-6 space-y-1">
-            <div className="note text-lg text-[#2b2b2b]">Animation</div>
-            <div className="note text-lg text-[#2b2b2b] ml-8 rotate-[-2deg] inline-block">Design</div>
-            <div className="note text-lg text-[#2b2b2b] ml-2 mt-1 rotate-1 inline-block">Post</div>
-            <div className="note text-lg text-ink-blue ml-12 mt-1 -rotate-1 inline-block">AIGC</div>
+          <div className="mt-6">
+            <div className="flex items-baseline gap-2">
+              <span className="hand text-2xl font-bold text-ink-blue">动画</span>
+              <span className="note text-base text-[#2b2b2b]">Animation</span>
+              <span className="hand text-xl font-bold text-ink-blue ml-6 -rotate-6">AIGC</span>
+            </div>
+            <div className="flex items-baseline gap-2 ml-6 mt-2 -rotate-2 inline-block">
+              <span className="hand text-2xl font-bold text-ink-blue">设计</span>
+              <span className="note text-base text-[#2b2b2b]">Design</span>
+            </div>
+            <div className="flex items-baseline gap-2 ml-2 mt-2 rotate-1 inline-block">
+              <span className="hand text-2xl font-bold text-ink-blue">视频</span>
+              <span className="note text-base text-[#2b2b2b]">Video</span>
+            </div>
           </div>
         </div>
 
