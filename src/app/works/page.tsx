@@ -106,7 +106,7 @@ function AnimationIndex({
           onClick={(e) => open(e, it)}
           className={`group flex gap-4 md:gap-7 items-start ${it.slug ? "cursor-pointer" : "cursor-default"}`}
         >
-          <div className="shrink-0 w-[116px] md:w-[232px] flex justify-center">
+          <div className="shrink-0 w-[116px] md:w-[232px] flex justify-start">
             <div
               className={`relative bg-[#fbf9f1] shadow-[0_14px_26px_-14px_rgba(60,45,25,0.6)] transition-transform duration-300 ease-out group-hover:-translate-y-1 ${
                 it.shape === "portrait"
