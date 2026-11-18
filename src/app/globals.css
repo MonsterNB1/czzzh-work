@@ -406,3 +406,11 @@ body {
 .tv-spin {
   animation: tv-spin 0.9s linear infinite;
 }
+
+/* TV static / snow: jump the noise tile around like analog static */
+@keyframes tv-snow {
+  0% { background-position: 0 0; }
+  33% { background-position: -42px 18px; }
+  66% { background-position: 24px -30px; }
+  100% { background-position: -12px 26px; }
+}

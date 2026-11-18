@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import TVScreen from "@/components/TVScreen";
 
 // every size below is expressed as a fraction of the book width (--wb),
 // so the whole spread scales as one piece on any window.
@@ -71,15 +72,30 @@ export default function Home() {
           </div>
 
           <Link href="/works" className="mt-10 flex flex-col items-center group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/scrapbook/retro-tv-440.webp"
-              alt=""
-              width={641}
-              height={855}
-              decoding="async"
-              className="photo-shadow w-[62%] h-auto block"
-            />
+            <div className="relative w-[62%]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/scrapbook/retro-tv-440.webp"
+                alt=""
+                width={641}
+                height={855}
+                decoding="async"
+                className="photo-shadow w-full h-auto block"
+              />
+              <div
+                className="absolute"
+                style={{
+                  left: "8.8%",
+                  top: "10%",
+                  width: "57.5%",
+                  height: "37.5%",
+                  borderRadius: "11% / 9%",
+                  overflow: "hidden",
+                }}
+              >
+                <TVScreen mobile />
+              </div>
+            </div>
             <span className="note type text-[13px] text-[#2b2b2b] mt-3 group-hover:text-marker">
               try changing the channel →
             </span>
@@ -281,6 +297,20 @@ export default function Home() {
                   decoding="async"
                 />
               </picture>
+              {/* live clip playing inside the TV glass */}
+              <div
+                className="absolute"
+                style={{
+                  left: "8.8%",
+                  top: "10%",
+                  width: "57.5%",
+                  height: "37.5%",
+                  borderRadius: "11% / 9%",
+                  overflow: "hidden",
+                }}
+              >
+                <TVScreen />
+              </div>
             </div>
             <Link
               href="/works"
