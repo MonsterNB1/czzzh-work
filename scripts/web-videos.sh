@@ -41,8 +41,13 @@ mkdir -p "$OUT"
 for n in "${EPISODES[@]}"; do
   src=""
   if [[ -n "$LOCAL_SRC" ]]; then
-    src="$LOCAL_SRC/ep$n.mp4"
-    [[ -f "$src" ]] || { echo "skip ep$n: $src not found"; continue; }
+    # accept either ep3.mp4 or the original 《...》第3集.mp4 naming
+    if [[ -f "$LOCAL_SRC/ep$n.mp4" ]]; then
+      src="$LOCAL_SRC/ep$n.mp4"
+    else
+      src="$(find "$LOCAL_SRC" -maxdepth 1 -name "*第${n}集*" -print -quit)"
+    fi
+    [[ -n "$src" && -f "$src" ]] || { echo "skip ep$n: no local source found"; continue; }
   else
     src="$BASE/ep$n.mp4"
   fi
