@@ -3,20 +3,26 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
 const R2_BASE = "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
-const EPISODES = Array.from({ length: 12 }, (_, i) => i + 1);
+
+// 轮播素材池：后续其他作品的视频直接把地址追加到这个数组即可，
+// 电视机会从池子里随机挑一段播放。
+const VIDEO_POOL: string[] = [
+  ...Array.from({ length: 12 }, (_, i) => `${R2_BASE}/ep${i + 1}.mp4`),
+];
+
 const CLIP_MIN = 5; // seconds
 const CLIP_MAX = 7;
 const SNOW_MS = 900;
 
-function randomEp(exclude?: number): number {
-  const pool = EPISODES.filter((n) => n !== exclude);
+function randomSrc(exclude?: string): string {
+  const pool = VIDEO_POOL.filter((s) => s !== exclude);
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
-  const [ep, setEp] = useState<number>(1);
+  const [src, setSrc] = useState<string>(VIDEO_POOL[0]);
   const [phase, setPhase] = useState<"loading" | "play" | "snow">("loading");
   const clipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const snowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -36,7 +42,7 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
     return () => mq.removeEventListener("change", apply);
   }, [mobile]);
 
-  const startClip = useCallback((nextEp: number) => {
+  const startClip = useCallback((nextSrc: string) => {
     const v = videoRef.current;
     if (!v) return;
     setPhase("loading");
@@ -53,27 +59,27 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
 
       const len = CLIP_MIN + Math.random() * (CLIP_MAX - CLIP_MIN);
       clipTimer.current = setTimeout(() => {
-        // cut to snow, then swap to the next episode
+        // cut to snow, then swap to the next clip
         setPhase("snow");
         v.pause();
         snowTimer.current = setTimeout(() => {
-          setEp((prev) => randomEp(prev));
+          setSrc((prev) => randomSrc(prev));
         }, SNOW_MS);
       }, len * 1000);
     };
   }, []);
 
-  // pick a random episode once this screen becomes active
+  // pick a random clip once this screen becomes active
   useEffect(() => {
     if (!active) return;
     if (!seeded.current) {
       seeded.current = true;
-      setEp(randomEp());
+      setSrc(randomSrc());
       return;
     }
-    startClip(ep);
+    startClip(src);
     return clearTimers;
-  }, [active, ep, startClip]);
+  }, [active, src, startClip]);
 
   // pause and stop timers when this screen hides
   useEffect(() => {
@@ -90,14 +96,14 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
       {/* playing clip */}
       <video
         ref={videoRef}
-        key={ep}
+        key={src}
         muted
         playsInline
         preload="metadata"
         className={`h-full w-full object-cover transition-opacity duration-300 ${
           phase === "play" ? "opacity-100" : "opacity-0"
         }`}
-        src={`${R2_BASE}/ep${ep}.mp4`}
+        src={src}
       />
 
       {/* snow / static transition */}

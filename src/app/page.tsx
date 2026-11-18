@@ -85,10 +85,10 @@ export default function Home() {
               <div
                 className="absolute"
                 style={{
-                  left: "8.8%",
-                  top: "10%",
-                  width: "57.5%",
-                  height: "37.5%",
+                  left: "9.1%",
+                  top: "8.5%",
+                  width: "57.9%",
+                  height: "38.3%",
                   borderRadius: "11% / 9%",
                   overflow: "hidden",
                 }}
@@ -301,10 +301,10 @@ export default function Home() {
               <div
                 className="absolute"
                 style={{
-                  left: "8.8%",
-                  top: "10%",
-                  width: "57.5%",
-                  height: "37.5%",
+                  left: "8.6%",
+                  top: "7.0%",
+                  width: "59.3%",
+                  height: "38.0%",
                   borderRadius: "11% / 9%",
                   overflow: "hidden",
                 }}
