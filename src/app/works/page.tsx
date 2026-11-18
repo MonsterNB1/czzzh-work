@@ -151,7 +151,7 @@ function AnimationIndex({
               <h2 className="hand text-[22px] md:text-[28px] font-bold text-ink-blue leading-none">
                 {it.title}
               </h2>
-              <span className="note text-[10px] md:text-[11px] text-[#8a8a80]">{it.en}</span>
+              <span className="note text-[10px] md:text-[11px] text-[#6f6f66]">{it.en}</span>
             </div>
             <p className="note text-[12px] md:text-[13.5px] leading-[1.65] text-[#2f2f2c] mt-2">
               {it.desc}
@@ -169,7 +169,7 @@ function AnimationIndex({
                 className="inline-block w-0 h-0 border-y-[5px] border-y-transparent border-l-[8px] border-l-current"
                 aria-hidden
               />
-              打开电视 · 播放
+              打开电视<span className="zh"> · </span>播放
             </span>
             </div>
           </div>
@@ -221,14 +221,14 @@ export default function WorksPage() {
   return (
     <>
       {/* =================== phone / narrow screens =================== */}
-      <div className="md:hidden grid-bg min-h-screen px-4 pt-24 pb-16">
+      <div className="md:hidden grid-bg min-h-screen px-4 pt-24 pb-16 page-type">
         {/* the four tabs become a row of paper tabs across the top */}
         <div className="flex gap-2 justify-center">
           {sections.map((s, i) => (
             <button
               key={s.key}
               onClick={() => setActive(i)}
-              className={`hand px-3 py-2.5 text-[13px] leading-none bg-[#fbf9f1] shadow-[0_6px_14px_-8px_rgba(60,45,25,0.5)] transition-transform ${
+              className={`hand zh px-3 py-2.5 text-[13px] leading-none bg-[#fbf9f1] shadow-[0_6px_14px_-8px_rgba(60,45,25,0.5)] transition-transform ${
                 i === active
                   ? "text-marker -translate-y-1.5 border-b-2 border-marker"
                   : "text-[#5c5c5c] rotate-[0.6deg]"
@@ -242,7 +242,7 @@ export default function WorksPage() {
         <div key={current.key} className="mt-5 bg-[#f9faf5] border border-[#e6e0cf] shadow-[0_18px_40px_-20px_rgba(60,45,25,0.45)] px-4 pt-8 pb-10 sheet-content">
           <div className="flex items-baseline justify-center gap-2.5">
             <h1 className="hand text-[34px] font-bold text-ink-blue leading-none">{current.title}</h1>
-            <span className="note text-[11px] text-[#8a8a80]">{current.en}</span>
+            <span className="note text-[11px] text-[#6f6f66]">{current.en}</span>
           </div>
 
           {current.key === "animation" ? (
@@ -312,7 +312,7 @@ export default function WorksPage() {
 
       {/* =================== tablet and up: the standing notebook =================== */}
       <div
-        className="hidden md:block grid-bg fixed inset-0 overflow-hidden"
+        className="hidden md:block grid-bg fixed inset-0 overflow-hidden page-type"
         style={{ "--wb": "min(calc(100vw - 32px), 1280px)" } as React.CSSProperties}
       >
       {/* ===== the notebook: rotates 90° clockwise into the standing view ===== */}
@@ -356,7 +356,7 @@ export default function WorksPage() {
               className={`tab-card ${i === active ? "tab-card-active" : ""}`}
               style={{ animationDelay: `${1.0 + i * 0.05}s` }}
             >
-              <span className="note text-[11px] text-[#5c5c5c]">{s.title}</span>
+              <span className="note zh text-[11px] text-[#5c5c5c]">{s.title}</span>
             </button>
           </div>
         ))}
@@ -376,7 +376,7 @@ export default function WorksPage() {
           {/* category as the page title */}
           <div className="flex items-baseline justify-center gap-3">
             <h1 className="hand text-5xl sm:text-6xl font-bold text-ink-blue">{current.title}</h1>
-            <span className="note text-[13px] text-[#8a8a80]">{current.en}</span>
+            <span className="note text-[13px] text-[#6f6f66]">{current.en}</span>
           </div>
 
           {current.key === "animation" ? (
