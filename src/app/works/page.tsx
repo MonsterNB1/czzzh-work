@@ -12,6 +12,7 @@ type Item = {
   en?: string;
   desc?: string;
   meta?: string[];
+  shape?: "portrait" | "landscape";
 };
 
 type Section = {
@@ -24,7 +25,15 @@ type Section = {
 // the films read top to bottom in animationOrder, each carrying its own blurb
 const animationItems: Item[] = animationOrder.map((slug) => {
   const w = works[slug];
-  return { title: w.title, cover: w.cover, slug: w.slug, en: w.en, desc: w.desc, meta: w.meta };
+  return {
+    title: w.title,
+    cover: w.cover,
+    slug: w.slug,
+    en: w.en,
+    desc: w.desc,
+    meta: w.meta,
+    shape: w.shape,
+  };
 });
 
 const sections: Section[] = [
@@ -97,18 +106,24 @@ function AnimationIndex({
           onClick={(e) => open(e, it)}
           className={`group flex gap-4 md:gap-7 items-start ${it.slug ? "cursor-pointer" : "cursor-default"}`}
         >
-          <div className="shrink-0 w-[92px] md:w-[158px]">
+          <div className="shrink-0 w-[116px] md:w-[232px] flex justify-center">
             <div
-              className="relative bg-[#fbf9f1] p-[5px] pb-[20px] md:p-2 md:pb-[26px] shadow-[0_14px_26px_-14px_rgba(60,45,25,0.6)] transition-transform duration-300 ease-out group-hover:-translate-y-1"
+              className={`relative bg-[#fbf9f1] shadow-[0_14px_26px_-14px_rgba(60,45,25,0.6)] transition-transform duration-300 ease-out group-hover:-translate-y-1 ${
+                it.shape === "portrait"
+                  ? "w-[92px] md:w-[158px] p-[5px] pb-[20px] md:p-2 md:pb-[26px]"
+                  : "w-full p-[5px] pb-[16px] md:p-[7px] md:pb-[22px]"
+              }`}
               style={{ rotate: `${[-1.6, 1.2, -0.9, 1.4][i % 4]}deg` }}
             >
               <span
                 className="tape -top-2 left-1/2 -translate-x-1/2 rotate-[-2deg]"
                 style={{ width: 44, height: 12 }}
               />
-              <div className="aspect-[3/4] bg-[#f1eee3] border border-[#e2dccb] flex items-center justify-center overflow-hidden">
+              <div className={`bg-[#f1eee3] border border-[#e2dccb] flex items-center justify-center overflow-hidden ${
+                it.shape === "portrait" ? "aspect-[3/4]" : "aspect-[16/9]"
+              }`}>
                 {it.cover ? (
-                  <picture className="block w-full">
+                  <picture className="block w-full h-full">
                     {mode === "phone" ? (
                       <source media="(max-width: 767px)" srcSet={it.cover.replace(".webp", "-400.webp")} />
                     ) : (
@@ -120,7 +135,7 @@ function AnimationIndex({
                       alt={it.title}
                       loading={i < 2 ? "eager" : "lazy"}
                       decoding="async"
-                      className="block w-full h-auto"
+                      className="block w-full h-full object-contain"
                     />
                   </picture>
                 ) : null}
@@ -148,13 +163,15 @@ function AnimationIndex({
                 </span>
               ))}
             </div>
-            <span className="mt-3.5 inline-flex items-center gap-1.5 hand text-[12px] md:text-[13px] text-marker border-b-2 border-marker/30 pb-0.5 transition-colors group-hover:border-marker group-hover:text-[#a52a2c]">
+            <div className="mt-3.5 flex justify-end">
+            <span className="inline-flex items-center gap-1.5 hand text-[12px] md:text-[13px] text-marker border-b-2 border-marker/30 pb-0.5 transition-colors group-hover:border-marker group-hover:text-[#a52a2c]">
               <span
                 className="inline-block w-0 h-0 border-y-[5px] border-y-transparent border-l-[8px] border-l-current"
                 aria-hidden
               />
               打开电视 · 播放
             </span>
+            </div>
           </div>
         </Link>
       ))}

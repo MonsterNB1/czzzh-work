@@ -17,7 +17,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* the two local faces carry almost all the text — start them early */}
         <link
           rel="preload"
-          href="/fonts/wujie.woff2"
+          href="/fonts/smileysans.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"

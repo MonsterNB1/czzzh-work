@@ -10,6 +10,8 @@ export type WorkData = {
   desc: string;
   /** credits / facts, shown as small bullets */
   meta: string[];
+  /** the cover's own orientation, so the index can hang it the right way up */
+  shape?: "portrait" | "landscape";
   cover: string;
   /** single film at <root>/<slug>/ep1.mp4 */
   video?: string;
@@ -36,6 +38,7 @@ export const works: Record<string, WorkData> = {
     cat: "动画",
     desc: "桃子和火不伙为妖怪开了一家小饭馆，一本食谱打破平静。B站 752.8 万播放，金龙奖最佳系列动画。",
     meta: ["上色 / 色检 / 后期", "B站 752.8 万播放", "金龙奖最佳系列动画"],
+    shape: "portrait",
     cover: "/assets/works/monster-diner.webp",
     episodesBase: `${MEDIA_ROOT}/monster-diner`,
     episodes: 12,
