@@ -16,6 +16,8 @@ type Item = {
   shape?: "portrait" | "landscape";
   /** some sections open on their own page instead of the TV room */
   href?: string;
+  /** explicit narrow-screen variant of the cover */
+  thumb?: string;
 };
 
 type Section = {
@@ -49,6 +51,7 @@ const designItems: (Item & { group: string })[] = designOrder.map((slug) => {
     meta: d.meta,
     shape: d.shape,
     group: d.group,
+    thumb: d.thumb,
     href: `/works/design/${d.slug}`,
   };
 });
@@ -279,7 +282,7 @@ export default function WorksPage() {
                           <picture className="block w-full">
                             <source
                               media="(max-width: 767px)"
-                              srcSet={it.cover.replace(".webp", "-400.webp")}
+                              srcSet={it.thumb ?? it.cover.replace(".webp", "-400.webp")}
                             />
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
