@@ -1,6 +1,10 @@
 import WorkRoom, { type Work } from "@/components/WorkRoom";
 
-const R2 = "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
+// point NEXT_PUBLIC_MEDIA_BASE at a custom domain (cdn.czzzh.work, say) and the
+// r2.dev dev endpoint drops out of the path without touching any other code.
+const R2 =
+  process.env.NEXT_PUBLIC_MEDIA_BASE ??
+  "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
 
 const works: Record<string, Work> = {
   monster_diner: {
