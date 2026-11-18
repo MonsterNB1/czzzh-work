@@ -1,10 +1,15 @@
 import WorkRoom, { type Work } from "@/components/WorkRoom";
 
-// point NEXT_PUBLIC_MEDIA_BASE at a custom domain (cdn.czzzh.work, say) and the
-// r2.dev dev endpoint drops out of the path without touching any other code.
-const R2 =
+// NEXT_PUBLIC_MEDIA_BASE wants the storage root (https://cdn.czzzh.work), a
+// trailing /monster-diner is tolerated so the older value keeps working.
+const MEDIA_ROOT = (
   process.env.NEXT_PUBLIC_MEDIA_BASE ??
-  "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
+  "https://pub-99c53aec3f634300b636798977401e47.r2.dev"
+).replace(/\/monster-diner$/, "");
+
+const R2 = `${MEDIA_ROOT}/monster-diner`;
+/** single-film works sit at <root>/<slug>/ep1.mp4 so they share one shape */
+const film = (slug: string) => `${MEDIA_ROOT}/${slug}/ep1.mp4`;
 
 const works: Record<string, Work> = {
   monster_diner: {
@@ -25,6 +30,7 @@ const works: Record<string, Work> = {
     desc: "本科毕业创作。定格动画，记录一个承载记忆的瓶子，虚实之间是对未来的告别。",
     meta: ["导演 / 动画 / 后期", "鲁迅美术学院毕业作品"],
     cover: "/assets/works/bottle.webp",
+    video: film("bottle"),
   },
   guahua: {
     title: "挂画",
@@ -33,6 +39,7 @@ const works: Record<string, Work> = {
     desc: "国家艺术基金项目，改编自传统戏曲《挂画》。",
     meta: ["后期合成", "国家艺术基金"],
     cover: "/assets/works/gua-hua.webp",
+    video: film("guahua"),
   },
   wamao: {
     title: "瓦猫",
@@ -41,6 +48,7 @@ const works: Record<string, Work> = {
     desc: "云南瓦猫传说。神兽藏于门缝守护百姓，定格动画短片。",
     meta: ["脚本 / 分镜 / 场景 / 后期"],
     cover: "/assets/works/wamiao.webp",
+    video: film("wamao"),
   },
 };
 
