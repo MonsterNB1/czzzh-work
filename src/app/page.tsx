@@ -127,13 +127,13 @@ export default function Home() {
         <div className="absolute" style={{ left: "13%", top: "13%" }}>
           <p
             className="hand type font-bold text-marker leading-none"
-            style={{ fontSize: px(0.0792) }}
+            style={{ fontSize: px(0.068) }}
           >
             Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
           </p>
           <h1
             className="hand type font-bold text-marker leading-[1.2]"
-            style={{ fontSize: px(0.033), marginTop: px(0.0132), marginLeft: px(0.006) }}
+            style={{ fontSize: px(0.033), marginTop: px(0.003), marginLeft: px(0.006) }}
           >
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
