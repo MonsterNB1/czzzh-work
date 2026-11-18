@@ -133,7 +133,7 @@ export default function Home() {
           </p>
           <h1
             className="hand type font-bold text-marker leading-[1.2]"
-            style={{ fontSize: px(0.033), marginTop: px(0.0132), marginLeft: px(0.095) }}
+            style={{ fontSize: px(0.033), marginTop: px(0.0132), marginLeft: px(0.006) }}
           >
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
@@ -149,7 +149,7 @@ export default function Home() {
               marginTop: px(0.0235),
               display: "grid",
               gridTemplateColumns: "max-content max-content",
-              columnGap: px(0.046),
+              columnGap: px(0.075),
               rowGap: px(0.006),
               alignItems: "baseline",
             }}
@@ -216,7 +216,7 @@ export default function Home() {
         {/* two decorative polaroids on the left page — kept low so they don't cover text */}
         <div
           className="absolute hidden md:block"
-          style={{ left: "11%", bottom: "8%", transform: "rotate(-4deg)" }}
+          style={{ left: "11%", bottom: "12%", transform: "rotate(-4deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.webp"
@@ -230,7 +230,7 @@ export default function Home() {
         </div>
         <div
           className="absolute hidden md:block"
-          style={{ left: "24%", bottom: "8%", transform: "rotate(5deg)" }}
+          style={{ left: "24%", bottom: "12%", transform: "rotate(5deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.webp"
