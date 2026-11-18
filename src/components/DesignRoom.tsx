@@ -18,6 +18,8 @@ export default function DesignRoom({ work }: { work: DesignData }) {
 
   // the plate being looked at up close, as [groupIndex, shotIndex]
   const [focus, setFocus] = useState<[number, number] | null>(null);
+  // a ranking screenshot opened on its own
+  const [board, setBoard] = useState<string | null>(null);
 
   const total = groups.length ? groups.reduce((n, g) => n + g.shots.length, 0) : 0;
 
@@ -167,6 +169,30 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                   </div>
                 </>
               ) : null}
+
+              {work.boards?.length ? (
+                <>
+                  <div className="hand text-[13px] text-marker leading-none mt-6">平台榜单</div>
+                  <div className="mt-2.5 space-y-2">
+                    {work.boards.map((b) => (
+                      <button
+                        key={b}
+                        onClick={() => setBoard(b)}
+                        className="block w-full bg-white border border-[#e8e3d4] p-1.5 text-left shadow-[0_10px_24px_-18px_rgba(60,45,25,0.55)] transition-transform duration-300 hover:-translate-y-0.5"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={b}
+                          alt={`${work.title} 平台榜单`}
+                          loading="lazy"
+                          decoding="async"
+                          className="block w-full h-auto"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : null}
             </div>
           ) : null}
 
@@ -208,6 +234,23 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           )}
         </div>
       </div>
+
+      {/* ===== a ranking screenshot, full size ===== */}
+      {board ? (
+        <div
+          className="fixed inset-0 z-50 bg-[#1b1714]/94 backdrop-blur-[2px] flex items-center justify-center p-4 md:p-10"
+          onClick={() => setBoard(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={board}
+            alt={`${work.title} 平台榜单`}
+            className="block max-h-[85vh] max-w-full w-auto h-auto object-contain shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]"
+          />
+        </div>
+      ) : null}
 
       {/* ===== the light table: one plate, everything else dimmed ===== */}
       {focus && focused ? (

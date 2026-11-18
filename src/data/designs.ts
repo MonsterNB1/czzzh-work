@@ -32,6 +32,8 @@ export type DesignData = {
   stats?: DesignStat[];
   /** platforms the material shipped on */
   platforms?: string[];
+  /** store ranking screenshots, opened at full size */
+  boards?: string[];
   meta?: string[];
   /** one section per folder the material came from */
   plates?: DesignPlateGroup[];
@@ -107,6 +109,7 @@ export const designs: Record<string, DesignData> = {
       "vivo",
       "OPPO",
     ],
+    boards: [`${MEDIA}/design/quzhu/board-01.webp`],
     plates: [
       { label: "主视觉 KV", shots: series("quzhu", "kv", 8) },
       {
