@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { animationOrder, works } from "@/data/works";
+import { designOrder, designs } from "@/data/designs";
 
 type Item = {
   title: string;
@@ -13,6 +14,8 @@ type Item = {
   desc?: string;
   meta?: string[];
   shape?: "portrait" | "landscape";
+  /** some sections open on their own page instead of the TV room */
+  href?: string;
 };
 
 type Section = {
@@ -36,6 +39,20 @@ const animationItems: Item[] = animationOrder.map((slug) => {
   };
 });
 
+const designItems: (Item & { group: string })[] = designOrder.map((slug) => {
+  const d = designs[slug];
+  return {
+    title: d.title,
+    cover: d.cover,
+    en: d.en,
+    desc: d.desc,
+    meta: d.meta,
+    shape: d.shape,
+    group: d.group,
+    href: `/works/design/${d.slug}`,
+  };
+});
+
 const sections: Section[] = [
   {
     key: "animation",
@@ -48,17 +65,8 @@ const sections: Section[] = [
     title: "设计",
     en: "Design",
     groups: [
-      {
-        label: "游戏项目",
-        items: [
-          { title: "《驱逐虚空》" },
-          { title: "SNK" },
-          { title: "小冰冰传奇" },
-          { title: "蔚蓝档案" },
-          { title: "仙境传说 3" },
-        ],
-      },
-      { label: "其他项目", items: [{ title: "剧本宣发系列" }] },
+      { label: "游戏项目", items: designItems.filter((it) => it.group === "游戏项目") },
+      { label: "其他项目", items: designItems.filter((it) => it.group === "其他项目") },
     ],
   },
   {
@@ -211,10 +219,11 @@ export default function WorksPage() {
   }, []);
 
   const open = (e: React.MouseEvent, it: Item) => {
-    if (!it.slug) return;
+    const href = it.href ?? (it.slug ? `/works/${it.slug}` : undefined);
+    if (!href) return;
     e.preventDefault();
     setLeaving(true);
-    navTimer.current = window.setTimeout(() => router.push(`/works/${it.slug}`), 520);
+    navTimer.current = window.setTimeout(() => router.push(href), 520);
     window.setTimeout(() => setLeaving(false), 1500);
   };
 
@@ -258,9 +267,9 @@ export default function WorksPage() {
                   {g.items.map((it, idx) => (
                     <Link
                       key={it.title}
-                      href={it.slug ? `/works/${it.slug}` : "#"}
+                      href={it.href ?? (it.slug ? `/works/${it.slug}` : "#")}
                       onClick={(e) => open(e, it)}
-                      className={`group block ${it.slug ? "cursor-pointer" : "cursor-default"}`}
+                      className={`group block ${it.href || it.slug ? "cursor-pointer" : "cursor-default"}`}
                     >
                       <div
                         className="polaroid-card"
@@ -394,9 +403,9 @@ export default function WorksPage() {
                   {g.items.map((it, idx) => (
                     <Link
                       key={it.title}
-                      href={it.slug ? `/works/${it.slug}` : "#"}
+                      href={it.href ?? (it.slug ? `/works/${it.slug}` : "#")}
                       onClick={(e) => open(e, it)}
-                      className={`group w-full ${it.slug ? "cursor-pointer" : "cursor-default"}`}
+                      className={`group w-full ${it.href || it.slug ? "cursor-pointer" : "cursor-default"}`}
                     >
                       <div
                         className="polaroid-card"
