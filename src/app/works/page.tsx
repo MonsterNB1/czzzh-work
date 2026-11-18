@@ -3,8 +3,16 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { animationOrder, works } from "@/data/works";
 
-type Item = { title: string; cover?: string; slug?: string };
+type Item = {
+  title: string;
+  cover?: string;
+  slug?: string;
+  en?: string;
+  desc?: string;
+  meta?: string[];
+};
 
 type Section = {
   key: string;
@@ -13,21 +21,18 @@ type Section = {
   groups: { label?: string; items: Item[] }[];
 };
 
+// the films read top to bottom in animationOrder, each carrying its own blurb
+const animationItems: Item[] = animationOrder.map((slug) => {
+  const w = works[slug];
+  return { title: w.title, cover: w.cover, slug: w.slug, en: w.en, desc: w.desc, meta: w.meta };
+});
+
 const sections: Section[] = [
   {
     key: "animation",
     title: "动画",
     en: "Animation",
-    groups: [
-      {
-        items: [
-          { title: "怪兽小馆 国创动画", cover: "/assets/works/monster-diner.webp", slug: "monster_diner" },
-          { title: "Bottle 原创动画", cover: "/assets/works/bottle.webp", slug: "bottle" },
-          { title: "挂画 戏曲动画", cover: "/assets/works/gua-hua.webp", slug: "guahua" },
-          { title: "瓦猫 定格动画", cover: "/assets/works/wamiao.webp", slug: "wamao" },
-        ],
-      },
-    ],
+    groups: [{ items: animationItems }],
   },
   {
     key: "design",
@@ -72,6 +77,90 @@ const sections: Section[] = [
     groups: [{ items: [{ title: "河神纪元 · 角色" }, { title: "河神纪元 · 地图" }] }],
   },
 ];
+
+/** the film index: a vertical cover on the left, blurb and play button on the right */
+function AnimationIndex({
+  items,
+  open,
+  mode,
+}: {
+  items: Item[];
+  open: (e: React.MouseEvent, it: Item) => void;
+  mode: "phone" | "desktop";
+}) {
+  return (
+    <div className="mt-7 md:mt-11 space-y-6 md:space-y-9">
+      {items.map((it, i) => (
+        <Link
+          key={it.slug ?? it.title}
+          href={it.slug ? `/works/${it.slug}` : "#"}
+          onClick={(e) => open(e, it)}
+          className={`group flex gap-4 md:gap-7 items-start ${it.slug ? "cursor-pointer" : "cursor-default"}`}
+        >
+          <div className="shrink-0 w-[92px] md:w-[158px]">
+            <div
+              className="relative bg-[#fbf9f1] p-[5px] pb-[20px] md:p-2 md:pb-[26px] shadow-[0_14px_26px_-14px_rgba(60,45,25,0.6)] transition-transform duration-300 ease-out group-hover:-translate-y-1"
+              style={{ rotate: `${[-1.6, 1.2, -0.9, 1.4][i % 4]}deg` }}
+            >
+              <span
+                className="tape -top-2 left-1/2 -translate-x-1/2 rotate-[-2deg]"
+                style={{ width: 44, height: 12 }}
+              />
+              <div className="aspect-[3/4] bg-[#f1eee3] border border-[#e2dccb] flex items-center justify-center overflow-hidden">
+                {it.cover ? (
+                  <picture className="block w-full">
+                    {mode === "phone" ? (
+                      <source media="(max-width: 767px)" srcSet={it.cover.replace(".webp", "-400.webp")} />
+                    ) : (
+                      <source media="(min-width: 768px)" srcSet={it.cover} />
+                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/assets/blank.svg"
+                      alt={it.title}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      decoding="async"
+                      className="block w-full h-auto"
+                    />
+                  </picture>
+                ) : null}
+              </div>
+              <div className="hand text-[9px] md:text-[10px] text-marker leading-none text-center absolute left-1 right-1 bottom-[6px] md:bottom-[8px]">
+                NO.{i + 1}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <h2 className="hand text-[22px] md:text-[28px] font-bold text-ink-blue leading-none">
+                {it.title}
+              </h2>
+              <span className="note text-[10px] md:text-[11px] text-[#8a8a80]">{it.en}</span>
+            </div>
+            <p className="note text-[12px] md:text-[13.5px] leading-[1.65] text-[#2f2f2c] mt-2">
+              {it.desc}
+            </p>
+            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5">
+              {it.meta?.map((m) => (
+                <span key={m} className="note text-[10px] md:text-[11px] text-[#7d7d73]">
+                  · {m}
+                </span>
+              ))}
+            </div>
+            <span className="mt-3.5 inline-flex items-center gap-1.5 hand text-[12px] md:text-[13px] text-marker border-b-2 border-marker/30 pb-0.5 transition-colors group-hover:border-marker group-hover:text-[#a52a2c]">
+              <span
+                className="inline-block w-0 h-0 border-y-[5px] border-y-transparent border-l-[8px] border-l-current"
+                aria-hidden
+              />
+              打开电视 · 播放
+            </span>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 const TABS_DROP = 30; // idle cards dip down; the active one is pulled back up
 
@@ -139,6 +228,9 @@ export default function WorksPage() {
             <span className="note text-[11px] text-[#8a8a80]">{current.en}</span>
           </div>
 
+          {current.key === "animation" ? (
+            <AnimationIndex items={current.groups[0].items} open={open} mode="phone" />
+          ) : (
           <div className="mt-7 space-y-8">
             {current.groups.map((g, gi) => (
               <div key={gi}>
@@ -185,6 +277,8 @@ export default function WorksPage() {
               </div>
             ))}
           </div>
+          )}
+
         </div>
 
         <Link href="/" className="mt-8 flex items-center gap-2 note text-[13px] text-ink-soft">
@@ -268,6 +362,9 @@ export default function WorksPage() {
             <span className="note text-[13px] text-[#8a8a80]">{current.en}</span>
           </div>
 
+          {current.key === "animation" ? (
+            <AnimationIndex items={current.groups[0].items} open={open} mode="desktop" />
+          ) : (
           <div className="mt-14 space-y-12">
             {current.groups.map((g, gi) => (
               <div key={gi}>
@@ -313,6 +410,8 @@ export default function WorksPage() {
               </div>
             ))}
           </div>
+          )}
+
         </div>
       </div>
 

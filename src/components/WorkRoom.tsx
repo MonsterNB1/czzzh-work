@@ -235,26 +235,8 @@ export default function WorkRoom({ work }: { work: Work }) {
           </div>
           </div>
 
-          {/* ===== notes: taped under the knobs on desktop, stacked below the TV on phones ===== */}
+          {/* ===== the blurb now lives in the index, so the TV room stays bare ===== */}
           <div className="tv-notes">
-            <div className="w-full bg-[#fbf9f1] px-3 py-3 shadow-[0_8px_16px_-9px_rgba(60,45,25,0.5)] md:rotate-[-1.5deg]">
-              <span className="tape -top-3 left-6 md:left-1/2 md:-translate-x-1/2 -rotate-3" style={{ width: 64, height: 15 }} />
-              <p className="hand text-[11px] md:text-[clamp(9px,0.85vw,12px)] text-marker">{work.en}</p>
-              <p className="hand text-[19px] md:text-[clamp(14px,1.4vw,21px)] text-ink-blue mt-1">
-                {work.title}
-              </p>
-              <p className="note text-[13px] leading-[1.6] md:text-[clamp(9px,0.82vw,12px)] md:leading-[1.45] text-[#2b2b2b] mt-2 md:mt-1.5">
-                {work.desc}
-              </p>
-              <div className="mt-2 space-y-1 md:mt-1.5 md:space-y-0.5">
-                {work.meta.map((m) => (
-                  <p key={m} className="note text-[11px] md:text-[clamp(8px,0.72vw,11px)] text-[#7a7a72]">
-                    · {m}
-                  </p>
-                ))}
-              </div>
-            </div>
-
             {work.episodesBase && work.episodes ? (
               <div className="tv-episodes relative z-10 bg-[#fbf9f1] px-3 py-2.5 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] md:rotate-[1.5deg]">
                 <span className="tape -top-2.5 right-4 rotate-2" style={{ width: 44, height: 13 }} />

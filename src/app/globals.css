@@ -317,6 +317,12 @@ body {
 }
 /* ===== TV room: one DOM, two very different stages ===== */
 .tv-stage {
+  /* phones: the TV sits in the middle of the screen instead of hugging the top,
+     since the blurb no longer fills the space underneath it */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
   padding: 104px 8px 26px;
 }
 .tv-frame {
