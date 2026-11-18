@@ -133,7 +133,7 @@ export default function Home() {
           </p>
           <h1
             className="hand type font-bold text-marker leading-[1.2]"
-            style={{ fontSize: px(0.033), marginTop: px(0.0132) }}
+            style={{ fontSize: px(0.033), marginTop: px(0.0132), marginLeft: px(0.095) }}
           >
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
@@ -143,9 +143,18 @@ export default function Home() {
             </span>
           </h1>
 
-          {/* four directions, hand-placed */}
-          <div style={{ marginTop: px(0.0235) }}>
-            <div className="flex items-baseline" style={{ columnGap: px(0.0088) }}>
+          {/* four directions, two columns: animation+design left, AIGC+video right */}
+          <div
+            style={{
+              marginTop: px(0.0235),
+              display: "grid",
+              gridTemplateColumns: "max-content max-content",
+              columnGap: px(0.046),
+              rowGap: px(0.006),
+              alignItems: "baseline",
+            }}
+          >
+            <div className="flex items-baseline -rotate-2" style={{ columnGap: px(0.0088) }}>
               <span
                 className="hand font-bold text-ink-blue leading-[1.5]"
                 style={{ fontSize: px(0.0264) }}
@@ -158,20 +167,18 @@ export default function Home() {
               >
                 Animation
               </span>
+            </div>
+            <div className="flex items-baseline" style={{ columnGap: px(0.0088) }}>
               <span
                 className="hand zh font-bold text-ink-blue leading-[1.4] -rotate-6"
-                style={{ fontSize: px(0.022), marginLeft: px(0.0264) }}
+                style={{ fontSize: px(0.022) }}
               >
                 AIGC
               </span>
             </div>
             <div
-              className="flex items-baseline -rotate-2 inline-block"
-              style={{
-                columnGap: px(0.0088),
-                marginLeft: px(0.0264),
-                marginTop: px(0.0088),
-              }}
+              className="flex items-baseline rotate-1"
+              style={{ columnGap: px(0.0088), marginLeft: px(0.014), marginTop: px(0.004) }}
             >
               <span
                 className="hand font-bold text-ink-blue leading-[1.5]"
@@ -187,12 +194,8 @@ export default function Home() {
               </span>
             </div>
             <div
-              className="flex items-baseline rotate-1 inline-block"
-              style={{
-                columnGap: px(0.0088),
-                marginLeft: px(0.019),
-                marginTop: px(0.0088),
-              }}
+              className="flex items-baseline rotate-1"
+              style={{ columnGap: px(0.0088), marginLeft: px(0.006), marginTop: px(0.004) }}
             >
               <span
                 className="hand font-bold text-ink-blue leading-[1.5]"
@@ -213,7 +216,7 @@ export default function Home() {
         {/* two decorative polaroids on the left page — kept low so they don't cover text */}
         <div
           className="absolute hidden md:block"
-          style={{ left: "11%", bottom: "2%", transform: "rotate(-4deg)" }}
+          style={{ left: "11%", bottom: "8%", transform: "rotate(-4deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.webp"
@@ -227,7 +230,7 @@ export default function Home() {
         </div>
         <div
           className="absolute hidden md:block"
-          style={{ left: "24%", bottom: "2%", transform: "rotate(5deg)" }}
+          style={{ left: "24%", bottom: "8%", transform: "rotate(5deg)" }}
         >
           <img
             src="/assets/scrapbook/polaroid.webp"
