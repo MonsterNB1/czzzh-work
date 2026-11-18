@@ -16,10 +16,10 @@ export default function Home() {
         <div className="relative bg-[#fbfaf4] border border-[#e6e0cf] shadow-[0_20px_44px_-20px_rgba(60,45,25,0.5)] rotate-[-0.7deg] px-6 pt-9 pb-8">
           <span className="tape -top-2 left-10 -rotate-2" style={{ width: 58, height: 14 }} />
 
-          <p className="hand font-bold text-marker leading-[0.9] text-[64px]">
+          <p className="hand type font-bold text-marker leading-[0.9] text-[64px]">
             Hi<span className="text-[22px] align-super">～</span>
           </p>
-          <h1 className="hand font-bold text-marker text-[22px] mt-3 leading-[1.3]">
+          <h1 className="hand type font-bold text-marker text-[22px] mt-3 leading-[1.3]">
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
               <span className="inline-block -rotate-3">蔡</span>
@@ -34,18 +34,18 @@ export default function Home() {
               ["设计", "Design"],
               ["视频", "Video"],
               ["AIGC", ""],
-            ].map(([zh, en]) => (
+            ].map(([zh, en], i) => (
               <div key={zh} className="flex items-baseline gap-1.5">
-                <span className="hand font-bold text-ink-blue text-[17px] leading-[1.4]">
+                <span className={`hand font-bold text-ink-blue text-[17px] leading-[1.4]${i === 3 ? " zh" : ""}`}>
                   {zh}
                 </span>
-                {en && <span className="note text-[#2b2b2b] text-[12px] leading-[1.4]">{en}</span>}
+                {en && <span className="note type text-[#2b2b2b] text-[12px] leading-[1.4]">{en}</span>}
               </div>
             ))}
           </div>
 
-          <p className="note text-[13px] leading-[1.65] text-[#2b2b2b] mt-7">
-            I&apos;m a multidisciplinary creative working across animation, design and post —
+          <p className="note type text-[13px] leading-[1.65] text-[#2b2b2b] mt-7">
+            I&apos;m a multidisciplinary creative working across animation, design and post --
             strong visuals, thoughtful storytelling.
           </p>
 
@@ -80,7 +80,7 @@ export default function Home() {
               decoding="async"
               className="photo-shadow w-[62%] h-auto block"
             />
-            <span className="note text-[13px] text-[#2b2b2b] mt-3 group-hover:text-marker">
+            <span className="note type text-[13px] text-[#2b2b2b] mt-3 group-hover:text-marker">
               try changing the channel →
             </span>
           </Link>
@@ -126,13 +126,13 @@ export default function Home() {
         {/* big "Hi, I'm" + smaller name, left aligned */}
         <div className="absolute" style={{ left: "13%", top: "13%" }}>
           <p
-            className="hand font-bold text-marker leading-none"
+            className="hand type font-bold text-marker leading-none"
             style={{ fontSize: px(0.0792) }}
           >
             Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
           </p>
           <h1
-            className="hand font-bold text-marker leading-[1.2]"
+            className="hand type font-bold text-marker leading-[1.2]"
             style={{ fontSize: px(0.033), marginTop: px(0.0132) }}
           >
             I&apos;m{" "}
@@ -153,13 +153,13 @@ export default function Home() {
                 动画
               </span>
               <span
-                className="note text-[#2b2b2b] leading-[1.5]"
+                className="note type text-[#2b2b2b] leading-[1.5]"
                 style={{ fontSize: px(0.0176) }}
               >
                 Animation
               </span>
               <span
-                className="hand font-bold text-ink-blue leading-[1.4] -rotate-6"
+                className="hand zh font-bold text-ink-blue leading-[1.4] -rotate-6"
                 style={{ fontSize: px(0.022), marginLeft: px(0.0264) }}
               >
                 AIGC
@@ -180,7 +180,7 @@ export default function Home() {
                 设计
               </span>
               <span
-                className="note text-[#2b2b2b] leading-[1.5]"
+                className="note type text-[#2b2b2b] leading-[1.5]"
                 style={{ fontSize: px(0.0176) }}
               >
                 Design
@@ -201,7 +201,7 @@ export default function Home() {
                 视频
               </span>
               <span
-                className="note text-[#2b2b2b] leading-[1.5]"
+                className="note type text-[#2b2b2b] leading-[1.5]"
                 style={{ fontSize: px(0.0176) }}
               >
                 Video
@@ -246,11 +246,11 @@ export default function Home() {
           style={{ left: "55%", top: "17%", width: "30%" }}
         >
           <p
-            className="note leading-relaxed text-[#2b2b2b] text-left"
+            className="note type leading-relaxed text-[#2b2b2b] text-left"
             style={{ fontSize: px(0.0143) }}
           >
             I&apos;m a multidisciplinary creative working across animation, design
-            and post — strong visuals, thoughtful storytelling.
+            and post -- strong visuals, thoughtful storytelling.
           </p>
         </div>
 
@@ -281,7 +281,7 @@ export default function Home() {
             </div>
             <Link
               href="/works"
-              className="note absolute text-[#2b2b2b] hover:text-marker"
+              className="note type absolute text-[#2b2b2b] hover:text-marker"
               style={{
                 left: "18%",
                 top: "36%",

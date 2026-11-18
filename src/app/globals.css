@@ -98,13 +98,15 @@ body {
   letter-spacing: 0.02em;
 }
 /* pure-Latin lines: the typewriter face plus the loose spacing a typewriter gives them */
-.page-type .type {
+.type {
   font-family: "PunkTypewriter", "MixedHand", "SmileySans", "PingFang SC", system-ui, cursive;
   letter-spacing: 0.06em;
 }
 /* category tabs read as Chinese labels even when the word is capitalised Latin */
-.page-type .zh {
-  font-family: "MixedHand", "SmileySans", "PingFang SC", system-ui, cursive;
+/* a Latin word that should read on the Chinese face (AIGC) */
+.zh {
+  font-family: "SmileySans", "PingFang SC", system-ui, sans-serif;
+  letter-spacing: normal;
 }
 
 /* tape strip look for polaroids */

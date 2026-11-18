@@ -306,7 +306,7 @@ export default function WorksPage() {
 
         <div className="mt-14 flex justify-between note text-[12px] text-ink-soft">
           <span className="type">© 2026 Czzzh</span>
-          <span className="type">Hangzhou — China</span>
+          <span className="type">Hangzhou -- China</span>
         </div>
       </div>
 
