@@ -140,7 +140,7 @@ function AnimationIndex({
                   </picture>
                 ) : null}
               </div>
-              <div className="hand text-[9px] md:text-[10px] text-marker leading-none text-center absolute left-1 right-1 bottom-[6px] md:bottom-[8px]">
+              <div className="hand type text-[10px] md:text-[11px] text-marker leading-none text-center absolute left-1 right-1 bottom-[6px] md:bottom-[8px]">
                 NO.{i + 1}
               </div>
             </div>
@@ -151,7 +151,7 @@ function AnimationIndex({
               <h2 className="hand text-[22px] md:text-[28px] font-bold text-ink-blue leading-none">
                 {it.title}
               </h2>
-              <span className="note text-[10px] md:text-[11px] text-[#6f6f66]">{it.en}</span>
+              <span className="note type text-[11px] md:text-[12.5px] text-[#6f6f66]">{it.en}</span>
             </div>
             <p className="note text-[12px] md:text-[13.5px] leading-[1.65] text-[#2f2f2c] mt-2">
               {it.desc}
@@ -242,7 +242,7 @@ export default function WorksPage() {
         <div key={current.key} className="mt-5 bg-[#f9faf5] border border-[#e6e0cf] shadow-[0_18px_40px_-20px_rgba(60,45,25,0.45)] px-4 pt-8 pb-10 sheet-content">
           <div className="flex items-baseline justify-center gap-2.5">
             <h1 className="hand text-[34px] font-bold text-ink-blue leading-none">{current.title}</h1>
-            <span className="note text-[11px] text-[#6f6f66]">{current.en}</span>
+            <span className="note type text-[11px] text-[#6f6f66]">{current.en}</span>
           </div>
 
           {current.key === "animation" ? (
@@ -305,8 +305,8 @@ export default function WorksPage() {
         </Link>
 
         <div className="mt-14 flex justify-between note text-[12px] text-ink-soft">
-          <span>© 2026 Czzzh</span>
-          <span>Hangzhou — China</span>
+          <span className="type">© 2026 Czzzh</span>
+          <span className="type">Hangzhou — China</span>
         </div>
       </div>
 
@@ -376,7 +376,7 @@ export default function WorksPage() {
           {/* category as the page title */}
           <div className="flex items-baseline justify-center gap-3">
             <h1 className="hand text-5xl sm:text-6xl font-bold text-ink-blue">{current.title}</h1>
-            <span className="note text-[13px] text-[#6f6f66]">{current.en}</span>
+            <span className="note type text-[13px] text-[#6f6f66]">{current.en}</span>
           </div>
 
           {current.key === "animation" ? (
