@@ -69,7 +69,7 @@ export default function WorkWall({ work }: { work: WorkData }) {
               className={i % 2 === 1 ? "md:translate-y-6" : ""}
             >
               <div
-                className="polaroid-card"
+                className="polaroid-card group relative block"
                 style={{ rotate: `${tilts[i % tilts.length]}deg`, paddingBottom: 11 }}
               >
                 <span className="tape -top-2.5 left-1/2 -translate-x-1/2 -rotate-2" style={{ width: 46, height: 12 }} />
@@ -84,6 +84,22 @@ export default function WorkWall({ work }: { work: WorkData }) {
                   loading={i < 2 ? "eager" : "lazy"}
                   decoding="async"
                 />
+                {/* the film itself lives on the platform that published it */}
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${c.caption} — 去${c.platform ?? "原片"}看`}
+                    className="absolute inset-0 z-10 flex items-center justify-center outline-none"
+                  >
+                    <span className="pointer-events-none absolute inset-0 bg-[rgba(20,18,14,0.42)] opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100" />
+                    <span className="pointer-events-none relative flex items-center gap-1.5 rounded-full bg-[#fbf9f1]/95 px-3.5 py-1.5 text-[10.5px] tracking-wide text-[#2f2f2c] opacity-0 shadow-[0_8px_18px_-8px_rgba(40,30,20,0.6)] transition-all duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 group-hover:scale-105 md:text-[11.5px]">
+                      <i className="inline-block h-0 w-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-[#f25d8e]" aria-hidden />
+                      播放 · {c.platform ?? "原片"} ↗
+                    </span>
+                  </a>
+                ) : null}
                 <figcaption className="hand mt-1.5 text-[9.5px] leading-[1.25] text-[#4a4a44] md:text-[10.5px]">
                   {c.caption}
                 </figcaption>
@@ -126,7 +142,7 @@ export default function WorkWall({ work }: { work: WorkData }) {
         ) : null}
 
         <p className="note mt-8 text-[11px] leading-[1.7] text-[#7d7d73] md:text-[12px]">
-          片子发布在 B 站和微信公众号，站内没有存档。
+          点开封面直接跳到原片。片子发布在 B 站和微信公众号，站内不做存档。
         </p>
       </main>
     </div>

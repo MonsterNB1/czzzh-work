@@ -5,7 +5,14 @@
 export type WorkChapter = { label: string; src: string; poster?: string };
 
 /** a cover that stands in for a film hosted somewhere else */
-export type WallCover = { img: string; thumb: string; caption: string };
+export type WallCover = {
+  img: string;
+  thumb: string;
+  caption: string;
+  /** the film's own page on the platform that published it */
+  href?: string;
+  platform?: string;
+};
 
 /** for a series that only ever published on bilibili / wechat: the covers are the work */
 export type WorkWall = {
@@ -223,27 +230,36 @@ export const works: Record<string, WorkData> = {
     meta: ["竖版封面 / 信息图", "B 站 · 微信公众号"],
     shape: "portrait",
     cover: "/assets/works/qidi/qidi-01.webp",
+    external: "https://space.bilibili.com/1880825157",
     wall: {
       covers: [
         {
           img: "/assets/works/qidi/qidi-01.webp",
           thumb: "/assets/works/qidi/qidi-01-400.webp",
           caption: "实地调查：美企在中国到底活得如何？",
+          href: "https://www.bilibili.com/video/BV1Zx4y1873e/",
+          platform: "B站",
         },
         {
           img: "/assets/works/qidi/qidi-02.webp",
           thumb: "/assets/works/qidi/qidi-02-400.webp",
           caption: "还原真相！揭穿菲律宾在中国南海的骗局",
+          href: "https://www.bilibili.com/video/BV1b4421D7mZ/",
+          platform: "B站",
         },
         {
           img: "/assets/works/qidi/qidi-03.webp",
           thumb: "/assets/works/qidi/qidi-03-400.webp",
           caption: "好消息：我们的账号解封了！",
+          href: "https://www.bilibili.com/video/BV1V1421t7ge/",
+          platform: "B站",
         },
         {
           img: "/assets/works/qidi/qidi-04.webp",
           thumb: "/assets/works/qidi/qidi-04-400.webp",
           caption: "“中国”竟然成为美国立法关键词？",
+          href: "https://www.bilibili.com/video/BV1TrpLe6EDZ/",
+          platform: "B站",
         },
       ],
       strip: "/assets/works/qidi/qidi-strip.webp",
