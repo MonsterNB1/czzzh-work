@@ -409,6 +409,19 @@ body {
     transform: rotate(360deg);
   }
 }
+/* the cover wall drifts upward; two copies of the strip make the loop seamless */
+@keyframes qidiDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.qidi-drift {
+  animation: qidiDrift 90s linear infinite;
+  will-change: transform;
+}
+.qidi-window:hover .qidi-drift {
+  animation-play-state: paused;
+}
+
 .tv-spin {
   animation: tv-spin 0.9s linear infinite;
 }

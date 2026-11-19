@@ -1,4 +1,5 @@
 import WorkRoom, { type Work } from "@/components/WorkRoom";
+import WorkWall from "@/components/WorkWall";
 import { works, type WorkData } from "@/data/works";
 
 export function generateStaticParams() {
@@ -13,6 +14,9 @@ export default async function WorkDetailPage({
   const { slug } = await params;
   const found: WorkData | undefined = works[slug];
   const work: Work = found ?? { title: slug, en: "", cat: "", desc: "", meta: [] };
+
+  // a series published elsewhere has no clip to put in the TV: hang the covers instead
+  if (found?.wall) return <WorkWall work={found} />;
 
   return <WorkRoom work={work} />;
 }

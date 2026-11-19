@@ -4,6 +4,17 @@
 /** a clip that is not numbered ep1..epN: the films and the trailers name their own chapters */
 export type WorkChapter = { label: string; src: string };
 
+/** a cover that stands in for a film hosted somewhere else */
+export type WallCover = { img: string; thumb: string; caption: string };
+
+/** for a series that only ever published on bilibili / wechat: the covers are the work */
+export type WorkWall = {
+  covers: WallCover[];
+  /** one tall collage of everything made that year, shown as a slowly drifting strip */
+  strip?: string;
+  stripNote?: string;
+};
+
 export type WorkData = {
   slug: string;
   title: string;
@@ -23,6 +34,8 @@ export type WorkData = {
   episodes?: number;
   /** clips that carry their own name instead of an episode number */
   chapters?: WorkChapter[];
+  /** no clip on our own storage: the detail page hangs the covers instead of the TV */
+  wall?: WorkWall;
   external?: string;
 };
 
@@ -189,6 +202,42 @@ export const works: Record<string, WorkData> = {
       },
     ],
   },
+  qidi: {
+    slug: "qidi",
+    title: "中国日报 · 起底工作室",
+    en: "MEDIA UNLOCKED · 2024",
+    cat: "视频",
+    desc: "中国日报的对外传播栏目，一期一条，竖版发在 B 站和微信公众号。做的是封面和信息图——在信息流里只占那么小一格，标题得在那格上就认得出来。",
+    meta: ["竖版封面 / 信息图", "B 站 · 微信公众号"],
+    shape: "portrait",
+    cover: "/assets/works/qidi/qidi-01.webp",
+    wall: {
+      covers: [
+        {
+          img: "/assets/works/qidi/qidi-01.webp",
+          thumb: "/assets/works/qidi/qidi-01-400.webp",
+          caption: "实地调查：美企在中国到底活得如何？",
+        },
+        {
+          img: "/assets/works/qidi/qidi-02.webp",
+          thumb: "/assets/works/qidi/qidi-02-400.webp",
+          caption: "还原真相！揭穿菲律宾在中国南海的骗局",
+        },
+        {
+          img: "/assets/works/qidi/qidi-03.webp",
+          thumb: "/assets/works/qidi/qidi-03-400.webp",
+          caption: "好消息：我们的账号解封了！",
+        },
+        {
+          img: "/assets/works/qidi/qidi-04.webp",
+          thumb: "/assets/works/qidi/qidi-04-400.webp",
+          caption: "“中国”竟然成为美国立法关键词？",
+        },
+      ],
+      strip: "/assets/works/qidi/qidi-strip.webp",
+      stripNote: "2024 一年做的封面，这里是一部分。",
+    },
+  },
   shenzhen: {
     slug: "shenzhen",
     title: "深圳机场乘机码",
@@ -214,6 +263,7 @@ export const videoOrder = [
   "midea",
   "alibaba_tech",
   "quzhu_videos",
+  "qidi",
   "shenzhen",
 ] as const;
 

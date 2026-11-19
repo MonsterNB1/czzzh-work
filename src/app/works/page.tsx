@@ -18,6 +18,8 @@ type Item = {
   href?: string;
   /** explicit narrow-screen variant of the cover */
   thumb?: string;
+  /** replaces "打开电视 · 播放" when the entry opens onto something other than a player */
+  cta?: string;
 };
 
 type Section = {
@@ -52,6 +54,7 @@ const videoItems: Item[] = videoOrder.map((slug) => {
     desc: w.desc,
     meta: w.meta,
     shape: w.shape,
+    cta: w.wall ? "看封面墙" : undefined,
   };
 });
 
@@ -181,7 +184,11 @@ function AnimationIndex({
                 className="inline-block w-0 h-0 border-y-[5px] border-y-transparent border-l-[8px] border-l-current"
                 aria-hidden
               />
-              打开电视<span className="zh"> · </span>播放
+              {it.cta ?? (
+                <>
+                  打开电视<span className="zh"> · </span>播放
+                </>
+              )}
             </span>
             </div>
           </div>
