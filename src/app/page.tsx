@@ -281,6 +281,9 @@ export default function Home() {
             top: "46%",
             width: "24.6%",
             transform: "translateX(-50%)",
+            // the TV stand runs past the bottom edge of the paper; clip it at
+            // the sheet edge without touching the TV's size or position
+            clipPath: "inset(0 0 20.8% 0)",
           }}
         >
           <div className="relative">
