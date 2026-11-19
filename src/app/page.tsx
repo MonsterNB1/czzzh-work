@@ -284,33 +284,31 @@ export default function Home() {
           }}
         >
           <div className="relative">
-            <div className="overflow-hidden" style={{ aspectRatio: "0.982" }}>
-              <picture className="block w-full">
-                <source media="(min-width: 768px)" srcSet="/assets/scrapbook/retro-tv.webp" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/assets/blank.svg"
-                  alt=""
-                  width={641}
-                  height={855}
-                  className="photo-shadow w-full h-auto block"
-                  decoding="async"
-                />
-              </picture>
-              {/* live clip playing inside the TV glass */}
-              <div
-                className="absolute"
-                style={{
-                  left: "8.6%",
-                  top: "7.0%",
-                  width: "59.3%",
-                  height: "38.0%",
-                  borderRadius: "11% / 9%",
-                  overflow: "hidden",
-                }}
-              >
-                <TVScreen />
-              </div>
+            <picture className="block w-full">
+              <source media="(min-width: 768px)" srcSet="/assets/scrapbook/retro-tv.webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/blank.svg"
+                alt=""
+                width={641}
+                height={855}
+                className="photo-shadow w-full h-auto block"
+                decoding="async"
+              />
+            </picture>
+            {/* live clip playing inside the TV glass */}
+            <div
+              className="absolute"
+              style={{
+                left: "8.6%",
+                top: "7.0%",
+                width: "59.3%",
+                height: "38.0%",
+                borderRadius: "11% / 9%",
+                overflow: "hidden",
+              }}
+            >
+              <TVScreen />
             </div>
             <Link
               href="/works"
