@@ -15,7 +15,7 @@ export type Work = {
   episodesBase?: string;
   episodes?: number;
   /** clips that name themselves instead of numbering an episode */
-  chapters?: { label: string; src: string }[];
+  chapters?: { label: string; src: string; poster?: string }[];
   external?: string;
 };
 
@@ -25,16 +25,23 @@ export default function WorkRoom({ work }: { work: Work }) {
   const [buffering, setBuffering] = useState(false);
   const [failed, setFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  // the element the browser is actually streaming from, kept separately so we
+  // can still silence it on the way out even after React detaches the ref
+  const liveVideo = useRef<HTMLVideoElement | null>(null);
 
   const chapters = work.chapters ?? [];
   const chaptered = chapters.length > 0;
   const lastEp = chaptered ? chapters.length : work.episodes ?? 1;
+  const current = chaptered ? chapters[Math.min(ep, lastEp) - 1] : undefined;
+  const chapterThumbs = chaptered && chapters.some((c) => c.poster);
 
   const src = chaptered
-    ? chapters[Math.min(ep, lastEp) - 1].src
+    ? current!.src
     : work.episodesBase && work.episodes
       ? `${work.episodesBase}/ep${ep}.mp4`
       : work.video ?? "";
+
+  const poster = current?.poster ?? work.cover;
 
   const startTv = useCallback(() => {
     setFailed(false);
@@ -66,6 +73,30 @@ export default function WorkRoom({ work }: { work: Work }) {
     if (v.requestFullscreen) v.requestFullscreen().catch(() => {});
     else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
   };
+
+  // a detached <video> keeps its audio pipeline running until the browser gets
+  // round to collecting it, so silence it ourselves on the way out
+  useEffect(() => {
+    const silence = () => {
+      const v = liveVideo.current;
+      if (v && !v.paused) v.pause();
+    };
+    const onHide = () => {
+      if (document.hidden) silence();
+    };
+    window.addEventListener("pagehide", silence);
+    document.addEventListener("visibilitychange", onHide);
+    return () => {
+      window.removeEventListener("pagehide", silence);
+      document.removeEventListener("visibilitychange", onHide);
+      const v = liveVideo.current;
+      if (v) {
+        v.pause();
+        v.removeAttribute("src");
+        v.load();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -138,10 +169,12 @@ export default function WorkRoom({ work }: { work: Work }) {
             {src ? (
               <>
                 <video
-                  key={ep}
-                  ref={videoRef}
+                  ref={(el) => {
+                    videoRef.current = el;
+                    if (el) liveVideo.current = el;
+                  }}
                   src={src}
-                  poster={work.cover}
+                  poster={poster}
                   className="absolute inset-0 w-full h-full object-contain bg-black"
                   controls={playing}
                   playsInline
@@ -257,7 +290,40 @@ export default function WorkRoom({ work }: { work: Work }) {
                   {chaptered ? "分段 Chapters" : "集数 Episodes"}
                 </p>
                 {chaptered ? (
-                  <div className="mt-2 grid grid-cols-2 gap-x-1 gap-y-1 md:mt-1.5 md:gap-x-0.5 md:gap-y-0.5">
+                  chapterThumbs ? (
+                    /* each clip has its own poster: show them, so three films never look like one */
+                    <div className="mt-2 grid grid-cols-3 gap-1">
+                      {chapters.map((c, i) => (
+                        <button
+                          key={c.label}
+                          onClick={() => pickEp(i + 1)}
+                          className={`group rounded-[2px] p-0.5 transition-colors ${
+                            ep === i + 1 ? "bg-[#f3e6d0]" : "hover:bg-[#f7efe0]"
+                          }`}
+                        >
+                          <span className="block overflow-hidden bg-[#e9e4d6] aspect-[3/4]">
+                            {c.poster ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={c.poster}
+                                alt=""
+                                loading="lazy"
+                                className="block h-full w-full object-cover"
+                              />
+                            ) : null}
+                          </span>
+                          <span
+                            className={`hand mt-1 block text-[9px] leading-[1.2] ${
+                              ep === i + 1 ? "text-marker" : "text-[#8a8a80]"
+                            }`}
+                          >
+                            {c.label}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mt-2 grid grid-cols-2 gap-x-1 gap-y-1 md:mt-1.5 md:gap-x-0.5 md:gap-y-0.5">
                     {chapters.map((c, i) => (
                       <button
                         key={c.label}
@@ -270,6 +336,7 @@ export default function WorkRoom({ work }: { work: Work }) {
                       </button>
                     ))}
                   </div>
+                  )
                 ) : (
                   <div className="mt-2 grid grid-cols-6 gap-1 md:mt-1.5 md:gap-0.5">
                     {Array.from({ length: work.episodes ?? 0 }, (_, i) => i + 1).map((n) => (

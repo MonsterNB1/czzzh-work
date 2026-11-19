@@ -2,7 +2,7 @@
 // plays them, and neither keeps its own copy of the blurb.
 
 /** a clip that is not numbered ep1..epN: the films and the trailers name their own chapters */
-export type WorkChapter = { label: string; src: string };
+export type WorkChapter = { label: string; src: string; poster?: string };
 
 /** a cover that stands in for a film hosted somewhere else */
 export type WallCover = { img: string; thumb: string; caption: string };
@@ -177,9 +177,21 @@ export const works: Record<string, WorkData> = {
     shape: "portrait",
     cover: "/assets/works/midea.webp",
     chapters: [
-      { label: "短片 01", src: clip("portfolio/midea-smart-home/video-01.mp4") },
-      { label: "短片 02", src: clip("portfolio/midea-smart-home/video-02.mp4") },
-      { label: "短片 03", src: clip("portfolio/midea-smart-home/video-03.mp4") },
+      {
+        label: "短片 01",
+        src: clip("portfolio/midea-smart-home/video-01.mp4"),
+        poster: clip("portfolio/midea-smart-home/cover-01.png"),
+      },
+      {
+        label: "短片 02",
+        src: clip("portfolio/midea-smart-home/video-02.mp4"),
+        poster: clip("portfolio/midea-smart-home/cover-02.png"),
+      },
+      {
+        label: "短片 03",
+        src: clip("portfolio/midea-smart-home/video-03.mp4"),
+        poster: clip("portfolio/midea-smart-home/cover-03.png"),
+      },
     ],
   },
   alibaba_tech: {
