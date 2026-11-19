@@ -73,6 +73,19 @@ export default function Home() {
 
           <Link href="/works" className="mt-10 flex flex-col items-center group">
             <div className="relative w-[62%]">
+              {/* clip sits behind the artwork and shows through its transparent screen */}
+              <div
+                className="absolute"
+                style={{
+                  left: "8.4%",
+                  top: "5.8%",
+                  width: "62.4%",
+                  height: "41.2%",
+                  overflow: "hidden",
+                }}
+              >
+                <TVScreen mobile />
+              </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/assets/scrapbook/retro-tv-440.webp"
@@ -80,21 +93,8 @@ export default function Home() {
                 width={641}
                 height={855}
                 decoding="async"
-                className="photo-shadow w-full h-auto block"
+                className="photo-shadow relative z-10 w-full h-auto block"
               />
-              <div
-                className="absolute"
-                style={{
-                  left: "9.1%",
-                  top: "8.5%",
-                  width: "57.9%",
-                  height: "38.3%",
-                  borderRadius: "11% / 9%",
-                  overflow: "hidden",
-                }}
-              >
-                <TVScreen mobile />
-              </div>
             </div>
             <span className="note type text-[13px] text-[#2b2b2b] mt-3 group-hover:text-marker">
               try changing the channel →
@@ -287,7 +287,23 @@ export default function Home() {
           }}
         >
           <div className="relative">
-            <picture className="block w-full">
+            {/* live clip playing inside the TV glass — it sits BEHIND the artwork
+                and shows through the artwork's transparent screen, so the bezel
+                itself masks the edges and no white sliver can appear */}
+            <div
+              className="absolute"
+              style={{
+                left: "8.4%",
+                top: "5.8%",
+                width: "62.4%",
+                height: "41.2%",
+                overflow: "hidden",
+              }}
+            >
+              <TVScreen />
+            </div>
+
+            <picture className="relative z-10 block w-full">
               <source media="(min-width: 768px)" srcSet="/assets/scrapbook/retro-tv.webp" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -299,20 +315,7 @@ export default function Home() {
                 decoding="async"
               />
             </picture>
-            {/* live clip playing inside the TV glass */}
-            <div
-              className="absolute"
-              style={{
-                left: "8.6%",
-                top: "7.0%",
-                width: "59.3%",
-                height: "38.0%",
-                borderRadius: "11% / 9%",
-                overflow: "hidden",
-              }}
-            >
-              <TVScreen />
-            </div>
+
             <Link
               href="/works"
               className="note type absolute text-[#2b2b2b] hover:text-marker"
