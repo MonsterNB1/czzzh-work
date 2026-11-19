@@ -14,6 +14,8 @@ export type Work = {
   /** R2 folder holding ep1.mp4 ... epN.mp4 */
   episodesBase?: string;
   episodes?: number;
+  /** clips that name themselves instead of numbering an episode */
+  chapters?: { label: string; src: string }[];
   external?: string;
 };
 
@@ -24,8 +26,13 @@ export default function WorkRoom({ work }: { work: Work }) {
   const [failed, setFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const src =
-    work.episodesBase && work.episodes
+  const chapters = work.chapters ?? [];
+  const chaptered = chapters.length > 0;
+  const lastEp = chaptered ? chapters.length : work.episodes ?? 1;
+
+  const src = chaptered
+    ? chapters[Math.min(ep, lastEp) - 1].src
+    : work.episodesBase && work.episodes
       ? `${work.episodesBase}/ep${ep}.mp4`
       : work.video ?? "";
 
@@ -84,7 +91,9 @@ export default function WorkRoom({ work }: { work: Work }) {
   }, [ep]);
 
   // one extra TLS handshake shaved off the wait between tap and first frame
-  const mediaOrigin = work.episodesBase ?? (work.video ? work.video.slice(0, work.video.lastIndexOf("/")) : "");
+  const mediaOrigin = chaptered
+    ? chapters[0].src.slice(0, chapters[0].src.lastIndexOf("/"))
+    : work.episodesBase ?? (work.video ? work.video.slice(0, work.video.lastIndexOf("/")) : "");
 
   return (
     <div className="grid-bg min-h-screen md:fixed md:inset-0 md:overflow-hidden">
@@ -237,25 +246,45 @@ export default function WorkRoom({ work }: { work: Work }) {
 
           {/* ===== the blurb now lives in the index, so the TV room stays bare ===== */}
           <div className="tv-notes">
-            {work.episodesBase && work.episodes ? (
-              <div className="tv-episodes relative z-10 bg-[#fbf9f1] px-3 py-2.5 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] md:rotate-[1.5deg]">
+            {chaptered || (work.episodesBase && work.episodes) ? (
+              <div
+                className={`tv-episodes relative z-10 bg-[#fbf9f1] px-3 py-2.5 shadow-[0_10px_22px_-10px_rgba(60,45,25,0.55)] md:rotate-[1.5deg] ${
+                  chaptered ? "tv-episodes-wide" : ""
+                }`}
+              >
                 <span className="tape -top-2.5 right-4 rotate-2" style={{ width: 44, height: 13 }} />
                 <p className="hand text-[11px] leading-[1.35] md:text-[clamp(9px,0.8vw,12px)] text-marker">
-                  集数 Episodes
+                  {chaptered ? "分段 Chapters" : "集数 Episodes"}
                 </p>
-                <div className="mt-2 grid grid-cols-6 gap-1 md:mt-1.5 md:gap-0.5">
-                  {Array.from({ length: work.episodes }, (_, i) => i + 1).map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => pickEp(n)}
-                      className={`hand text-[15px] leading-none py-2.5 rounded-[3px] transition-colors md:text-[clamp(9px,0.85vw,12px)] md:py-0.5 md:rounded-[2px] ${
-                        ep === n ? "text-marker bg-[#f3e6d0]" : "text-[#8a8a80] hover:text-ink-blue"
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
+                {chaptered ? (
+                  <div className="mt-2 grid grid-cols-2 gap-x-1 gap-y-1 md:mt-1.5 md:gap-x-0.5 md:gap-y-0.5">
+                    {chapters.map((c, i) => (
+                      <button
+                        key={c.label}
+                        onClick={() => pickEp(i + 1)}
+                        className={`hand text-[10px] leading-[1.25] px-1 py-1.5 rounded-[3px] transition-colors md:text-[clamp(8px,0.72vw,11px)] md:py-0.5 md:rounded-[2px] ${
+                          ep === i + 1 ? "text-marker bg-[#f3e6d0]" : "text-[#8a8a80] hover:text-ink-blue"
+                        }`}
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-2 grid grid-cols-6 gap-1 md:mt-1.5 md:gap-0.5">
+                    {Array.from({ length: work.episodes ?? 0 }, (_, i) => i + 1).map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => pickEp(n)}
+                        className={`hand text-[15px] leading-none py-2.5 rounded-[3px] transition-colors md:text-[clamp(9px,0.85vw,12px)] md:py-0.5 md:rounded-[2px] ${
+                          ep === n ? "text-marker bg-[#f3e6d0]" : "text-[#8a8a80] hover:text-ink-blue"
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : null}
 

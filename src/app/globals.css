@@ -395,6 +395,12 @@ body {
     margin-top: 30%;
     margin-right: 19%;
   }
+  /* a chapter list carries more names than an episode grid, so the note spreads out a little */
+  .tv-episodes-wide {
+    margin-top: 22%;
+    margin-right: 6%;
+    min-width: 178px;
+  }
 }
 
 /* the "still tuning in" ring shown while the first frame arrives */

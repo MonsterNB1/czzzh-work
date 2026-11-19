@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { animationOrder, works } from "@/data/works";
+import { animationOrder, videoOrder, works } from "@/data/works";
 import { designOrder, designs } from "@/data/designs";
 
 type Item = {
@@ -41,8 +41,21 @@ const animationItems: Item[] = animationOrder.map((slug) => {
   };
 });
 
-const designItems: (Item & { group: string })[] = designOrder.map((slug) => {
-  const d = designs[slug];
+// the clips read top to bottom in videoOrder, same shape as the films
+const videoItems: Item[] = videoOrder.map((slug) => {
+  const w = works[slug];
+  return {
+    title: w.title,
+    cover: w.cover,
+    slug: w.slug,
+    en: w.en,
+    desc: w.desc,
+    meta: w.meta,
+    shape: w.shape,
+  };
+});
+
+const designItems: (Item & { group: string })[] = designOrder.map((slug) => {  const d = designs[slug];
   return {
     title: d.title,
     cover: d.cover,
@@ -76,19 +89,7 @@ const sections: Section[] = [
     key: "video",
     title: "视频",
     en: "Video",
-    groups: [
-      {
-        items: [
-          { title: "中国日报 · 起底工作室" },
-          { title: "绿城 · 江澜鸣翠" },
-          { title: "阿里国际站采购节" },
-          { title: "支付宝广告开场片" },
-          { title: "中国美院毕业季" },
-          { title: "美的智慧家" },
-          { title: "阿里黑科技" },
-        ],
-      },
-    ],
+    groups: [{ items: videoItems }],
   },
   {
     key: "aigc",
@@ -257,7 +258,7 @@ export default function WorksPage() {
             <span className="note type text-[11px] text-[#6f6f66]">{current.en}</span>
           </div>
 
-          {current.key === "animation" ? (
+          {current.key === "animation" || current.key === "video" ? (
             <AnimationIndex items={current.groups[0].items} open={open} mode="phone" />
           ) : (
           <div className="mt-7 space-y-8">
@@ -391,7 +392,7 @@ export default function WorksPage() {
             <span className="note type text-[13px] text-[#6f6f66]">{current.en}</span>
           </div>
 
-          {current.key === "animation" ? (
+          {current.key === "animation" || current.key === "video" ? (
             <AnimationIndex items={current.groups[0].items} open={open} mode="desktop" />
           ) : (
           <div className="mt-14 space-y-12">
