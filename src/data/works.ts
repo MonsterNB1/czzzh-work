@@ -169,6 +169,26 @@ export const works: Record<string, WorkData> = {
       { label: "短片 03", src: clip("portfolio/midea-smart-home/video-03.mp4") },
     ],
   },
+  alibaba_tech: {
+    slug: "alibaba_tech",
+    title: "阿里黑科技",
+    en: "EXPLAINER SERIES · 2024",
+    cat: "视频",
+    desc: "六分钟一条的科普短视频，拼贴素材加快节奏的字幕卡，把一件事讲到底。一条讲 AI 写歌和音乐版权之争，一条讲人生照片到底该存在哪。",
+    meta: ["科普短视频 / 视觉与动效", "B站发布"],
+    shape: "landscape",
+    cover: "/assets/works/alibaba-tech.webp",
+    chapters: [
+      {
+        label: "AI 与音乐版权",
+        src: clip("portfolio/alibaba-tech/ai-music-copyright.mp4"),
+      },
+      {
+        label: "照片存去哪里",
+        src: clip("portfolio/alibaba-tech/photo-storage.mp4"),
+      },
+    ],
+  },
   shenzhen: {
     slug: "shenzhen",
     title: "深圳机场乘机码",
@@ -192,6 +212,7 @@ export const videoOrder = [
   "alipay",
   "cafa",
   "midea",
+  "alibaba_tech",
   "quzhu_videos",
   "shenzhen",
 ] as const;
