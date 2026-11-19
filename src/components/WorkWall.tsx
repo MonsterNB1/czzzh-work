@@ -33,7 +33,7 @@ export default function WorkWall({ work }: { work: WorkData }) {
 
       <main className="mx-auto w-full max-w-[1180px] px-5 pt-24 pb-16 md:px-8 md:pt-24 md:pb-20">
         {/* the header note, pinned like everything else on this site */}
-        <div className="relative inline-block max-w-full bg-[#fbf9f1] px-4 py-3.5 shadow-[0_16px_30px_-16px_rgba(60,45,25,0.6)] rotate-[-0.6deg] md:px-5 md:py-4">
+        <div className="relative inline-block w-full max-w-[600px] bg-[#fbf9f1] px-4 py-3.5 shadow-[0_16px_30px_-16px_rgba(60,45,25,0.6)] rotate-[-0.6deg] md:px-5 md:py-4">
           <span className="tape -top-3 left-6 -rotate-3" style={{ width: 52, height: 14 }} />
           <p className="note type text-[10px] md:text-[11px] text-[#7d7d73]">{work.en}</p>
           <h1 className="zh mt-1 text-[22px] leading-tight text-ink-blue md:text-[28px]">
@@ -49,6 +49,19 @@ export default function WorkWall({ work }: { work: WorkData }) {
               </span>
             ))}
           </div>
+          {work.facts?.length ? (
+            <dl className="mt-3 grid gap-y-1.5 border-t border-dashed border-[#d6cdb8] pt-2.5">
+              {work.facts.map((f) => (
+                <div
+                  key={f.k}
+                  className="flex gap-2.5 text-[10.5px] leading-[1.7] md:text-[11.5px]"
+                >
+                  <dt className="note w-[4.5em] shrink-0 text-[#8d8b7f]">{f.k}</dt>
+                  <dd className="text-[#2f2f2c]">{f.v}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
           {work.external ? (
             <a
               href={work.external}

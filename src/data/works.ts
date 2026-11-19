@@ -43,6 +43,8 @@ export type WorkData = {
   chapters?: WorkChapter[];
   /** no clip on our own storage: the detail page hangs the covers instead of the TV */
   wall?: WorkWall;
+  /** a few hard facts, set as a small definition list on the wall page */
+  facts?: { k: string; v: string }[];
   external?: string;
 };
 
@@ -224,10 +226,28 @@ export const works: Record<string, WorkData> = {
   qidi: {
     slug: "qidi",
     title: "中国日报 · 起底工作室",
-    en: "MEDIA UNLOCKED · 2024",
+    en: "MEDIA UNLOCKED · NEWS VIDEO",
     cat: "视频",
-    desc: "中国日报的对外传播栏目，一期一条，竖版发在 B 站和微信公众号。做的是封面和信息图——在信息流里只占那么小一格，标题得在那格上就认得出来。",
-    meta: ["竖版封面 / 信息图", "B 站 · 微信公众号"],
+    desc: "中国日报社旗下的短视频与纪录片团队，做的是国际舆论场上的调查报道——查信源、跑现场、把西方媒体说不圆的地方逐条核。一期一个议题，封面要在信息流里巴掌大的一格里把话说完，所以每期都做了好几版。",
+    meta: ["调查类短视频 / 纪录片", "竖版封面 / 信息图"],
+    facts: [
+      {
+        k: "代表作",
+        v: "《我在人民大会堂里放了个软饼干》、《被误解的崛起》系列纪录片（三集）",
+      },
+      {
+        k: "体量",
+        v: "单个视频号年流量破 2600 万，纪录片在海内外全平台累计近 2 亿播放",
+      },
+      {
+        k: "我的环节",
+        v: "前期策划、视频分镜、现场拍摄、剪辑，以及每期封面的多版本尝试",
+      },
+      {
+        k: "分发",
+        v: "B 站「甲15号研究所」、微信公众号、TikTok @MediaUnlock",
+      },
+    ],
     shape: "portrait",
     cover: "/assets/works/qidi/qidi-01.webp",
     external: "https://space.bilibili.com/1880825157",
