@@ -218,6 +218,146 @@ function AnimationIndex({
   );
 }
 
+/** the design / stills index: one project per row, the cover blown up to the sheet width */
+function ProjectIndex({
+  groups,
+  open,
+  mode,
+}: {
+  groups: { label?: string; items: Item[] }[];
+  open: (e: React.MouseEvent, it: Item) => void;
+  mode: "phone" | "desktop";
+}) {
+  const tilts = [-1.1, 0.8, -0.6, 1.2, -0.9];
+
+  return (
+    <div className="mt-8 md:mt-12 space-y-10 md:space-y-14">
+      {groups.map((g, gi) => {
+        const withCover = g.items.filter((it) => it.cover);
+        const bare = g.items.filter((it) => !it.cover);
+        return (
+          <section key={g.label ?? gi}>
+            {g.label ? (
+              <div className="hand text-[13px] md:text-[15px] text-marker mb-4 md:mb-6">{g.label}</div>
+            ) : null}
+            <div className="space-y-9 md:space-y-12">
+              {withCover.map((it, idx) => {
+                const href = it.href ?? (it.slug ? `/works/${it.slug}` : undefined);
+                return (
+                  <Link
+                    key={it.title}
+                    href={href ?? "#"}
+                    onClick={(e) => open(e, it)}
+                    className={`group block ${href ? "cursor-pointer" : "cursor-default"}`}
+                  >
+                    <div
+                      className="relative bg-[#fbf9f1] p-[5px] pb-[26px] md:p-[9px] md:pb-[34px] shadow-[0_4px_10px_-4px_rgba(60,45,25,0.35),0_28px_50px_-30px_rgba(60,45,25,0.75)] transition-transform duration-300 ease-out group-hover:-translate-y-1"
+                      style={{ rotate: `${tilts[idx % tilts.length]}deg` }}
+                    >
+                      <span
+                        className="tape -top-2 left-8 rotate-[-3deg]"
+                        style={{ width: 46, height: 12 }}
+                      />
+                      <div className="aspect-[16/9] overflow-hidden bg-[#f1eee3] border border-[#e2dccb]">
+                        <picture className="block w-full h-full">
+                          {mode === "phone" ? (
+                            <source
+                              media="(max-width: 767px)"
+                              srcSet={
+                                it.thumb ??
+                                (it.cover!.startsWith("/")
+                                  ? it.cover!.replace(".webp", "-400.webp")
+                                  : it.cover)
+                              }
+                            />
+                          ) : (
+                            <source media="(min-width: 768px)" srcSet={it.cover} />
+                          )}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src="/assets/blank.svg"
+                            alt={it.title}
+                            loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
+                            decoding="async"
+                            className="block w-full h-full object-contain"
+                          />
+                        </picture>
+                      </div>
+                      <div className="hand type text-[10px] md:text-[11px] text-marker leading-none text-center absolute left-2 right-2 bottom-[8px] md:bottom-[12px]">
+                        NO.{String(idx + 1).padStart(2, "0")}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 md:mt-6">
+                      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <h2 className="hand text-[24px] md:text-[32px] font-bold text-ink-blue leading-none">
+                          {it.title}
+                        </h2>
+                        <span className="note type text-[11px] md:text-[12.5px] text-[#6f6f66]">
+                          {it.en}
+                        </span>
+                      </div>
+                      <p className="note mt-2.5 max-w-[640px] text-[12.5px] leading-[1.7] text-[#2f2f2c] md:text-[14px]">
+                        {it.desc}
+                      </p>
+                      <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1">
+                        {it.meta?.map((m) => (
+                          <span key={m} className="note text-[10.5px] text-[#7d7d73] md:text-[11.5px]">
+                            · {m}
+                          </span>
+                        ))}
+                      </div>
+                      {href ? (
+                        <div className="mt-3.5 flex justify-end">
+                          <span className="inline-flex items-center gap-1.5 hand text-[12px] md:text-[13px] text-marker border-b-2 border-marker/30 pb-0.5 transition-colors group-hover:border-marker group-hover:text-[#a52a2c]">
+                            <span
+                              className="inline-block w-0 h-0 border-y-[5px] border-y-transparent border-l-[8px] border-l-current"
+                              aria-hidden
+                            />
+                            {it.cta ?? "进入项目"}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {bare.length ? (
+              <div className="mt-6 md:mt-8 divide-y divide-dashed divide-[#d9d2bd] border-t border-dashed border-[#d9d2bd]">
+                {bare.map((it) => {
+                  const href = it.href ?? (it.slug ? `/works/${it.slug}` : undefined);
+                  return (
+                    <Link
+                      key={it.title}
+                      href={href ?? "#"}
+                      onClick={(e) => open(e, it)}
+                      className={`group flex items-baseline gap-3 py-3.5 md:gap-4 md:py-4 ${
+                        href ? "cursor-pointer" : "cursor-default"
+                      }`}
+                    >
+                      <h2 className="hand text-[22px] md:text-[26px] font-bold text-ink-blue leading-none">
+                        {it.title}
+                      </h2>
+                      <span className="note type text-[11px] md:text-[12px] text-[#6f6f66]">{it.en}</span>
+                      {href ? (
+                        <span className="ml-auto hand text-[11.5px] md:text-[12.5px] text-marker transition-colors group-hover:text-[#a52a2c]">
+                          {it.cta ?? "查看"} →
+                        </span>
+                      ) : null}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : null}
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
 const TABS_DROP = 30; // idle cards dip down; the active one is pulled back up
 
 export default function WorksPage() {
@@ -288,52 +428,7 @@ export default function WorksPage() {
           {current.key === "animation" || current.key === "video" ? (
             <AnimationIndex items={current.groups[0].items} open={open} mode="phone" />
           ) : (
-          <div className="mt-7 space-y-8">
-            {current.groups.map((g, gi) => (
-              <div key={gi}>
-                {g.label && (
-                  <div className="hand text-[12px] text-marker mb-2.5">{g.label}</div>
-                )}
-                <div className="grid grid-cols-2 gap-x-3 gap-y-5 items-start">
-                  {g.items.map((it, idx) => (
-                    <Link
-                      key={it.title}
-                      href={it.href ?? (it.slug ? `/works/${it.slug}` : "#")}
-                      onClick={(e) => open(e, it)}
-                      className={`group block ${it.href || it.slug ? "cursor-pointer" : "cursor-default"}`}
-                    >
-                      <div
-                        className="polaroid-card"
-                        style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
-                      >
-                        {it.cover ? (
-                          <picture className="block w-full">
-                            <source
-                              media="(max-width: 767px)"
-                              srcSet={it.thumb ?? (it.cover.startsWith("/") ? it.cover.replace(".webp", "-400.webp") : it.cover)}
-                            />
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src="/assets/blank.svg"
-                              alt={it.title}
-                              loading={gi === 0 && idx < 4 ? "eager" : "lazy"}
-                              decoding="async"
-                              className="block w-full h-auto"
-                            />
-                          </picture>
-                        ) : (
-                          <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
-                        )}
-                        <div className="hand text-[10px] text-marker leading-tight text-center absolute left-1 right-1 bottom-[7px]">
-                          {it.title}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+            <ProjectIndex groups={current.groups} open={open} mode="phone" />
           )}
 
         </div>
@@ -422,51 +517,7 @@ export default function WorksPage() {
           {current.key === "animation" || current.key === "video" ? (
             <AnimationIndex items={current.groups[0].items} open={open} mode="desktop" />
           ) : (
-          <div className="mt-14 space-y-12">
-            {current.groups.map((g, gi) => (
-              <div key={gi}>
-                <div className="grid grid-cols-3 gap-x-5 gap-y-8 items-start justify-items-start">
-                  {g.label && (
-                    <div className="col-span-3 hand text-[15px] text-marker mb-1 text-left">
-                      {g.label}
-                    </div>
-                  )}
-                  {g.items.map((it, idx) => (
-                    <Link
-                      key={it.title}
-                      href={it.href ?? (it.slug ? `/works/${it.slug}` : "#")}
-                      onClick={(e) => open(e, it)}
-                      className={`group w-full ${it.href || it.slug ? "cursor-pointer" : "cursor-default"}`}
-                    >
-                      <div
-                        className="polaroid-card"
-                        style={{ rotate: `${[-2.5, 1.8, -1.2, 2.2, -1.6][idx % 5]}deg` }}
-                      >
-                        {it.cover ? (
-                          <picture className="block w-full">
-                            <source media="(min-width: 768px)" srcSet={it.cover} />
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src="/assets/blank.svg"
-                              alt={it.title}
-                              loading={gi === 0 && idx < 3 ? "eager" : "lazy"}
-                              decoding="async"
-                              className="block w-full h-auto"
-                            />
-                          </picture>
-                        ) : (
-                          <div className="w-full aspect-[4/3] bg-[#cfccc1]" />
-                        )}
-                        <div className="hand text-[10px] text-marker leading-tight text-center absolute left-1 right-1 bottom-[9px]">
-                          {it.title}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+            <ProjectIndex groups={current.groups} open={open} mode="desktop" />
           )}
 
         </div>
