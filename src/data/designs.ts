@@ -5,7 +5,12 @@ export type DesignBrief = { label: string; lines: string[] };
 
 export type DesignStat = { value: string; label: string };
 
-export type DesignPlateGroup = { label: string; shots: string[] };
+export type DesignPlateGroup = {
+  label: string;
+  shots: string[];
+  /** how dense the grid runs: 2 / 3 for posters, 4 / 6 for small assets */
+  cols?: 2 | 3 | 4 | 6;
+};
 
 export type DesignData = {
   slug: string;
@@ -111,23 +116,22 @@ export const designs: Record<string, DesignData> = {
     ],
     boards: [`${MEDIA}/design/quzhu/board-01.webp`],
     plates: [
-      { label: "赛季战令宣传封面", shots: series("quzhu", "bp", 3) },
-      {
-        label: "社区更新公告",
-        shots: [4, 5].map((n) => `${MEDIA}/design/quzhu/bp-0${n}.webp`),
-      },
+      { label: "赛季战令宣传封面", shots: series("quzhu", "pass", 4) },
+      { label: "社区更新公告", shots: series("quzhu", "notice", 4) },
       {
         label: "KV · 主视觉",
         shots: [7, 2].map((n) => `${MEDIA}/design/quzhu/kv-0${n}.webp`),
       },
-      { label: "角色展示海报系列", shots: series("quzhu", "ver", 6) },
+      { label: "角色展示海报系列", shots: series("quzhu", "char", 6) },
+      { label: "节日活动海报系列", shots: series("quzhu", "festival", 4) },
+      { label: "游戏月历系列", shots: series("quzhu", "calendar", 7) },
       {
-        label: "节日活动海报系列",
-        shots: [6, 4, 2, 5].map((n) => `${MEDIA}/design/quzhu/poster-0${n}.webp`),
+        label: "游戏内部美术资源 · 表情包 & 聊天表情",
+        shots: series("quzhu", "sticker", 12),
+        cols: 6,
       },
-      { label: "游戏月历系列", shots: series("quzhu", "cal", 3) },
-      { label: "游戏内部美术资源 · 表情包 & 聊天表情", shots: series("quzhu", "emoji", 6) },
-      { label: "游戏周边产品上架", shots: series("quzhu", "merch", 3) },
+      { label: "头像框", shots: series("quzhu", "frame", 3), cols: 4 },
+      { label: "游戏周边产品上架", shots: series("quzhu", "goods", 4), cols: 4 },
       { label: "期刊 & 漫画", shots: series("quzhu", "journal", 5) },
       { label: "线下物料", shots: series("quzhu", "offline", 3) },
     ],

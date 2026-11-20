@@ -6,6 +6,14 @@ import type { DesignData } from "@/data/designs";
 
 const thumbOf = (src: string) => src.replace(/\.webp$/, "-600.webp");
 
+/** plate grids: posters run 2–3 across, small assets 4 or 6 */
+const gridClass = (cols: number = 3) =>
+  cols >= 6
+    ? "grid grid-cols-4 gap-2 md:grid-cols-6 md:gap-3 items-start"
+    : cols === 4
+      ? "grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-3 items-start"
+      : "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 items-start";
+
 /** a design project is a sheet on the table: brief, numbers, then the plates */
 export default function DesignRoom({ work }: { work: DesignData }) {
   const hero = work.hero ?? work.cover;
@@ -218,12 +226,12 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                     <span className="hand type text-[10px] text-[#a8a49a]">{g.shots.length}</span>
                     <span className="flex-1 h-px bg-[#e4dfd0]" />
                   </div>
-                  <div className="columns-2 gap-3 md:columns-3 md:gap-4 [column-fill:balance]">
+                  <div className={gridClass(g.cols)}>
                     {g.shots.map((s, si) => (
                       <button
                         key={s}
                         onClick={() => setFocus([gi, si])}
-                        className="group relative block w-full mb-3 md:mb-4 break-inside-avoid text-left bg-white border border-[#e8e3d4] shadow-[0_10px_26px_-18px_rgba(60,45,25,0.6)] overflow-hidden transition-transform duration-300 hover:-translate-y-0.5"
+                        className="group relative block w-full break-inside-avoid text-left bg-white border border-[#e8e3d4] shadow-[0_10px_26px_-18px_rgba(60,45,25,0.6)] overflow-hidden transition-transform duration-300 hover:-translate-y-0.5"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -231,7 +239,11 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                           alt={`${work.title} ${g.label} ${si + 1}`}
                           loading="lazy"
                           decoding="async"
-                          className="block w-full h-auto max-h-[330px] md:max-h-[470px] object-cover object-top"
+                          className={`block w-full h-auto object-cover object-top ${
+                            (g.cols ?? 3) > 3
+                              ? "max-h-[190px] md:max-h-[230px]"
+                              : "max-h-[330px] md:max-h-[470px]"
+                          }`}
                         />
                       </button>
                     ))}
