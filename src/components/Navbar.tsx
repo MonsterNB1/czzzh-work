@@ -38,10 +38,11 @@ export default function Navbar() {
           solid ? "opacity-100" : "opacity-0"
         }`}
         style={{
+          // frosted rather than opaque: the grid behind stays faintly there, so no seam shows
           background:
-            "linear-gradient(to bottom, #f5f1e6 0%, #f5f1e6 74%, rgba(245,241,230,0.93) 87%, rgba(245,241,230,0) 100%)",
-          backdropFilter: "blur(2px)",
-          WebkitBackdropFilter: "blur(2px)",
+            "linear-gradient(to bottom, rgba(245,241,230,0.97) 0%, rgba(245,241,230,0.94) 62%, rgba(245,241,230,0.88) 80%, rgba(245,241,230,0) 100%)",
+          backdropFilter: "blur(6px) saturate(1.02)",
+          WebkitBackdropFilter: "blur(6px) saturate(1.02)",
         }}
       />
       <header className="fixed top-0 z-50 w-full">
