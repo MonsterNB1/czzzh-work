@@ -239,11 +239,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                           alt={`${work.title} ${g.label} ${si + 1}`}
                           loading="lazy"
                           decoding="async"
-                          className={`block w-full h-auto object-cover object-top ${
-                            (g.cols ?? 3) > 3
-                              ? "max-h-[190px] md:max-h-[230px]"
-                              : "max-h-[330px] md:max-h-[470px]"
-                          }`}
+                          className="block w-full h-auto"
                         />
                       </button>
                     ))}

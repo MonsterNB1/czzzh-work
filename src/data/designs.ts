@@ -122,7 +122,12 @@ export const designs: Record<string, DesignData> = {
         label: "KV · 主视觉",
         shots: [7, 2].map((n) => `${MEDIA}/design/quzhu/kv-0${n}.webp`),
       },
-      { label: "角色展示海报系列", shots: series("quzhu", "char", 6) },
+      {
+        label: "角色展示海报系列",
+        shots: ["char-01", "char-02", "kv-09", "char-04", "char-05", "char-06"].map(
+          (k) => `${MEDIA}/design/quzhu/${k}.webp`,
+        ),
+      },
       { label: "节日活动海报系列", shots: series("quzhu", "festival", 4) },
       { label: "游戏月历系列", shots: series("quzhu", "calendar", 7) },
       {
@@ -132,7 +137,17 @@ export const designs: Record<string, DesignData> = {
       },
       { label: "头像框", shots: series("quzhu", "frame", 3), cols: 4 },
       { label: "游戏周边产品上架", shots: series("quzhu", "goods", 4), cols: 4 },
-      { label: "期刊 & 漫画", shots: series("quzhu", "journal", 5) },
+      { label: "期刊 · 封面", shots: ["zine-01", "zine-03"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`) },
+      {
+        label: "期刊 · 内页长图",
+        shots: ["zine-02", "zine-04"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`),
+        cols: 4,
+      },
+      {
+        label: "四格漫画",
+        shots: ["zine-05", "zine-06", "zine-07"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`),
+        cols: 4,
+      },
       { label: "线下物料", shots: series("quzhu", "offline", 3) },
     ],
   },
