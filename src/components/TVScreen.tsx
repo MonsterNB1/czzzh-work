@@ -22,15 +22,25 @@ function randomSrc(exclude?: string): string {
 export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
+  const [docVisible, setDocVisible] = useState(false);
   const [src, setSrc] = useState<string>(VIDEO_POOL[0]);
   const [phase, setPhase] = useState<"loading" | "play" | "snow">("loading");
+  const [clipCount, setClipCount] = useState(0); // TEMP DEBUG
   const clipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const snowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const seeded = useRef(false);
+  // single source of truth: nothing plays or schedules work unless this is true
+  const running = useRef(false);
 
   const clearTimers = () => {
     if (clipTimer.current) clearTimeout(clipTimer.current);
     if (snowTimer.current) clearTimeout(snowTimer.current);
+  };
+
+  const stopAll = () => {
+    running.current = false;
+    clearTimers();
+    videoRef.current?.pause();
   };
 
   // only the TV visible at the current breakpoint should load a video
@@ -42,12 +52,26 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
     return () => mq.removeEventListener("change", apply);
   }, [mobile]);
 
+  // don't play (or fetch) while the tab sits in the background
+  useEffect(() => {
+    const apply = () => {
+      const visible = document.visibilityState === "visible";
+      setDocVisible(visible);
+      if (!visible) stopAll();
+    };
+    apply();
+    document.addEventListener("visibilitychange", apply);
+    return () => document.removeEventListener("visibilitychange", apply);
+  }, []);
+
   const startClip = useCallback((nextSrc: string) => {
     const v = videoRef.current;
-    if (!v) return;
+    if (!v || !running.current) return;
     setPhase("loading");
     v.load();
     v.onloadedmetadata = () => {
+      // the tab may have gone to the background while metadata was loading
+      if (!running.current || !v) return;
       const dur = v.duration || 60;
       // seek to a random safe position, away from intro / credits
       const start = Math.min(3, dur * 0.1);
@@ -56,13 +80,16 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
       v.muted = true;
       v.play().catch(() => {});
       setPhase("play");
+      setClipCount((c) => c + 1); // TEMP DEBUG
 
       const len = CLIP_MIN + Math.random() * (CLIP_MAX - CLIP_MIN);
       clipTimer.current = setTimeout(() => {
+        if (!running.current) return;
         // cut to snow, then swap to the next clip
         setPhase("snow");
         v.pause();
         snowTimer.current = setTimeout(() => {
+          if (!running.current) return;
           setSrc((prev) => randomSrc(prev));
         }, SNOW_MS);
       }, len * 1000);
@@ -71,28 +98,30 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
 
   // pick a random clip once this screen becomes active
   useEffect(() => {
-    if (!active) return;
+    const shouldRun = active && docVisible;
+    running.current = shouldRun;
+    if (!shouldRun) {
+      stopAll();
+      return;
+    }
     if (!seeded.current) {
       seeded.current = true;
+      running.current = true;
       setSrc(randomSrc());
       return;
     }
+    running.current = true;
     startClip(src);
     return clearTimers;
-  }, [active, src, startClip]);
-
-  // pause and stop timers when this screen hides
-  useEffect(() => {
-    if (!active) {
-      clearTimers();
-      videoRef.current?.pause();
-    }
-  }, [active]);
+  }, [active, docVisible, src, startClip]);
 
   if (!active) return <div className="absolute inset-0" />;
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div
+      className="absolute inset-0 overflow-hidden"
+      data-debug={`${active ? 1 : 0}${docVisible ? 1 : 0}-${clipCount}`}
+    >
       {/* playing clip */}
       <video
         ref={videoRef}
@@ -100,6 +129,10 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
         muted
         playsInline
         preload="metadata"
+        onPlay={() => {
+          // hard guard: nothing keeps playing while hidden or off-breakpoint
+          if (!running.current) videoRef.current?.pause();
+        }}
         className={`h-full w-full object-cover transition-opacity duration-300 ${
           phase === "play" ? "opacity-100" : "opacity-0"
         }`}

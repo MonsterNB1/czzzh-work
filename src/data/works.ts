@@ -321,7 +321,7 @@ export const works: Record<string, WorkData> = {
     meta: ["世界地图 / 角色设定 / 界面 / 包装", "欢乐机制 · 盒装剧本", "4 男 2 女"],
     shape: "portrait",
     cover: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,
-    thumb: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,
+    thumb: `${MEDIA_ROOT}/portfolio/river-gods/poster-520.webp`,
     gallery: [
       {
         src: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,

@@ -243,12 +243,15 @@ function ProjectIndex({
             <div className="space-y-9 md:space-y-12">
               {withCover.map((it, idx) => {
                 const href = it.href ?? (it.slug ? `/works/${it.slug}` : undefined);
+                const portrait = it.shape === "portrait";
                 return (
                   <Link
                     key={it.title}
                     href={href ?? "#"}
                     onClick={(e) => open(e, it)}
-                    className={`group block ${href ? "cursor-pointer" : "cursor-default"}`}
+                    className={`group block ${href ? "cursor-pointer" : "cursor-default"} ${
+                      portrait ? "mx-auto w-full max-w-[400px] md:max-w-[460px]" : ""
+                    }`}
                   >
                     <div
                       className="relative bg-[#fbf9f1] p-[5px] pb-[26px] md:p-[9px] md:pb-[34px] shadow-[0_4px_10px_-4px_rgba(60,45,25,0.35),0_28px_50px_-30px_rgba(60,45,25,0.75)] transition-transform duration-300 ease-out group-hover:-translate-y-1"
@@ -258,8 +261,8 @@ function ProjectIndex({
                         className="tape -top-2 left-8 rotate-[-3deg]"
                         style={{ width: 46, height: 12 }}
                       />
-                      <div className="aspect-[16/9] overflow-hidden bg-[#f1eee3] border border-[#e2dccb]">
-                        <picture className="block w-full h-full">
+                      <div className="overflow-hidden bg-[#f1eee3] border border-[#e2dccb]">
+                        <picture className="block w-full">
                           {mode === "phone" ? (
                             <source
                               media="(max-width: 767px)"
@@ -279,7 +282,7 @@ function ProjectIndex({
                             alt={it.title}
                             loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
                             decoding="async"
-                            className="block w-full h-full object-contain"
+                            className="block w-full h-auto object-contain"
                           />
                         </picture>
                       </div>

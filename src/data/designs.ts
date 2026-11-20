@@ -53,6 +53,12 @@ const MEDIA = (
   "https://pub-99c53aec3f634300b636798977401e47.r2.dev"
 ).replace(/\/monster-diner$/, "");
 
+/** a run of plates that ship inside the repo, under /public/design */
+const local = (slug: string, key: string, count: number) =>
+  Array.from({ length: count }, (_, i) =>
+    `/design/${slug}/${key}-${String(i + 1).padStart(2, "0")}.webp`,
+  );
+
 /** a run of plates uploaded as <slug>/<key>-01.webp, -02.webp ... */
 const series = (slug: string, key: string, count: number) =>
   Array.from({ length: count }, (_, i) =>
@@ -167,23 +173,69 @@ export const designs: Record<string, DesignData> = {
       { label: "品牌标识", shots: series("bluearchive", "brand", 2) },
     ],
   },
-  snk: {
-    slug: "snk",
-    title: "SNK",
-    en: "GAME ART",
-    group: "游戏项目",
-  },
   xiaobingbing: {
     slug: "xiaobingbing",
     title: "小冰冰传奇",
-    en: "GAME ART",
+    sub: "XG 战队 2026 赛季应援物料",
+    en: "ESPORTS SUPPORT KIT",
     group: "游戏项目",
+    credit: "全部物料独立设计 / 制作",
+    desc: "小冰冰传奇成为 XG 战队 2026 赛季官方赞助商，围绕这件事做了一整套应援物料：选手横幅、双面手举牌、稀有收藏卡、角色冰箱贴。",
+    meta: ["应援 KV / 选手横幅", "收藏卡 / 冰箱贴"],
+    cover: "/design/xiaobingbing/xbb-01.webp",
+    thumb: "/design/xiaobingbing/xbb-01-600.webp",
+    plates: [
+      { label: "应援 KV & 手举牌", shots: ["/design/xiaobingbing/xbb-01.webp", "/design/xiaobingbing/xbb-02.webp"] },
+      { label: "选手应援横幅", shots: local("xiaobingbing", "xbb", 7).slice(2) },
+      { label: "稀有收藏卡", shots: local("xiaobingbing", "xbb", 11).slice(7) },
+      { label: "周边", shots: local("xiaobingbing", "xbb", 13).slice(11) },
+      { label: "品牌标识", shots: ["/design/xiaobingbing/xbb-14.webp"] },
+    ],
+  },
+  snk: {
+    slug: "snk",
+    title: "SNK",
+    sub: "ChinaJoy 主视觉",
+    en: "KEY VISUAL · CHINAJOY",
+    group: "游戏项目",
+    credit: "全部物料独立设计 / 制作",
+    desc: "SNK 在 ChinaJoy 的主 K 方向。KOF 群像站在夜色街头，字标压在画面上沿，整张图只做一件事：让人一眼认出来。",
+    meta: ["主 KV 方向稿"],
+    cover: "/design/snk/snk-01.webp",
+    thumb: "/design/snk/snk-01-600.webp",
+    plates: [{ label: "ChinaJoy 主 KV", shots: ["/design/snk/snk-01.webp"] }],
   },
   ro3: {
     slug: "ro3",
     title: "仙境传说 3",
-    en: "GAME ART",
+    sub: "线下展台物料",
+    en: "OFFLINE BOOTH KIT · RO3",
     group: "游戏项目",
+    credit: "全部物料独立设计 / 制作",
+    desc: "仙境传说 3 的线下展台物料。从展台规则牌、通缉令集章、手举牌到一米栏插牌和 logo 贴，玩家从排队到领周边，每一步都有对应的牌子接住。",
+    meta: ["展台规则牌 / 通缉令", "手举牌 / 插牌 / 展台标识"],
+    cover: "/design/ro3/ro3-01.webp",
+    thumb: "/design/ro3/ro3-01-600.webp",
+    plates: [
+      { label: "展台规则牌", shots: local("ro3", "ro3", 4) },
+      { label: "通缉令 · 集章", shots: local("ro3", "ro3", 8).slice(4) },
+      { label: "手举牌", shots: local("ro3", "ro3", 12).slice(8) },
+      { label: "一米栏插牌", shots: local("ro3", "ro3", 14).slice(12) },
+      { label: "展台标识", shots: local("ro3", "ro3", 17).slice(14) },
+    ],
+  },
+  silvercity: {
+    slug: "silvercity",
+    title: "白银之城",
+    sub: "试玩整理券",
+    en: "PLAYTEST TICKET",
+    group: "游戏项目",
+    credit: "全部物料独立设计 / 制作",
+    desc: "白银之城的试玩整理券。蓝紫夜色打底，书名号式的标题压在中间，纸片和标签散在四周，像一张能撕下来的票。",
+    meta: ["整理券 / 试玩券"],
+    cover: "/design/silvercity/yc-01.webp",
+    thumb: "/design/silvercity/yc-01-600.webp",
+    plates: [{ label: "试玩整理券", shots: ["/design/silvercity/yc-01.webp"] }],
   },
   promo: {
     slug: "promo",
@@ -194,4 +246,12 @@ export const designs: Record<string, DesignData> = {
 };
 
 /** the design index reads in exactly this order, grouped the same way */
-export const designOrder = ["quzhu", "bluearchive", "snk", "xiaobingbing", "ro3", "promo"] as const;
+export const designOrder = [
+  "quzhu",
+  "bluearchive",
+  "xiaobingbing",
+  "ro3",
+  "snk",
+  "silvercity",
+  "promo",
+] as const;
