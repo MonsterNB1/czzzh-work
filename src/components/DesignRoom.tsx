@@ -90,14 +90,14 @@ export default function DesignRoom({ work }: { work: DesignData }) {
         <div className="mt-5 bg-[#fbf9f1] border border-[#e6e0cf] shadow-[0_26px_64px_-30px_rgba(60,45,25,0.55)] px-5 pt-6 pb-8 rotate-[-0.3deg] md:px-10 md:pt-9 md:pb-10">
           {/* ===== the printed key visual, pinned on the sheet ===== */}
           {hero ? (
-            <figure className="relative bg-white p-[5px] shadow-[0_16px_30px_-18px_rgba(60,45,25,0.65)] -rotate-[0.5deg] outline outline-1 outline-[#efe9d8] md:p-2 md:-rotate-[0.8deg]">
+            <figure className="relative w-fit max-w-full mx-auto bg-white p-[5px] shadow-[0_16px_30px_-18px_rgba(60,45,25,0.65)] -rotate-[0.5deg] outline outline-1 outline-[#efe9d8] md:p-2 md:-rotate-[0.8deg]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={hero}
                 srcSet={work.heroSmall ? `${work.heroSmall} 1280w, ${hero} 2880w` : undefined}
                 sizes={work.heroSmall ? "(min-width: 1024px) 62vw, 94vw" : undefined}
                 alt={`${work.title} 主视觉`}
-                className="block w-full h-auto"
+                className="block w-auto max-w-full mx-auto h-auto max-h-[440px] md:max-h-[600px] object-contain"
               />
               <span className="tape absolute -top-2 left-8 rotate-[-3deg]" />
               <span className="tape absolute -top-2 right-10 rotate-[4deg]" />
