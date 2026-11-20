@@ -25,7 +25,6 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
   const [docVisible, setDocVisible] = useState(false);
   const [src, setSrc] = useState<string>(VIDEO_POOL[0]);
   const [phase, setPhase] = useState<"loading" | "play" | "snow">("loading");
-  const [clipCount, setClipCount] = useState(0); // TEMP DEBUG
   const clipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const snowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const seeded = useRef(false);
@@ -80,7 +79,6 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
       v.muted = true;
       v.play().catch(() => {});
       setPhase("play");
-      setClipCount((c) => c + 1); // TEMP DEBUG
 
       const len = CLIP_MIN + Math.random() * (CLIP_MAX - CLIP_MIN);
       clipTimer.current = setTimeout(() => {
@@ -118,10 +116,7 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
   if (!active) return <div className="absolute inset-0" />;
 
   return (
-    <div
-      className="absolute inset-0 overflow-hidden"
-      data-debug={`${active ? 1 : 0}${docVisible ? 1 : 0}-${clipCount}`}
-    >
+    <div className="absolute inset-0 overflow-hidden">
       {/* playing clip */}
       <video
         ref={videoRef}
@@ -139,18 +134,37 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
         src={src}
       />
 
-      {/* snow / static transition */}
+      {/* snow / static transition — black field with white noise on top */}
       <div
         className={`absolute inset-0 transition-opacity duration-200 ${
           phase === "snow" ? "opacity-100" : "opacity-0"
         }`}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          backgroundSize: "160px 160px",
-          animation: "tv-snow 0.18s steps(3) infinite",
-        }}
-      />
+        style={{ backgroundColor: "#000" }}
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' fill='%23000'/%3E%3C/svg%3E\")",
+            backgroundSize: "160px 160px",
+            opacity: 0.62,
+            mixBlendMode: "screen",
+            animation: "tv-snow 0.18s steps(3) infinite",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)' fill='%23000'/%3E%3C/svg%3E\")",
+            backgroundSize: "240px 240px",
+            backgroundPosition: "-40px 30px",
+            opacity: 0.3,
+            mixBlendMode: "screen",
+            animation: "tv-snow 0.12s steps(4) infinite",
+          }}
+        />
+      </div>
 
       {/* CRT scanlines + vignette over the glass */}
       <div
