@@ -20,11 +20,16 @@ const gridClass = (cols: number = 3) =>
 export default function DesignRoom({ work }: { work: DesignData }) {
   const hero = work.hero ?? work.cover;
 
-  const groups = work.plates?.length
+  // the plates, minus the case where the only plate is the hero already pinned at the top
+  const rawGroups = work.plates?.length
     ? work.plates
-    : work.cover
+    : work.cover && work.cover !== hero
       ? [{ label: "作品", shots: [work.cover] }]
       : [];
+  const groups =
+    rawGroups.length === 1 && rawGroups[0].shots.length === 1 && rawGroups[0].shots[0] === hero
+      ? []
+      : rawGroups;
 
   // the plate being looked at up close, as [groupIndex, shotIndex]
   const [focus, setFocus] = useState<[number, number] | null>(null);
@@ -87,7 +92,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           回作品集
         </Link>
 
-        <div className="mt-5 bg-[#fbf9f1] border border-[#e6e0cf] shadow-[0_26px_64px_-30px_rgba(60,45,25,0.55)] px-5 pt-6 pb-8 rotate-[-0.3deg] md:px-10 md:pt-9 md:pb-10">
+        <div className="mt-5 min-h-[calc(100vh-9rem)] bg-[#fbf9f1] border border-[#e6e0cf] shadow-[0_26px_64px_-30px_rgba(60,45,25,0.55)] px-5 pt-6 pb-8 rotate-[-0.3deg] md:min-h-[calc(100vh-13rem)] md:px-10 md:pt-9 md:pb-10">
           {/* ===== the printed key visual, pinned on the sheet ===== */}
           {hero ? (
             <figure className="relative w-fit max-w-full mx-auto bg-white p-[5px] shadow-[0_16px_30px_-18px_rgba(60,45,25,0.65)] -rotate-[0.5deg] outline outline-1 outline-[#efe9d8] md:p-2 md:-rotate-[0.8deg]">
@@ -222,9 +227,19 @@ export default function DesignRoom({ work }: { work: DesignData }) {
 
           {/* ===== the plates, one section per kind ===== */}
           {groups.length === 0 ? (
-            <div className="mt-6 aspect-[4/3] flex flex-col items-center justify-center gap-2 bg-[#f4f1e7] border border-[#e8e3d4]">
-              <span className="note text-[13px] text-[#8b8779]">这一页还在整理</span>
-            </div>
+            hero ? (
+              <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <span className="hand text-[13px] md:text-[15px] text-marker whitespace-nowrap">主视觉</span>
+                <span className="hidden h-px bg-[#e4dfd0] md:block md:flex-1" />
+                <span className="note text-[10.5px] leading-relaxed text-[#8b8779] md:text-[11px]">
+                  这一项只有一张主视觉，上面那版就是完整原稿
+                </span>
+              </div>
+            ) : (
+              <div className="mt-6 aspect-[4/3] flex flex-col items-center justify-center gap-2 bg-[#f4f1e7] border border-[#e8e3d4]">
+                <span className="note text-[13px] text-[#8b8779]">这一页还在整理</span>
+              </div>
+            )
           ) : (
             <div className="mt-8 space-y-9">
               {groups.map((g, gi) => (
