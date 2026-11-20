@@ -62,6 +62,14 @@ export default function DesignRoom({ work }: { work: DesignData }) {
 
   return (
     <div className="min-h-screen grid-bg page-type px-4 pt-20 pb-16 md:px-8 md:py-24">
+      {/* this page scrolls a long way, so keep the fixed nav readable */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-30 h-[70px] md:h-[92px]"
+        style={{
+          background:
+            "linear-gradient(to bottom, #f5f1e6 0%, #f5f1e6 64%, rgba(245,241,230,0.86) 82%, rgba(245,241,230,0) 100%)",
+        }}
+      />
       <div className="mx-auto max-w-[1000px]">
         <Link href="/works" className="note text-[13px] text-ink-soft inline-flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
