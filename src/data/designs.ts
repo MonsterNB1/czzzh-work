@@ -29,6 +29,8 @@ export type DesignData = {
   shape?: "portrait" | "landscape";
   /** big print at the top of the detail page, defaults to the cover */
   hero?: string;
+  /** narrow-screen variant of the hero, offered alongside it in the srcset */
+  heroSmall?: string;
   /** cover shown in the polaroid grid */
   cover?: string;
   /** -600 variant of the cover, served to narrow screens */
@@ -73,9 +75,10 @@ export const designs: Record<string, DesignData> = {
     credit: "全部物料独立设计 / 制作",
     desc: "版本 KV 定调，海报和公告跟着赛季节奏走，月历、表情包和周边把世界观铺到屏幕外。",
     meta: ["主视觉 / 版本宣发", "海报 / 公告 / 月历", "表情包 / 周边 / 线下"],
-    hero: `${MEDIA}/design/quzhu/kv-01.webp`,
-    cover: `${MEDIA}/design/quzhu/kv-08.webp`,
-    thumb: `${MEDIA}/design/quzhu/kv-08-600.webp`,
+    hero: `${MEDIA}/design/quzhu/hd/hero.webp`,
+    heroSmall: `${MEDIA}/design/quzhu/hd/hero-1200.webp`,
+    cover: `${MEDIA}/design/quzhu/hd/cover.webp`,
+    thumb: `${MEDIA}/design/quzhu/hd/cover-600.webp`,
     brief: [
       {
         label: "项目",
