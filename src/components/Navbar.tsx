@@ -40,9 +40,9 @@ export default function Navbar() {
         style={{
           // frosted rather than opaque: the grid behind stays faintly there, so no seam shows
           background:
-            "linear-gradient(to bottom, rgba(245,241,230,0.97) 0%, rgba(245,241,230,0.94) 62%, rgba(245,241,230,0.88) 80%, rgba(245,241,230,0) 100%)",
-          backdropFilter: "blur(6px) saturate(1.02)",
-          WebkitBackdropFilter: "blur(6px) saturate(1.02)",
+            "linear-gradient(to bottom, rgba(245,241,230,0.985) 0%, rgba(245,241,230,0.965) 58%, rgba(245,241,230,0.86) 78%, rgba(245,241,230,0) 100%)",
+          backdropFilter: "blur(8px) saturate(1.02)",
+          WebkitBackdropFilter: "blur(8px) saturate(1.02)",
         }}
       />
       <header className="fixed top-0 z-50 w-full">
