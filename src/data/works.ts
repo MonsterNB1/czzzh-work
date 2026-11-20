@@ -14,6 +14,15 @@ export type WallCover = {
   platform?: string;
 };
 
+/** an image that only exists as a still: the gallery page hangs it */
+export type GalleryItem = {
+  src: string;
+  caption?: string;
+  /** the file's own pixel size, so the page can reserve the right box and never upscale */
+  w: number;
+  h: number;
+};
+
 /** for a series that only ever published on bilibili / wechat: the covers are the work */
 export type WorkWall = {
   covers: WallCover[];
@@ -43,6 +52,12 @@ export type WorkData = {
   chapters?: WorkChapter[];
   /** no clip on our own storage: the detail page hangs the covers instead of the TV */
   wall?: WorkWall;
+  /** no clip and no wall: a page of stills */
+  gallery?: GalleryItem[];
+  /** a short line under the gallery */
+  galleryNote?: string;
+  /** explicit narrow-screen cover, for images hosted off-site */
+  thumb?: string;
   /** a few hard facts, set as a small definition list on the wall page */
   facts?: { k: string; v: string }[];
   external?: string;
@@ -297,6 +312,106 @@ export const works: Record<string, WorkData> = {
     cover: "/assets/works/shenzhen.webp",
     video: clip("misc/shenzhen-airport-boarding.mp4"),
   },
+  river_gods: {
+    slug: "river_gods",
+    title: "河神纪元",
+    en: "THE AGE OF RIVER GODS · 剧本杀",
+    cat: "AIGC",
+    desc: "一个灾后重生的神话世界。洪水退尽，大地上只剩一个湖，活下来的人聚到水边，火把和兽皮就是全部家当。这套图从世界地图起手，一直铺到六个角色、界面和包装。",
+    meta: ["世界地图 / 角色设定 / 界面 / 包装", "欢乐机制 · 盒装剧本", "4 男 2 女"],
+    shape: "portrait",
+    cover: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,
+    thumb: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,
+    gallery: [
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/poster.webp`,
+        caption: "竖版海报",
+        w: 334,
+        h: 748,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/map.webp`,
+        caption: "世界地图，五处营地落在湖边",
+        w: 311,
+        h: 303,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/characters.webp`,
+        caption: "六位角色：阿咲、阿雅、了了、阿岱、阿咚、阿荼，上排立绘、下排剪影",
+        w: 789,
+        h: 392,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/ui-sheet.webp`,
+        caption: "界面状态与解谜流程，一版二十帧",
+        w: 311,
+        h: 334,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/detail.webp`,
+        caption: "详情页，正面海报配故事简介",
+        w: 399,
+        h: 270,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/river-gods/box.webp`,
+        caption: "剧本盒样机",
+        w: 259,
+        h: 233,
+      },
+    ],
+    galleryNote: "图都是原始尺寸，点开可以看大图。",
+  },
+  flood: {
+    slug: "flood",
+    title: "内涝，治不好了吗？",
+    en: "NEWS VIDEO · COVER",
+    cat: "视频",
+    desc: "一条讲城市内涝的新闻视频封面。泡在水里的车、救援艇、从排口涌出来的一整片水，标题压在最上层，横版一句读完，竖版把字收进画面中部。",
+    meta: ["封面 / 标题排版", "横版 16:9 与竖版各一版"],
+    shape: "landscape",
+    cover: `${MEDIA_ROOT}/portfolio/flood/cover-wide.webp`,
+    thumb: `${MEDIA_ROOT}/portfolio/flood/cover-wide.webp`,
+    gallery: [
+      {
+        src: `${MEDIA_ROOT}/portfolio/flood/cover-wide.webp`,
+        caption: "横版，信息流和详情页用",
+        w: 508,
+        h: 290,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/flood/cover-tall.webp`,
+        caption: "竖版，标题分段排，手机上不挤",
+        w: 162,
+        h: 290,
+      },
+    ],
+  },
+  haida_group: {
+    slug: "haida_group",
+    title: "海大集团 · 海大下乡记",
+    en: "CAMPAIGN FILM · COVER",
+    cat: "视频",
+    desc: "给飞书做的海大集团宣传片封面。五个出镜的人剪进同一张画面里，标题用手写笔触压在玉米地上，副标一句「农业也能超先进！！」。竖版那张带着平台的时长和点赞，是发布后的截图。",
+    meta: ["封面 / 人物合成 / 手写标题", "横版与竖版"],
+    shape: "landscape",
+    cover: `${MEDIA_ROOT}/portfolio/haida-group/cover-wide.webp`,
+    thumb: `${MEDIA_ROOT}/portfolio/haida-group/cover-wide.webp`,
+    gallery: [
+      {
+        src: `${MEDIA_ROOT}/portfolio/haida-group/cover-wide.webp`,
+        caption: "横版封面",
+        w: 508,
+        h: 286,
+      },
+      {
+        src: `${MEDIA_ROOT}/portfolio/haida-group/cover-tall.webp`,
+        caption: "竖版封面，发布后截的图",
+        w: 183,
+        h: 287,
+      },
+    ],
+  },
 };
 
 /** the index reads top to bottom in exactly this order */
@@ -313,5 +428,10 @@ export const videoOrder = [
   "quzhu_videos",
   "qidi",
   "shenzhen",
+  "flood",
+  "haida_group",
 ] as const;
+
+/** the aigc tab reads in this order */
+export const aigcOrder = ["river_gods"] as const;
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { animationOrder, videoOrder, works } from "@/data/works";
+import { aigcOrder, animationOrder, videoOrder, works } from "@/data/works";
 import { designOrder, designs } from "@/data/designs";
 
 type Item = {
@@ -49,12 +49,29 @@ const videoItems: Item[] = videoOrder.map((slug) => {
   return {
     title: w.title,
     cover: w.cover,
+    thumb: w.thumb,
     slug: w.slug,
     en: w.en,
     desc: w.desc,
     meta: w.meta,
     shape: w.shape,
-    cta: w.wall ? "看封面墙" : undefined,
+    cta: w.wall ? "看封面墙" : w.gallery ? "看图集" : undefined,
+  };
+});
+
+// stills-only projects, same card, a different thing behind it
+const aigcItems: Item[] = aigcOrder.map((slug) => {
+  const w = works[slug];
+  return {
+    title: w.title,
+    cover: w.cover,
+    thumb: w.thumb,
+    slug: w.slug,
+    en: w.en,
+    desc: w.desc,
+    meta: w.meta,
+    shape: w.shape,
+    cta: w.gallery ? "看图集" : undefined,
   };
 });
 
@@ -98,7 +115,7 @@ const sections: Section[] = [
     key: "aigc",
     title: "AIGC",
     en: "Generative",
-    groups: [{ items: [{ title: "河神纪元 · 角色" }, { title: "河神纪元 · 地图" }] }],
+    groups: [{ items: aigcItems }],
   },
 ];
 
@@ -140,7 +157,10 @@ function AnimationIndex({
                 {it.cover ? (
                   <picture className="block w-full h-full">
                     {mode === "phone" ? (
-                      <source media="(max-width: 767px)" srcSet={it.cover.replace(".webp", "-400.webp")} />
+                      <source
+                        media="(max-width: 767px)"
+                        srcSet={it.thumb ?? (it.cover.startsWith("/") ? it.cover.replace(".webp", "-400.webp") : it.cover)}
+                      />
                     ) : (
                       <source media="(min-width: 768px)" srcSet={it.cover} />
                     )}
@@ -290,7 +310,7 @@ export default function WorksPage() {
                           <picture className="block w-full">
                             <source
                               media="(max-width: 767px)"
-                              srcSet={it.thumb ?? it.cover.replace(".webp", "-400.webp")}
+                              srcSet={it.thumb ?? (it.cover.startsWith("/") ? it.cover.replace(".webp", "-400.webp") : it.cover)}
                             />
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
