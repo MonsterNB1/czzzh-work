@@ -10,6 +10,8 @@ export type DesignPlateGroup = {
   shots: string[];
   /** how dense the grid runs: 2 / 3 for posters, 4 / 6 for small assets */
   cols?: 2 | 3 | 4 | 6;
+  /** a link out to the full set, shown at the end of the group heading */
+  more?: { href: string; label: string };
 };
 
 export type DesignData = {
@@ -53,6 +55,12 @@ const MEDIA = (
 const series = (slug: string, key: string, count: number) =>
   Array.from({ length: count }, (_, i) =>
     `${MEDIA}/design/${slug}/${key}-${String(i + 1).padStart(2, "0")}.webp`,
+  );
+
+/** 驱入虚空：重出的大图在 design/quzhu/hd/ 下，编号同样是两位数 */
+const hd = (key: string, n: number | number[]) =>
+  (Array.isArray(n) ? n : Array.from({ length: n }, (_, i) => i + 1)).map(
+    (i) => `${MEDIA}/design/quzhu/hd/${key}-${String(i).padStart(2, "0")}.webp`,
   );
 
 export const designs: Record<string, DesignData> = {
@@ -116,39 +124,27 @@ export const designs: Record<string, DesignData> = {
     ],
     boards: [`${MEDIA}/design/quzhu/board-01.webp`],
     plates: [
-      { label: "赛季战令宣传封面", shots: series("quzhu", "pass", 4) },
-      { label: "社区更新公告", shots: series("quzhu", "notice", 4) },
-      {
-        label: "KV · 主视觉",
-        shots: [7, 2].map((n) => `${MEDIA}/design/quzhu/kv-0${n}.webp`),
-      },
-      {
-        label: "角色展示海报系列",
-        shots: ["char-01", "char-02", "kv-09", "char-04", "char-05", "char-06"].map(
-          (k) => `${MEDIA}/design/quzhu/${k}.webp`,
-        ),
-      },
-      { label: "节日活动海报系列", shots: series("quzhu", "festival", 4) },
-      { label: "游戏月历系列", shots: series("quzhu", "calendar", 7) },
+      { label: "赛季战令宣传封面", shots: hd("pass", 4) },
+      { label: "社区更新公告", shots: hd("notice", 4) },
+      { label: "KV · 主视觉", shots: hd("kv", [7, 2]) },
+      { label: "角色展示海报系列", shots: hd("char", 6) },
+      { label: "节日活动海报系列", shots: hd("festival", 4) },
+      { label: "游戏月历系列", shots: hd("calendar", 7) },
       {
         label: "游戏内部美术资源 · 表情包 & 聊天表情",
-        shots: series("quzhu", "sticker", 12),
+        shots: hd("sticker", 12),
         cols: 6,
       },
-      { label: "头像框", shots: series("quzhu", "frame", 3), cols: 4 },
-      { label: "游戏周边产品上架", shots: series("quzhu", "goods", 4), cols: 4 },
-      { label: "期刊 · 封面", shots: ["zine-01", "zine-03"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`) },
+      { label: "头像框", shots: hd("frame", 3), cols: 4 },
+      { label: "称号", shots: hd("title", 3), cols: 2 },
+      { label: "游戏周边产品上架", shots: hd("goods", 4), cols: 4 },
       {
-        label: "期刊 · 内页长图",
-        shots: ["zine-02", "zine-04"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`),
-        cols: 4,
+        label: "期刊 & 漫画",
+        shots: ["zine-01", "zine-03"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`),
+        cols: 2,
+        more: { href: "/works/design/quzhu/journal", label: "全 7 件" },
       },
-      {
-        label: "四格漫画",
-        shots: ["zine-05", "zine-06", "zine-07"].map((k) => `${MEDIA}/design/quzhu/${k}.webp`),
-        cols: 4,
-      },
-      { label: "线下物料", shots: series("quzhu", "offline", 3) },
+      { label: "线下物料", shots: hd("offline", 4), cols: 4 },
     ],
   },
   bluearchive: {

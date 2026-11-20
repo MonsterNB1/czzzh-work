@@ -12,7 +12,9 @@ const gridClass = (cols: number = 3) =>
     ? "grid grid-cols-4 gap-2 md:grid-cols-6 md:gap-3 items-start"
     : cols === 4
       ? "grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-3 items-start"
-      : "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 items-start";
+      : cols === 2
+        ? "grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 items-start"
+        : "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 items-start";
 
 /** a design project is a sheet on the table: brief, numbers, then the plates */
 export default function DesignRoom({ work }: { work: DesignData }) {
@@ -225,6 +227,15 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                     <span className="hand text-[13px] md:text-[15px] text-marker">{g.label}</span>
                     <span className="hand type text-[10px] text-[#a8a49a]">{g.shots.length}</span>
                     <span className="flex-1 h-px bg-[#e4dfd0]" />
+                    {g.more ? (
+                      <Link
+                        href={g.more.href}
+                        className="group hand text-[11px] md:text-[12px] text-marker hover:underline underline-offset-4"
+                      >
+                        {g.more.label}
+                        <span className="ml-1 inline-block transition-transform group-hover:translate-x-0.5">→</span>
+                      </Link>
+                    ) : null}
                   </div>
                   <div className={gridClass(g.cols)}>
                     {g.shots.map((s, si) => (
