@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 
-const R2_BASE = "https://pub-99c53aec3f634300b636798977401e47.r2.dev/monster-diner";
-
 // 轮播素材池：后续其他作品的视频直接把地址追加到这个数组即可，
 // 电视机会从池子里随机挑一段播放。
+// 用站内八秒切片（540p，单段 200–800KB），不走 R2 原片：
+// 原片每集 60MB、托管在美国节点，国内首帧要等十几秒，屏幕会长时间空白。
 const VIDEO_POOL: string[] = [
-  ...Array.from({ length: 12 }, (_, i) => `${R2_BASE}/ep${i + 1}.mp4`),
+  ...Array.from({ length: 12 }, (_, i) => `/monster-diner/ep${i + 1}.mp4`),
 ];
 
-const CLIP_MIN = 5; // seconds
-const CLIP_MAX = 7;
+const CLIP_MIN = 4; // seconds
+const CLIP_MAX = 6;
 const SNOW_MS = 900;
 
 function randomSrc(exclude?: string): string {
@@ -71,14 +71,10 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
     v.onloadedmetadata = () => {
       // the tab may have gone to the background while metadata was loading
       if (!running.current || !v) return;
-      const dur = v.duration || 60;
-      // seek to a random safe position, away from intro / credits
-      const start = Math.min(3, dur * 0.1);
-      const end = Math.max(start + 1, dur - 10);
-      v.currentTime = start + Math.random() * (end - start);
+      // the web clips are already cut from the middle of each episode, so play from the head
+      v.currentTime = 0;
       v.muted = true;
       v.play().catch(() => {});
-      setPhase("play");
 
       const len = CLIP_MIN + Math.random() * (CLIP_MAX - CLIP_MIN);
       clipTimer.current = setTimeout(() => {
@@ -128,16 +124,25 @@ export default function TVScreen({ mobile = false }: { mobile?: boolean }) {
           // hard guard: nothing keeps playing while hidden or off-breakpoint
           if (!running.current) videoRef.current?.pause();
         }}
+        onPlaying={() => {
+          // only lift the snow once a real frame is on the glass
+          if (running.current) setPhase("play");
+        }}
+        onTimeUpdate={(e) => {
+          if (running.current && e.currentTarget.currentTime > 0 && phase !== "play") {
+            setPhase("play");
+          }
+        }}
         className={`h-full w-full object-cover transition-opacity duration-300 ${
           phase === "play" ? "opacity-100" : "opacity-0"
         }`}
         src={src}
       />
 
-      {/* snow / static transition — black field with white noise on top */}
+      {/* snow / static — held through loading too, so the glass never shows a blank white face */}
       <div
         className={`absolute inset-0 transition-opacity duration-200 ${
-          phase === "snow" ? "opacity-100" : "opacity-0"
+          phase === "play" ? "opacity-0" : "opacity-100"
         }`}
         style={{ backgroundColor: "#000" }}
       >
