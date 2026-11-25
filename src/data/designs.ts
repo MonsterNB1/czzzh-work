@@ -220,9 +220,9 @@ export const designs: Record<string, DesignData> = {
     cover: "/design/snk/snk-01.webp",
     thumb: "/design/snk/snk-01-600.webp",
     logo: "/design/snk/logo.webp",
-    logoPlate: "paper",
+    logoPlate: "ink",
     logoBg: "/design/snk/logo-bg.webp",
-    logoTone: "#efbd98",
+    logoTone: "#2b2724",
     plates: [{ label: "ChinaJoy 主 KV", shots: ["/design/snk/snk-01.webp"] }],
   },
   ro3: {
