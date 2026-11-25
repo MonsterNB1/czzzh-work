@@ -211,7 +211,7 @@ export const designs: Record<string, DesignData> = {
     meta: ["主 KV 方向稿"],
     cover: "/design/snk/snk-01.webp",
     thumb: "/design/snk/snk-01-600.webp",
-    logo: `${MEDIA}/design/logos/snk.webp`,
+    logo: "/design/snk/logo.webp",
     logoPlate: "paper",
     plates: [{ label: "ChinaJoy 主 KV", shots: ["/design/snk/snk-01.webp"] }],
   },
