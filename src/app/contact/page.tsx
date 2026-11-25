@@ -72,15 +72,6 @@ export default function ContactPage() {
             );
           })}
         </div>
-
-        <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2 note text-lg text-ink-blue">
-          <a
-            href="https://github.com/MonsterNB1"
-            className="hover:text-marker transition-colors"
-          >
-            GitHub
-          </a>
-        </div>
       </div>
     </section>
   );
