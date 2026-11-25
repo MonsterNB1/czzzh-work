@@ -227,7 +227,7 @@ export const designs: Record<string, DesignData> = {
     hero: "/design/ro3/ro3-01.webp",
     cover: "/design/ro3/ro3-09.webp",
     thumb: "/design/ro3/ro3-09-600.webp",
-    logo: `${MEDIA}/design/logos/ro3.webp`,
+    logo: "/design/ro3/logo.webp",
     logoPlate: "paper",
     plates: [
       { label: "展台规则牌", shots: local("ro3", "ro3", 4) },
