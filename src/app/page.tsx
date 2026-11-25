@@ -7,12 +7,14 @@ import TVScreen from "@/components/TVScreen";
 // so the whole spread scales as one piece on any window.
 const px = (k: number) => `calc(${k} * var(--wb))`;
 
-// inner photo window of the polaroid frame, as a fraction of the frame box
+// inner photo window of the polaroid frame, as a fraction of the frame box.
+// the photo layer sits slightly larger than the punched hole so the frame's
+// pale inner lip is covered and no white seam shows around the picture.
 const POLAROID_INNER = {
-  left: "12.35%",
-  top: "12.62%",
-  width: "78.8%",
-  height: "61.4%",
+  left: "11%",
+  top: "10%",
+  width: "81%",
+  height: "65%",
 };
 
 export default function Home() {
