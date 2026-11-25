@@ -428,8 +428,8 @@ export const videoOrder = [
   "alibaba_tech",
   "haida_group",
   "jianglan",
-  "alipay",
   "flood",
+  "alipay",
 ] as const;
 
 /** the aigc tab reads in this order */
