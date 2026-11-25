@@ -22,6 +22,8 @@ type Item = {
   logo?: string;
   /** the board the mark sits on: paper-white or ink */
   logoPlate?: "paper" | "ink";
+  /** a softened crop of the key visual, laid under the mark */
+  logoBg?: string;
   /** replaces "打开电视 · 播放" when the entry opens onto something other than a player */
   cta?: string;
 };
@@ -91,6 +93,7 @@ const designItems: (Item & { group: string })[] = designOrder.map((slug) => {  c
     thumb: d.thumb,
     logo: d.logo,
     logoPlate: d.logoPlate,
+    logoBg: d.logoBg,
     href: `/works/design/${d.slug}`,
   };
 });
@@ -293,17 +296,41 @@ function ProjectIndex({
                       />
                       {it.logo ? (
                         <div
-                          className={`flex aspect-[2.3/1] items-center justify-center border border-[#e2dccb] px-7 md:aspect-[3/1] md:px-10 ${
+                          className={`relative flex aspect-[2.3/1] items-center justify-center overflow-hidden border border-[#e2dccb] px-7 md:aspect-[3/1] md:px-10 ${
                             it.logoPlate === "ink" ? "bg-[#141310]" : "bg-white"
                           }`}
                         >
+                          {it.logoBg ? (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={it.logoBg}
+                                alt=""
+                                aria-hidden="true"
+                                decoding="async"
+                                className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover"
+                              />
+                              <div
+                                className={`pointer-events-none absolute inset-0 ${
+                                  it.logoPlate === "ink" ? "bg-[#141310]/38" : "bg-white/40"
+                                }`}
+                              />
+                              <div
+                                className={`pointer-events-none absolute inset-0 ${
+                                  it.logoPlate === "ink"
+                                    ? "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(20,19,16,0.25)_30%,rgba(20,19,16,0.96)_100%)]"
+                                    : "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(255,255,255,0.62)_28%,rgba(253,250,243,0.96)_100%)]"
+                                }`}
+                              />
+                            </>
+                          ) : null}
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={it.logo}
                             alt={`${it.title} 标识`}
                             loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
                             decoding="async"
-                            className="max-h-[72%] max-w-[84%] object-contain md:max-h-[76%] md:max-w-[80%]"
+                            className="relative max-h-[72%] max-w-[84%] drop-shadow-[0_1px_2px_rgba(60,45,25,0.18)] object-contain md:max-h-[76%] md:max-w-[80%]"
                           />
                         </div>
                       ) : (
@@ -457,6 +484,7 @@ export default function WorksPage() {
           {sections.map((s, i) => (
             <button
               key={s.key}
+              data-sfx="tab"
               onClick={() => setActive(i)}
               className={`hand zh px-3 py-2.5 text-[13px] leading-none bg-[#fbf9f1] shadow-[0_6px_14px_-8px_rgba(60,45,25,0.5)] transition-transform ${
                 i === active
@@ -537,6 +565,7 @@ export default function WorksPage() {
             }}
           >
             <button
+              data-sfx="tab"
               onClick={() => setActive(i)}
               className={`tab-card ${i === active ? "tab-card-active" : ""}`}
               style={{ animationDelay: `${1.0 + i * 0.05}s` }}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import PaperClicks from "@/components/PaperClicks";
 
 export const metadata: Metadata = {
   title: {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col bg-[#f5f1e6] text-[#2b2b2b]">
         <Navbar />
+        <PaperClicks />
         <main className="flex-1">{children}</main>
       </body>
     </html>
