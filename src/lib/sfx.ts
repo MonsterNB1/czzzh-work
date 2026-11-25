@@ -1,7 +1,7 @@
 /**
- * 纸声：整站点击的音效都在这里。
- * 只用浏览器原生的 Audio 元素，避免 WebAudio 在 R2 上的 CORS 限制；
- * 文件很小（2~8KB），进站时就预取一次，点下去不会等。
+ * 纸声：只在「进入项目」那一下响。
+ * 两段真实的翻纸录音（CC0：freesound 的 Book Turn Page 1 / PageTurn），
+ * 各自裁到 0.7~0.9 秒、对齐响度，轮流播，听不出是同一条样本。
  */
 
 const MEDIA = (
@@ -9,20 +9,13 @@ const MEDIA = (
   "https://pub-99c53aec3f634300b636798977401e47.r2.dev"
 ).replace(/\/monster-diner$/, "");
 
-export type PaperKind = "turn" | "tab";
+const TURNS = [`${MEDIA}/sfx/paper-turn-1.mp3`, `${MEDIA}/sfx/paper-turn-2.mp3`];
 
-const SRC: Record<PaperKind, string> = {
-  turn: `${MEDIA}/sfx/paper-turn.mp3`,
-  tab: `${MEDIA}/sfx/paper-tab.mp3`,
-};
-
-// 翻页本来就比拍一下重，音量分开给
-const VOLUME: Record<PaperKind, number> = {
-  turn: 0.30,
-  tab: 0.20,
-};
+// 真实录音的峰值比合成音低，音量给得比之前大一点
+const VOLUME = 0.5;
 
 let lastAt = 0;
+let lastIndex = -1;
 let prefetched = false;
 const pool: HTMLAudioElement[] = [];
 const playing: HTMLAudioElement[] = [];
@@ -31,8 +24,8 @@ const playing: HTMLAudioElement[] = [];
 export function prefetchPaperSfx() {
   if (prefetched || typeof window === "undefined") return;
   prefetched = true;
-  (Object.keys(SRC) as PaperKind[]).forEach((kind) => {
-    const a = new Audio(SRC[kind]);
+  TURNS.forEach((src) => {
+    const a = new Audio(src);
     a.preload = "auto";
     a.muted = true;
     pool.push(a); // 留住引用，不然可能还没下完就被回收
@@ -40,26 +33,31 @@ export function prefetchPaperSfx() {
   });
 }
 
-export function playPaper(kind: PaperKind = "turn") {
+export function playPaper() {
   if (typeof window === "undefined") return;
 
   // 连点两下只响一次，免得叠成噪音
   const now = performance.now();
-  if (now - lastAt < 110) return;
+  if (now - lastAt < 120) return;
   lastAt = now;
 
-  const audio = new Audio(SRC[kind]);
-  audio.volume = VOLUME[kind];
+  // 两条轮流，避免连着同一条
+  let i = Math.random() < 0.5 ? 0 : 1;
+  if (i === lastIndex) i = 1 - i;
+  lastIndex = i;
+
+  const audio = new Audio(TURNS[i]);
+  audio.volume = VOLUME;
   // 每一下的速率略有差别，听起来不像同一个样本反复播
-  audio.playbackRate = 0.94 + Math.random() * 0.12;
+  audio.playbackRate = 0.96 + Math.random() * 0.08;
   playing.push(audio);
   audio.addEventListener("ended", () => {
-    const i = playing.indexOf(audio);
-    if (i >= 0) playing.splice(i, 1);
+    const k = playing.indexOf(audio);
+    if (k >= 0) playing.splice(k, 1);
   });
   void audio.play().catch(() => {
-    const i = playing.indexOf(audio);
-    if (i >= 0) playing.splice(i, 1);
+    const k = playing.indexOf(audio);
+    if (k >= 0) playing.splice(k, 1);
     /* 自动播放被拦、或还没交互过，静默跳过就好 */
   });
 }

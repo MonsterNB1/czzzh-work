@@ -171,6 +171,7 @@ function AnimationIndex({
         <Link
           key={it.slug ?? it.title}
           href={it.slug ? `/works/${it.slug}` : "#"}
+          data-sfx="turn"
           onClick={(e) => open(e, it)}
           className={`group flex gap-4 md:gap-7 items-start ${it.slug ? "cursor-pointer" : "cursor-default"}`}
         >
@@ -284,6 +285,7 @@ function ProjectIndex({
                   <Link
                     key={it.title}
                     href={href ?? "#"}
+                    data-sfx="turn"
                     onClick={(e) => open(e, it)}
                     className={`group block ${href ? "cursor-pointer" : "cursor-default"} ${
                       portrait ? "mx-auto w-full max-w-[400px] md:max-w-[460px]" : ""
@@ -419,6 +421,7 @@ function ProjectIndex({
                     <Link
                       key={it.title}
                       href={href ?? "#"}
+                      data-sfx="turn"
                       onClick={(e) => open(e, it)}
                       className={`group flex items-baseline gap-3 py-3.5 md:gap-4 md:py-4 ${
                         href ? "cursor-pointer" : "cursor-default"
@@ -494,7 +497,6 @@ export default function WorksPage() {
           {sections.map((s, i) => (
             <button
               key={s.key}
-              data-sfx="tab"
               onClick={() => setActive(i)}
               className={`hand zh px-3 py-2.5 text-[13px] leading-none bg-[#fbf9f1] shadow-[0_6px_14px_-8px_rgba(60,45,25,0.5)] transition-transform ${
                 i === active
@@ -575,7 +577,6 @@ export default function WorksPage() {
             }}
           >
             <button
-              data-sfx="tab"
               onClick={() => setActive(i)}
               className={`tab-card ${i === active ? "tab-card-active" : ""}`}
               style={{ animationDelay: `${1.0 + i * 0.05}s` }}
