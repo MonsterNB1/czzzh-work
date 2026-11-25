@@ -18,6 +18,10 @@ type Item = {
   href?: string;
   /** explicit narrow-screen variant of the cover */
   thumb?: string;
+  /** a brand mark that replaces the cover on the index card */
+  logo?: string;
+  /** the board the mark sits on: paper-white or ink */
+  logoPlate?: "paper" | "ink";
   /** replaces "打开电视 · 播放" when the entry opens onto something other than a player */
   cta?: string;
 };
@@ -85,6 +89,8 @@ const designItems: (Item & { group: string })[] = designOrder.map((slug) => {  c
     shape: d.shape,
     group: d.group,
     thumb: d.thumb,
+    logo: d.logo,
+    logoPlate: d.logoPlate,
     href: `/works/design/${d.slug}`,
   };
 });
@@ -285,31 +291,48 @@ function ProjectIndex({
                         className="tape -top-2 left-8 rotate-[-3deg]"
                         style={{ width: 46, height: 12 }}
                       />
-                      <div className="overflow-hidden bg-[#f1eee3] border border-[#e2dccb]">
-                        <picture className="block w-full">
-                          {mode === "phone" ? (
-                            <source
-                              media="(max-width: 767px)"
-                              srcSet={
-                                it.thumb ??
-                                (it.cover!.startsWith("/")
-                                  ? it.cover!.replace(".webp", "-400.webp")
-                                  : it.cover)
-                              }
-                            />
-                          ) : (
-                            <source media="(min-width: 768px)" srcSet={it.cover} />
-                          )}
+                      {it.logo ? (
+                        <div
+                          className={`flex aspect-[2.3/1] items-center justify-center border border-[#e2dccb] px-7 md:aspect-[3/1] md:px-10 ${
+                            it.logoPlate === "ink" ? "bg-[#141310]" : "bg-white"
+                          }`}
+                        >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src="/assets/blank.svg"
-                            alt={it.title}
+                            src={it.logo}
+                            alt={`${it.title} 标识`}
                             loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
                             decoding="async"
-                            className="block w-full h-auto object-contain"
+                            className="max-h-[72%] max-w-[84%] object-contain md:max-h-[76%] md:max-w-[80%]"
                           />
-                        </picture>
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="overflow-hidden bg-[#f1eee3] border border-[#e2dccb]">
+                          <picture className="block w-full">
+                            {mode === "phone" ? (
+                              <source
+                                media="(max-width: 767px)"
+                                srcSet={
+                                  it.thumb ??
+                                  (it.cover!.startsWith("/")
+                                    ? it.cover!.replace(".webp", "-400.webp")
+                                    : it.cover)
+                                }
+                              />
+                            ) : (
+                              <source media="(min-width: 768px)" srcSet={it.cover} />
+                            )}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src="/assets/blank.svg"
+                              alt={it.title}
+                              loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
+                              decoding="async"
+                              className="block w-full h-auto object-contain"
+                            />
+                          </picture>
+                        </div>
+                      )}
                       <div className="hand type text-[10px] md:text-[11px] text-marker leading-none text-center absolute left-2 right-2 bottom-[8px] md:bottom-[12px]">
                         NO.{String(idx + 1).padStart(2, "0")}
                       </div>

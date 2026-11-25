@@ -35,6 +35,10 @@ export type DesignData = {
   cover?: string;
   /** -600 variant of the cover, served to narrow screens */
   thumb?: string;
+  /** the brand mark shown instead of a cover on the index, when the project reads better as a logo */
+  logo?: string;
+  /** which board the mark is printed on: paper-white or ink */
+  logoPlate?: "paper" | "ink";
   /** 项目 / 主题 / 定位 / 思路, laid out as a cross */
   brief?: DesignBrief[];
   /** the numbers the campaign landed */
@@ -167,6 +171,8 @@ export const designs: Record<string, DesignData> = {
     meta: ["立牌 / 启动页 / 宣传图", "展位搭建"],
     cover: `${MEDIA}/design/bluearchive/hero-01.webp`,
     thumb: `${MEDIA}/design/bluearchive/hero-01-600.webp`,
+    logo: `${MEDIA}/design/logos/bluearchive.webp`,
+    logoPlate: "paper",
     plates: [
       { label: "展陈主视觉", shots: series("bluearchive", "hero", 3) },
       { label: "人物立牌", shots: series("bluearchive", "standee", 7) },
@@ -184,6 +190,8 @@ export const designs: Record<string, DesignData> = {
     meta: ["应援 KV / 选手横幅", "收藏卡 / 冰箱贴"],
     cover: "/design/xiaobingbing/xbb-01.webp",
     thumb: "/design/xiaobingbing/xbb-01-600.webp",
+    logo: `${MEDIA}/design/logos/xiaobingbing.webp`,
+    logoPlate: "paper",
     plates: [
       { label: "应援 KV & 手举牌", shots: ["/design/xiaobingbing/xbb-01.webp", "/design/xiaobingbing/xbb-02.webp"] },
       { label: "选手应援横幅", shots: local("xiaobingbing", "xbb", 7).slice(2) },
@@ -203,6 +211,8 @@ export const designs: Record<string, DesignData> = {
     meta: ["主 KV 方向稿"],
     cover: "/design/snk/snk-01.webp",
     thumb: "/design/snk/snk-01-600.webp",
+    logo: `${MEDIA}/design/logos/snk.webp`,
+    logoPlate: "paper",
     plates: [{ label: "ChinaJoy 主 KV", shots: ["/design/snk/snk-01.webp"] }],
   },
   ro3: {
@@ -217,6 +227,8 @@ export const designs: Record<string, DesignData> = {
     hero: "/design/ro3/ro3-01.webp",
     cover: "/design/ro3/ro3-09.webp",
     thumb: "/design/ro3/ro3-09-600.webp",
+    logo: `${MEDIA}/design/logos/ro3.webp`,
+    logoPlate: "paper",
     plates: [
       { label: "展台规则牌", shots: local("ro3", "ro3", 4) },
       { label: "通缉令 · 集章", shots: local("ro3", "ro3", 8).slice(4) },
@@ -236,6 +248,8 @@ export const designs: Record<string, DesignData> = {
     meta: ["整理券 / 试玩券"],
     cover: "/design/silvercity/yc-01.webp",
     thumb: "/design/silvercity/yc-01-600.webp",
+    logo: `${MEDIA}/design/logos/silverpalace.webp`,
+    logoPlate: "ink",
     plates: [{ label: "试玩整理券", shots: ["/design/silvercity/yc-01.webp"] }],
   },
   promo: {
