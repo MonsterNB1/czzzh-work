@@ -26,6 +26,12 @@ export default function ContactPage() {
 
         <div className="mt-8 space-y-4">
           <a
+            href="tel:18098865170"
+            className="hand block text-2xl text-ink-blue hover:text-marker transition-colors sm:text-3xl"
+          >
+            180 9886 5170
+          </a>
+          <a
             href="mailto:XingKun.C@outlook.com"
             className="hand block text-2xl text-ink-blue hover:text-marker transition-colors sm:text-3xl"
           >
