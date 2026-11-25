@@ -24,6 +24,8 @@ type Item = {
   logoPlate?: "paper" | "ink";
   /** a softened crop of the key visual, laid under the mark */
   logoBg?: string;
+  /** the tone pulled out of that key visual, the far end of the wash */
+  logoTone?: string;
   /** replaces "打开电视 · 播放" when the entry opens onto something other than a player */
   cta?: string;
 };
@@ -94,6 +96,7 @@ const designItems: (Item & { group: string })[] = designOrder.map((slug) => {  c
     logo: d.logo,
     logoPlate: d.logoPlate,
     logoBg: d.logoBg,
+    logoTone: d.logoTone,
     href: `/works/design/${d.slug}`,
   };
 });
@@ -302,24 +305,31 @@ function ProjectIndex({
                         >
                           {it.logoBg ? (
                             <>
+                              <div
+                                className="pointer-events-none absolute inset-0"
+                                style={{
+                                  backgroundImage: `linear-gradient(112deg, ${
+                                    it.logoTone ?? "#e9e5d8"
+                                  } 0%, ${it.logoPlate === "ink" ? "#141310" : "#fbf9f1"} 76%)`,
+                                }}
+                              />
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={it.logoBg}
                                 alt=""
                                 aria-hidden="true"
                                 decoding="async"
-                                className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover"
-                              />
-                              <div
-                                className={`pointer-events-none absolute inset-0 ${
-                                  it.logoPlate === "ink" ? "bg-[#141310]/38" : "bg-white/40"
+                                className={`pointer-events-none absolute inset-0 h-full w-full object-cover ${
+                                  it.logoPlate === "ink"
+                                    ? "opacity-[0.22] mix-blend-screen"
+                                    : "opacity-[0.14] mix-blend-multiply"
                                 }`}
                               />
                               <div
                                 className={`pointer-events-none absolute inset-0 ${
                                   it.logoPlate === "ink"
-                                    ? "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(20,19,16,0.25)_30%,rgba(20,19,16,0.96)_100%)]"
-                                    : "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(255,255,255,0.62)_28%,rgba(253,250,243,0.96)_100%)]"
+                                    ? "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(20,19,16,0.0)_38%,rgba(20,19,16,0.72)_100%)]"
+                                    : "bg-[radial-gradient(120%_130%_at_50%_45%,rgba(255,255,255,0.0)_36%,rgba(251,249,241,0.72)_100%)]"
                                 }`}
                               />
                             </>
