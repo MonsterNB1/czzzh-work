@@ -7,6 +7,14 @@ import TVScreen from "@/components/TVScreen";
 // so the whole spread scales as one piece on any window.
 const px = (k: number) => `calc(${k} * var(--wb))`;
 
+// inner photo window of the polaroid frame, as a fraction of the frame box
+const POLAROID_INNER = {
+  left: "12.35%",
+  top: "12.62%",
+  width: "78.8%",
+  height: "61.4%",
+};
+
 export default function Home() {
   return (
     <div className="grid-bg relative min-h-screen w-full overflow-hidden md:flex md:items-start md:justify-center md:px-4 md:pt-24 md:pb-8">
@@ -51,24 +59,46 @@ export default function Home() {
           </p>
 
           <div className="mt-9 flex items-end gap-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/scrapbook/polaroid.webp"
-              alt=""
-              width={340}
-              height={412}
-              decoding="async"
-              className="photo-shadow h-auto block w-[44%] rotate-[-4deg]"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/scrapbook/polaroid.webp"
-              alt=""
-              width={340}
-              height={412}
-              decoding="async"
-              className="photo-shadow h-auto block w-[44%] rotate-[5deg] -mb-1"
-            />
+            <div className="relative w-[44%] rotate-[-4deg]">
+              <div className="absolute overflow-hidden" style={POLAROID_INNER}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/scrapbook/polaroid-portrait-a.webp"
+                  alt=""
+                  decoding="async"
+                  className="block h-full w-full object-cover"
+                />
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/scrapbook/polaroid.webp"
+                alt=""
+                width={340}
+                height={412}
+                decoding="async"
+                className="photo-shadow relative z-10 block h-auto w-full"
+              />
+            </div>
+            <div className="relative w-[44%] rotate-[5deg] -mb-1">
+              <div className="absolute overflow-hidden" style={POLAROID_INNER}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/assets/scrapbook/polaroid-portrait-b.webp"
+                  alt=""
+                  decoding="async"
+                  className="block h-full w-full object-cover"
+                />
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/scrapbook/polaroid.webp"
+                alt=""
+                width={340}
+                height={412}
+                decoding="async"
+                className="photo-shadow relative z-10 block h-auto w-full"
+              />
+            </div>
           </div>
 
           <Link href="/works" className="mt-10 flex flex-col items-center group">
@@ -234,29 +264,51 @@ export default function Home() {
           className="absolute hidden md:block"
           style={{ left: "11%", bottom: "12%", transform: "rotate(-4deg)" }}
         >
-          <img
-            src="/assets/scrapbook/polaroid.webp"
-            alt=""
-            width={340}
-            height={412}
-            className="photo-shadow h-auto block"
-            decoding="async"
-            style={{ width: px(0.13) }}
-          />
+          <div className="relative">
+            <div className="absolute overflow-hidden" style={POLAROID_INNER}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/scrapbook/polaroid-portrait-a.webp"
+                alt=""
+                decoding="async"
+                className="block h-full w-full object-cover"
+              />
+            </div>
+            <img
+              src="/assets/scrapbook/polaroid.webp"
+              alt=""
+              width={340}
+              height={412}
+              className="photo-shadow relative z-10 h-auto block"
+              decoding="async"
+              style={{ width: px(0.13) }}
+            />
+          </div>
         </div>
         <div
           className="absolute hidden md:block"
           style={{ left: "24%", bottom: "12%", transform: "rotate(5deg)" }}
         >
-          <img
-            src="/assets/scrapbook/polaroid.webp"
-            alt=""
-            width={340}
-            height={412}
-            className="photo-shadow h-auto block"
-            decoding="async"
-            style={{ width: px(0.13) }}
-          />
+          <div className="relative">
+            <div className="absolute overflow-hidden" style={POLAROID_INNER}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/scrapbook/polaroid-portrait-b.webp"
+                alt=""
+                decoding="async"
+                className="block h-full w-full object-cover"
+              />
+            </div>
+            <img
+              src="/assets/scrapbook/polaroid.webp"
+              alt=""
+              width={340}
+              height={412}
+              className="photo-shadow relative z-10 h-auto block"
+              decoding="async"
+              style={{ width: px(0.13) }}
+            />
+          </div>
         </div>
 
         {/* ===== RIGHT PAGE ===== */}
