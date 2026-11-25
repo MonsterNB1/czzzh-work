@@ -119,6 +119,30 @@ const sections: Section[] = [
   },
 ];
 
+/**
+ * 打字机字形比手写汉字矮一截，混排时会显得英文缩写小一号。
+ * 书名号里的作品名保持原大，书名以外的汉字收到和拉丁字母一样高。
+ */
+function TitleRun({ text }: { text: string }) {
+  if (!/[A-Za-z]/.test(text)) return <>{text}</>;
+  return (
+    <>
+      {text
+        .split(/(《[^》]*》|[A-Za-z0-9]+)/g)
+        .filter(Boolean)
+        .map((chunk, i) =>
+          /^《[^》]*》$/.test(chunk) || /^[A-Za-z0-9]+$/.test(chunk) ? (
+            <span key={i}>{chunk}</span>
+          ) : (
+            <span key={i} className="text-[0.72em]">
+              {chunk}
+            </span>
+          )
+        )}
+    </>
+  );
+}
+
 /** the film index: a vertical cover on the left, blurb and play button on the right */
 function AnimationIndex({
   items,
@@ -183,8 +207,8 @@ function AnimationIndex({
 
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-2 flex-wrap">
-              <h2 className="hand text-[22px] md:text-[28px] font-bold text-ink-blue leading-none">
-                {it.title}
+              <h2 className="hand text-[21px] md:text-[26px] font-bold text-ink-blue leading-none">
+                <TitleRun text={it.title} />
               </h2>
               <span className="note type text-[11px] md:text-[12.5px] text-[#6f6f66]">{it.en}</span>
             </div>

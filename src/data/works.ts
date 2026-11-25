@@ -419,17 +419,17 @@ export const animationOrder = ["monster_diner", "bottle", "wamao", "guahua"] as 
 
 /** the video tab reads in this order */
 export const videoOrder = [
-  "jianglan",
-  "alibaba",
-  "alipay",
-  "cafa",
-  "midea",
-  "alibaba_tech",
   "quzhu_videos",
   "qidi",
   "shenzhen",
-  "flood",
+  "alibaba",
+  "cafa",
+  "midea",
+  "alibaba_tech",
   "haida_group",
+  "jianglan",
+  "alipay",
+  "flood",
 ] as const;
 
 /** the aigc tab reads in this order */
