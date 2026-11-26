@@ -18,7 +18,7 @@ const gridClass = (cols: number = 3) =>
 
 /** a design project is a sheet on the table: brief, numbers, then the plates */
 export default function DesignRoom({ work }: { work: DesignData }) {
-  const hero = work.hero ?? work.cover;
+  const hero = work.heroHidden ? null : (work.hero ?? work.cover);
 
   // the plates, minus the case where the only plate is the hero already pinned at the top
   const rawGroups = work.plates?.length
