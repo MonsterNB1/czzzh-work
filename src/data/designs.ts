@@ -430,19 +430,53 @@ export const designs: Record<string, DesignData> = {
   silvercity: {
     slug: "silvercity",
     title: "白银之城",
-    sub: "试玩整理券",
-    en: "PLAYTEST TICKET",
+    sub: "2026 广州萤火虫 · 展台物料",
+    en: "FIREFLY 2026 · BOOTH KIT",
     group: "游戏项目",
-    credit: "全部物料独立设计 / 制作",
-    desc: "白银之城的试玩整理券。蓝紫夜色打底，书名号式的标题压在中间，纸片和标签散在四周，像一张能撕下来的票。",
-    meta: ["整理券 / 试玩券"],
-    cover: "/design/silvercity/yc-01.webp",
-    thumb: "/design/silvercity/yc-01-600.webp",
+    credit: "展台物料独立设计 / 制作",
+    desc: "《白银之城》是乐元素的复古幻想悬疑 RPG。萤火虫展台上的物料由我做：一张易拉宝把打卡、预约、领礼包排成一条动线，一张试玩券从正面的票根接到背面的试玩须知。",
+    meta: ["展台易拉宝 / 打卡动线", "试玩券 94×58mm · 双面"],
+    hero: "/design/silvercity/banner-top.webp",
+    heroNote: "易拉宝上半 · 角色主画面与字标",
+    cover: "/design/silvercity/ticket-front.webp",
+    thumb: "/design/silvercity/ticket-front-600.webp",
     logo: "/design/silvercity/logo.webp",
     logoPlate: "ink",
     logoBg: "/design/silvercity/logo-bg.webp",
     logoTone: "#2a2f5e",
-    plates: [{ label: "试玩整理券", shots: ["/design/silvercity/yc-01.webp"] }],
+    brief: [
+      {
+        label: "游戏",
+        lines: ["复古幻想 · 侦探悬疑 ARPG", "维多利亚风格，一座开放城市", "乐元素 · 2026.12.14 全球公测"],
+      },
+      {
+        label: "世界观",
+        lines: ["菲莉亚娜 3 年，侦探回到白银城。", "城市停在繁华和衰落的交界，现实与寓言混在一起。"],
+      },
+      {
+        label: "玩法",
+        lines: ["交际 · 侦察 · 判断 · 战斗", "顺着那颗子弹的源头，决定自己和他人的命运。"],
+      },
+      {
+        label: "展台",
+        lines: ["2026 广州萤火虫漫展", "易拉宝：打卡 / 预约 / 领礼包", "试玩券：94×58mm，双面，2mm 出血"],
+      },
+    ],
+    plates: [
+      {
+        label: "易拉宝 · 打卡 / 预约 / 领礼包",
+        shots: [
+          "/design/silvercity/banner-checkin.webp",
+          "/design/silvercity/banner-booking.webp",
+          "/design/silvercity/banner-gift.webp",
+        ],
+      },
+      {
+        label: "试玩券 · 正面 / 背面",
+        shots: ["/design/silvercity/ticket-front.webp", "/design/silvercity/ticket-back.webp"],
+        cols: 2,
+      },
+    ],
   },
   promo: {
     slug: "promo",
