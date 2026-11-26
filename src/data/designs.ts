@@ -15,6 +15,14 @@ export type DesignKeywords = {
   rightLabel?: string;
 };
 
+/** 手绘方向草稿：一个机位一版，标出最后定的那版 */
+export type DesignDirection = {
+  image: string;
+  label: string;
+  note: string;
+  chosen?: boolean;
+};
+
 /** 黑白稿：看结构的线稿，或者压成黑白的光位 */
 export type DesignMonoShot = {
   image: string;
@@ -96,7 +104,10 @@ export type DesignData = {
   /** 关键词提取的交叉图 */
   keywords?: DesignKeywords;
   /** 上色前的黑白稿 */
-  mono?: { intro?: string; shots: DesignMonoShot[] };
+  mono?: { intro?: string; shots: DesignMonoShot[]; points?: string[] };
+  /** 四个方向的手绘草图 */
+  directions?: DesignDirection[];
+  directionNote?: string;
   /** 过程稿：环境、人物、字标、收尾，一张一张合成上来 */
   steps?: DesignStep[];
   /** 字标 / slogan 独立展示 */
@@ -281,19 +292,43 @@ export const designs: Record<string, DesignData> = {
       right: ["夜街", "霓虹招牌", "警戒线", "街机厅", "火焰"],
       cross: ["游戏街区", "热血开战", "玩心", "ChinaJoy 2026"],
     },
+    directions: [
+      {
+        image: "/design/snk/snk-dir1.webp",
+        label: "方案1·平视",
+        note: "九人横排站街心，对称，稳，但没什么冲劲。",
+      },
+      {
+        image: "/design/snk/snk-dir2.webp",
+        label: "方案2·仰视",
+        note: "人高过招牌，字标沉到画面下沿，压过来。",
+        chosen: true,
+      },
+      {
+        image: "/design/snk/snk-dir3.webp",
+        label: "方案3·斜侧",
+        note: "街区往深里退，人缩成中景一簇。",
+      },
+      {
+        image: "/design/snk/snk-dir4.webp",
+        label: "方案4·俯拍",
+        note: "先看摊位和大关系，人不当主角。",
+      },
+    ],
+    directionNote: "机位先在纸上试了四版，定的是仰视这张：九个人一起压向镜头。",
     mono: {
-      intro: "上色之前先看两件事：展台怎么立起来，九个人怎么从黑里浮出来。",
+      intro: "定稿那张竖版确认海报的底稿，展台、招牌、警戒带先在线里立住。",
       shots: [
         {
           image: "/design/snk/snk-mono-line.webp",
           label: "线稿 · 展台结构",
-          note: "橙色方向的底稿，展台、招牌、警戒带先在线里立住，再往里加人。",
+          note: "下半那片铅笔排线是原稿的地面，这里裁掉了，只看上半怎么搭起来。",
         },
-        {
-          image: "/design/snk/snk-mono-cast.webp",
-          label: "剪影 · 光位",
-          note: "九个人只留描边光，谁压前景、谁退后景，黑白里先定死。",
-        },
+      ],
+      points: [
+        "招牌从两侧往中间收，视线被挤回街心。",
+        "警戒带把地面切成前后两段，人站中间那道亮里。",
+        "中间整块留白，等九个人填进去。",
       ],
     },
     steps: [
@@ -362,7 +397,7 @@ export const designs: Record<string, DesignData> = {
     group: "游戏项目",
     credit: "展台物料独立设计 / 制作 · 官方立绘与宣传图引自游戏官网",
     desc: "仙境传说 3 的线下展台物料。从展台规则牌、通缉令集章、手举牌到一米栏插牌和 logo 贴，玩家从排队到领周边，每一步都有对应的牌子接住。",
-    meta: ["展台规则牌 / 通缉令", "手举牌 / 一米栏插牌"],
+    meta: ["展台规则牌 / 通缉令", "手举牌 / 插牌 / 展台标识"],
     hero: "/design/ro3/ro3-01.webp",
     cover: "/design/ro3/ro3-09.webp",
     thumb: "/design/ro3/ro3-09-600.webp",

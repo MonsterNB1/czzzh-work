@@ -32,6 +32,9 @@ export default function DesignRoom({ work }: { work: DesignData }) {
       : rawGroups;
 
   // the plate being looked at up close, as [groupIndex, shotIndex]
+  // 黑白稿只在填了素材时才渲染，这里收窄一次类型
+  const mono = work.mono?.shots.length ? work.mono : null;
+
   const [focus, setFocus] = useState<[number, number] | null>(null);
   // a ranking screenshot opened on its own
   const [board, setBoard] = useState<string | null>(null);
@@ -227,23 +230,86 @@ export default function DesignRoom({ work }: { work: DesignData }) {
             </section>
           ) : null}
 
-          {/* ===== 黑白稿：上色前，线稿和明暗各走一遍 ===== */}
-          {work.mono?.shots.length ? (
+          {/* ===== 四个方向：机位先在纸上试一遍 ===== */}
+          {work.directions?.length ? (
             <section className="mt-9">
               <div className="flex items-center gap-2 mb-2">
-                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">黑白稿</span>
-                <span className="hand type text-[10px] text-[#a8a49a]">{work.mono.shots.length}</span>
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">四个方向</span>
+                <span className="hand type text-[10px] text-[#a8a49a]">{work.directions.length}</span>
                 <span className="flex-1 h-px bg-[#e4dfd0]" />
-                <span className="note text-[10px] md:text-[11px] text-[#8b8779]">上色前的结构</span>
+                <span className="note text-[10px] md:text-[11px] text-[#8b8779]">手绘草稿 · 定机位</span>
               </div>
-              {work.mono.intro ? (
+              {work.directionNote ? (
                 <p className="note text-[11px] md:text-[12px] leading-relaxed text-[#8b8779]">
-                  {work.mono.intro}
+                  {work.directionNote}
                 </p>
               ) : null}
 
-              <div className="mt-3 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2">
-                {work.mono.shots.map((m, i) => (
+              <div className="mt-3 grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-3">
+                {work.directions.map((d, i) => (
+                  <figure key={d.label}>
+                    <button
+                      onClick={() => setBoard(d.image)}
+                      className={`relative block w-full overflow-hidden border transition-transform duration-300 hover:-translate-y-0.5 ${
+                        d.chosen ? "border-marker" : "border-[#ded8c8]"
+                      }`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={d.image.replace(/\.webp$/, "-800.webp")}
+                        srcSet={`${d.image.replace(/\.webp$/, "-800.webp")} 800w, ${d.image} 1600w`}
+                        sizes="(min-width: 768px) 23vw, 45vw"
+                        alt={`${work.title} 方向草稿 ${i + 1} ${d.label}`}
+                        width={1600}
+                        height={900}
+                        loading="lazy"
+                        decoding="async"
+                        className={`block w-full h-auto ${d.chosen ? "" : "opacity-[0.92]"}`}
+                      />
+                      <span className="hand absolute left-1.5 top-[5px] text-[10px] md:text-[11px] leading-none text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.8)]">
+                        {d.label}
+                      </span>
+                      {d.chosen ? (
+                        <span className="note absolute right-1 top-1 border border-marker/60 bg-[#fbf9f1]/90 px-1.5 py-[3px] text-[9px] md:text-[10px] leading-none text-marker">
+                          定稿
+                        </span>
+                      ) : null}
+                    </button>
+                    <figcaption className="note mt-1.5 text-[10px] md:text-[10.5px] leading-[1.55] text-[#8b8779]">
+                      {d.note}
+                    </figcaption>
+                  </figure>
+                ))}
+
+              </div>
+            </section>
+          ) : null}
+
+          {/* ===== 黑白稿：上色前，线稿和明暗各走一遍 ===== */}
+          {mono ? (
+            <section className="mt-9">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">黑白稿</span>
+                <span className="hand type text-[10px] text-[#a8a49a]">{mono.shots.length}</span>
+                <span className="flex-1 h-px bg-[#e4dfd0]" />
+                <span className="note text-[10px] md:text-[11px] text-[#8b8779]">上色前的结构</span>
+              </div>
+              {mono.intro ? (
+                <p className="note text-[11px] md:text-[12px] leading-relaxed text-[#8b8779]">
+                  {mono.intro}
+                </p>
+              ) : null}
+
+              <div
+                className={`mt-3 grid grid-cols-1 gap-x-4 gap-y-5 ${
+                  mono.shots.length > 1
+                    ? "md:grid-cols-2"
+                    : mono.points?.length
+                      ? "md:grid-cols-[1.6fr_1fr] md:items-start"
+                      : ""
+                }`}
+              >
+                {mono.shots.map((m, i) => (
                   <figure key={m.label}>
                     <button
                       onClick={() => setBoard(m.image)}
@@ -253,7 +319,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                       <img
                         src={m.image.replace(/\.webp$/, "-800.webp")}
                         srcSet={`${m.image.replace(/\.webp$/, "-800.webp")} 800w, ${m.image} 1600w`}
-                        sizes="(min-width: 768px) 46vw, 92vw"
+                        sizes={`(min-width: 768px) ${mono.shots.length > 1 ? 46 : 58}vw, 92vw`}
                         alt={`${work.title} 黑白稿 ${i + 1} ${m.label}`}
                         width={1600}
                         height={900}
@@ -277,6 +343,24 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                     </figcaption>
                   </figure>
                 ))}
+
+                {mono.points?.length ? (
+                  <aside className="md:pt-1">
+                    <div className="hand mb-2.5 text-[11px] md:text-[12px] leading-none text-[#2f2f2c]">
+                      看这三处
+                    </div>
+                    <ul className="space-y-2.5">
+                      {mono.points.map((pt) => (
+                        <li key={pt} className="flex gap-2">
+                          <span className="hand text-[11px] text-marker leading-none mt-[3px]">·</span>
+                          <span className="note text-[11px] md:text-[11.5px] leading-[1.65] text-[#6f6a5e]">
+                            {pt}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                ) : null}
               </div>
             </section>
           ) : null}
@@ -326,6 +410,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                     </figcaption>
                   </figure>
                 ))}
+
               </div>
             </section>
           ) : null}
