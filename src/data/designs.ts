@@ -298,17 +298,17 @@ export const designs: Record<string, DesignData> = {
       image: "/design/snk/snk-slogan.webp",
       headline: "格斗街区 · Fighting for Fun · 热血正燃",
       line: "ChinaJoy 2026　N1 馆 G302　07.31 — 08.03",
-      note: "字标换过三稿，前两版都死在标题太像游戏 logo，最后落成一块斜切的金属牌，电光从牌面穿过去。",
+      note: "字标前后出过三版，两版留在 PSD 里没启用，最后落在斜切的金属牌上，电光从牌面穿过去。",
       variants: [
         {
           image: "/design/snk/snk-slogan-alt1.webp",
           title: "SNK 游戏街区",
-          note: "初版 · 弃",
+          note: "初版 · 未采用",
         },
         {
           image: "/design/snk/snk-slogan-alt2.webp",
           title: "游戏发生中",
-          note: "二版 · 弃",
+          note: "二版 · 未采用",
         },
         {
           image: "/design/snk/snk-slogan-orange.webp",
