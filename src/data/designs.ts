@@ -362,7 +362,7 @@ export const designs: Record<string, DesignData> = {
     group: "游戏项目",
     credit: "展台物料独立设计 / 制作 · 官方立绘与宣传图引自游戏官网",
     desc: "仙境传说 3 的线下展台物料。从展台规则牌、通缉令集章、手举牌到一米栏插牌和 logo 贴，玩家从排队到领周边，每一步都有对应的牌子接住。",
-    meta: ["展台规则牌 / 通缉令", "手举牌 / 插牌 / 展台标识"],
+    meta: ["展台规则牌 / 通缉令", "手举牌 / 一米栏插牌"],
     hero: "/design/ro3/ro3-01.webp",
     cover: "/design/ro3/ro3-09.webp",
     thumb: "/design/ro3/ro3-09-600.webp",
