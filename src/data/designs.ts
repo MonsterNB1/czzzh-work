@@ -274,8 +274,8 @@ export const designs: Record<string, DesignData> = {
     },
     steps: [
       {
-        label: "空镜与光位",
-        note: "街区先铺完，人物只留一圈描边光，九个人的站位在这步定死。",
+        label: "空镜",
+        note: "街区、招牌、灯都铺满，人物还没进场，地面那点亮光留给九个人。",
         shot: "/design/snk/snk-step1.webp",
       },
       {
