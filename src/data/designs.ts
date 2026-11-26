@@ -15,6 +15,13 @@ export type DesignKeywords = {
   rightLabel?: string;
 };
 
+/** 黑白稿：看结构的线稿，或者压成黑白的光位 */
+export type DesignMonoShot = {
+  image: string;
+  label: string;
+  note: string;
+};
+
 /** 从层结构倒推出来的一步：这一版合成到哪儿了 */
 export type DesignStep = {
   label: string;
@@ -88,6 +95,8 @@ export type DesignData = {
   boards?: string[];
   /** 关键词提取的交叉图 */
   keywords?: DesignKeywords;
+  /** 上色前的黑白稿 */
+  mono?: { intro?: string; shots: DesignMonoShot[] };
   /** 过程稿：环境、人物、字标、收尾，一张一张合成上来 */
   steps?: DesignStep[];
   /** 字标 / slogan 独立展示 */
@@ -271,6 +280,21 @@ export const designs: Record<string, DesignData> = {
       left: ["拳皇", "饿狼传说", "侍魂", "合金弹头", "八神庵"],
       right: ["夜街", "霓虹招牌", "警戒线", "街机厅", "火焰"],
       cross: ["游戏街区", "热血开战", "玩心", "ChinaJoy 2026"],
+    },
+    mono: {
+      intro: "上色之前先看两件事：展台怎么立起来，九个人怎么从黑里浮出来。",
+      shots: [
+        {
+          image: "/design/snk/snk-mono-line.webp",
+          label: "线稿 · 展台结构",
+          note: "橙色方向的底稿，展台、招牌、警戒带先在线里立住，再往里加人。",
+        },
+        {
+          image: "/design/snk/snk-mono-cast.webp",
+          label: "剪影 · 光位",
+          note: "九个人只留描边光，谁压前景、谁退后景，黑白里先定死。",
+        },
+      ],
     },
     steps: [
       {

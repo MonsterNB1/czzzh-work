@@ -227,6 +227,60 @@ export default function DesignRoom({ work }: { work: DesignData }) {
             </section>
           ) : null}
 
+          {/* ===== 黑白稿：上色前，线稿和明暗各走一遍 ===== */}
+          {work.mono?.shots.length ? (
+            <section className="mt-9">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">黑白稿</span>
+                <span className="hand type text-[10px] text-[#a8a49a]">{work.mono.shots.length}</span>
+                <span className="flex-1 h-px bg-[#e4dfd0]" />
+                <span className="note text-[10px] md:text-[11px] text-[#8b8779]">上色前的结构</span>
+              </div>
+              {work.mono.intro ? (
+                <p className="note text-[11px] md:text-[12px] leading-relaxed text-[#8b8779]">
+                  {work.mono.intro}
+                </p>
+              ) : null}
+
+              <div className="mt-3 grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2">
+                {work.mono.shots.map((m, i) => (
+                  <figure key={m.label}>
+                    <button
+                      onClick={() => setBoard(m.image)}
+                      className="block w-full bg-white p-[4px] md:p-[5px] border border-[#e8e3d4] shadow-[0_12px_26px_-20px_rgba(60,45,25,0.7)] transition-transform duration-300 hover:-translate-y-0.5"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={m.image.replace(/\.webp$/, "-800.webp")}
+                        srcSet={`${m.image.replace(/\.webp$/, "-800.webp")} 800w, ${m.image} 1600w`}
+                        sizes="(min-width: 768px) 46vw, 92vw"
+                        alt={`${work.title} 黑白稿 ${i + 1} ${m.label}`}
+                        width={1600}
+                        height={900}
+                        loading="lazy"
+                        decoding="async"
+                        className="block w-full h-auto"
+                      />
+                    </button>
+                    <figcaption className="mt-2 flex items-start gap-2">
+                      <span className="hand text-[11px] md:text-[12px] text-marker leading-none mt-[3px]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <div className="hand text-[12px] md:text-[13px] text-[#2f2f2c] leading-none">
+                          {m.label}
+                        </div>
+                        <p className="note text-[10.5px] md:text-[11.5px] text-[#8b8779] leading-[1.6] mt-1">
+                          {m.note}
+                        </p>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           {/* ===== 过程稿：从层结构倒推的四步合成 ===== */}
           {work.steps?.length ? (
             <section className="mt-9">
