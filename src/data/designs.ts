@@ -243,7 +243,6 @@ export const designs: Record<string, DesignData> = {
     plates: [
       { label: "展陈主视觉", shots: series("bluearchive", "hero", 3) },
       { label: "人物立牌", shots: ["/design/bluearchive/standee-sheet.webp"], cols: 2 },
-      { label: "品牌标识", shots: series("bluearchive", "brand", 2) },
     ],
   },
   xiaobingbing: {
