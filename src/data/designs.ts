@@ -455,6 +455,14 @@ export const designs: Record<string, DesignData> = {
     logoPlate: "paper",
     logoBg: "/design/ro3/logo-bg.webp",
     logoTone: "#c9dbe2",
+    intro: {
+      label: "官方 KV · 米德加尔特 · 晴日草原",
+      note: "© Gravity / 欢乐互娱 · bilibili 游戏",
+      source: "官方资料 · game.bilibili.com/ro3",
+      text: "米德加尔特大陆，普隆德拉的城门重新打开。《仙境传说3》是二十余年经典 IP 的全球正统续作，Gravity 与欢乐互娱联合开发、bilibili 游戏发行，PC 原生开发、多端互通。经典职业、MVP 挑战和自由交易保留了下来，画面、战斗手感与公会攻城一并翻新，是一片熟悉又焕然一新的冒险大陆。",
+      image: "/design/ro3/kv-official.webp",
+      imageSmall: "/design/ro3/kv-official-900.webp",
+    },
     plates: [
       { label: "展台规则牌", shots: local("ro3", "ro3", 4) },
       { label: "通缉令 · 集章", shots: local("ro3", "ro3", 8).slice(4) },
