@@ -242,7 +242,7 @@ export const designs: Record<string, DesignData> = {
     logoTone: "#9ea9e8",
     plates: [
       { label: "展陈主视觉", shots: series("bluearchive", "hero", 3) },
-      { label: "人物立牌", shots: series("bluearchive", "standee", 7) },
+      { label: "人物立牌", shots: ["/design/bluearchive/standee-sheet.webp"], cols: 2 },
       { label: "品牌标识", shots: series("bluearchive", "brand", 2) },
     ],
   },
@@ -317,12 +317,12 @@ export const designs: Record<string, DesignData> = {
     ],
     directionNote: "机位先在纸上试了四版，定的是仰视这张：九个人一起压向镜头。",
     mono: {
-      intro: "定稿那张竖版确认海报的底稿，展台、招牌、警戒带先在线里立住。",
+      intro: "定稿那张竖版确认海报的底稿：展台、招牌、警戒带先在黑白里立住。",
       shots: [
         {
           image: "/design/snk/snk-mono-line.webp",
-          label: "线稿 · 展台结构",
-          note: "同一机位重画过一遍：只留展台、桁架、警戒带和地面的线，铅笔排线与纸纹都清掉了。",
+          label: "黑白稿 · 展台结构",
+          note: "照着空镜重画的结构稿：透视拉直、地平线摆平，彩色、灯效和人物都先摘掉。",
         },
       ],
       points: [
