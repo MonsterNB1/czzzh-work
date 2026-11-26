@@ -106,6 +106,11 @@ export default function DesignRoom({ work }: { work: DesignData }) {
               />
               <span className="tape absolute -top-2 left-8 rotate-[-3deg]" />
               <span className="tape absolute -top-2 right-10 rotate-[4deg]" />
+              {work.heroNote ? (
+                <figcaption className="mt-1 flex justify-end pr-0.5">
+                  <span className="note text-[9px] md:text-[10px] text-[#8f8a7c]">{work.heroNote}</span>
+                </figcaption>
+              ) : null}
             </figure>
           ) : null}
 
@@ -160,6 +165,191 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 </div>
               ))}
             </div>
+          ) : null}
+
+          {/* ===== 关键词：两圈叠在一起，交叉的那块才是题 ===== */}
+          {work.keywords ? (
+            <section className="mt-9">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">关键词提取</span>
+                <span className="flex-1 h-px bg-[#e4dfd0]" />
+              </div>
+              <p className="note text-[11px] md:text-[12px] leading-relaxed text-[#8b8779]">
+                左边是人物，右边是街，两圈叠住的那块才是这张 KV 的题。
+              </p>
+
+              <div className="relative mt-4 w-full aspect-[100/62]">
+                <div className="absolute left-0 md:left-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#f2e7cf]/55" />
+                <div className="absolute right-0 md:right-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#e3eae4]/55" />
+
+                {work.keywords.leftLabel ? (
+                  <span className="absolute left-[10%] top-[19%] hand text-[10px] md:text-[11.5px] text-[#a39d8d] leading-none">
+                    {work.keywords.leftLabel}
+                  </span>
+                ) : null}
+                {work.keywords.rightLabel ? (
+                  <span className="absolute right-[10%] top-[19%] hand text-[10px] md:text-[11.5px] text-[#a39d8d] leading-none">
+                    {work.keywords.rightLabel}
+                  </span>
+                ) : null}
+
+                <ul className="absolute left-[8%] top-[31%] bottom-[31%] w-[27%] flex flex-col justify-between text-left">
+                  {work.keywords.left.map((w) => (
+                    <li key={w} className="note text-[11px] md:text-[14.5px] leading-[1.2] text-[#3f3f39]">
+                      {w}
+                    </li>
+                  ))}
+                </ul>
+
+                <ul className="absolute right-[8%] top-[31%] bottom-[31%] w-[27%] flex flex-col justify-between text-right">
+                  {work.keywords.right.map((w) => (
+                    <li key={w} className="note text-[11px] md:text-[14.5px] leading-[1.2] text-[#3f3f39]">
+                      {w}
+                    </li>
+                  ))}
+                </ul>
+
+                <ul className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%] md:w-[20%] space-y-1.5 md:space-y-2 text-center">
+                  {work.keywords.cross.map((w, i) => (
+                    <li
+                      key={w}
+                      className={`hand leading-[1.2] ${
+                        i === 0
+                          ? "text-[14px] md:text-[18px] text-marker"
+                          : "text-[10px] md:text-[12px] text-[#6f6a5e]"
+                      }`}
+                    >
+                      {w}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          ) : null}
+
+          {/* ===== 过程稿：从层结构倒推的四步合成 ===== */}
+          {work.steps?.length ? (
+            <section className="mt-9">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">过程稿</span>
+                <span className="hand type text-[10px] text-[#a8a49a]">{work.steps.length}</span>
+                <span className="flex-1 h-px bg-[#e4dfd0]" />
+                <span className="note text-[10px] md:text-[11px] text-[#8b8779]">逐组打开，04 就是页首那张定稿</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-x-4 gap-y-5 md:grid-cols-2">
+                {work.steps.map((st, i) => (
+                  <figure key={st.label}>
+                    <button
+                      onClick={() => setBoard(st.shot)}
+                      className="block w-full bg-white p-[4px] md:p-[5px] border border-[#e8e3d4] shadow-[0_12px_26px_-20px_rgba(60,45,25,0.7)] transition-transform duration-300 hover:-translate-y-0.5"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={st.shot.replace(/\.webp$/, "-800.webp")}
+                        srcSet={`${st.shot.replace(/\.webp$/, "-800.webp")} 800w, ${st.shot} 1600w`}
+                        sizes="(min-width: 768px) 46vw, 92vw"
+                        alt={`${work.title} 过程稿 ${i + 1} ${st.label}`}
+                        width={1600}
+                        height={900}
+                        loading="lazy"
+                        decoding="async"
+                        className="block w-full h-auto"
+                      />
+                    </button>
+                    <figcaption className="mt-2 flex items-start gap-2">
+                      <span className="hand text-[11px] md:text-[12px] text-marker leading-none mt-[3px]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <div className="hand text-[12px] md:text-[13px] text-[#2f2f2c] leading-none">
+                          {st.label}
+                        </div>
+                        <p className="note text-[10.5px] md:text-[11.5px] text-[#8b8779] leading-[1.6] mt-1">
+                          {st.note}
+                        </p>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {/* ===== 字标：夜里单独亮出来的一块牌 ===== */}
+          {work.slogan ? (
+            <section className="mt-10 -mx-5 md:-mx-10">
+              <div className="relative bg-[#16120f] border-y border-[#2b241c] px-4 py-7 md:px-9 md:py-9 overflow-hidden">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-[0.07]"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(0deg, rgba(255,255,255,0.7) 0 1px, transparent 1px 3px)",
+                  }}
+                />
+                <div className="relative">
+                  <div className="flex items-center gap-3">
+                    <span className="hand text-[12px] md:text-[13px] text-[#e8d9ae] leading-none">SLOGAN</span>
+                    <span className="flex-1 h-px bg-[#3a3128]" />
+                    <span className="hand type text-[9.5px] md:text-[10px] text-[#7d7365]">定稿字标</span>
+                  </div>
+
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={work.slogan.image}
+                    alt={work.slogan.headline}
+                    width={2000}
+                    height={733}
+                    loading="lazy"
+                    decoding="async"
+                    className="block mx-auto mt-5 w-full max-w-[600px] h-auto"
+                  />
+
+                  {work.slogan.line ? (
+                    <p className="note mt-4 text-center text-[10.5px] md:text-[12px] text-[#cdbfa0] leading-[1.8]">
+                      {work.slogan.line}
+                    </p>
+                  ) : null}
+
+                  {work.slogan.variants?.length ? (
+                    <>
+                      <div className="mt-7 flex items-center gap-2">
+                        <span className="hand text-[11px] md:text-[12px] text-[#a99c7f] leading-none">换掉的几稿</span>
+                        <span className="flex-1 h-px bg-[#332c24]" />
+                      </div>
+                      <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-3 sm:gap-4">
+                        {work.slogan.variants.map((v) => (
+                          <div key={v.title}>
+                            <div className="flex h-[86px] md:h-[112px] items-center justify-center bg-[#0e0c0a] border border-[#2e261d] p-1.5 md:p-2">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={v.image.replace(/\.webp$/, "-600.webp")}
+                                alt={`${work.title} 字标 ${v.title}`}
+                                loading="lazy"
+                                decoding="async"
+                                className="block max-h-full max-w-full w-auto h-auto opacity-85"
+                              />
+                            </div>
+                            <div className="note mt-1.5 text-[10px] md:text-[11px] text-[#a2967f] leading-[1.4]">
+                              {v.title}
+                            </div>
+                            <div className="hand text-[9px] md:text-[10px] text-[#6b6156] leading-none mt-1">
+                              {v.note}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+
+                  {work.slogan.note ? (
+                    <p className="note mt-6 max-w-[52ch] text-[11px] md:text-[12px] leading-[1.75] text-[#948a7b]">
+                      {work.slogan.note}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+            </section>
           ) : null}
 
           {/* ===== the numbers, then where it shipped ===== */}
@@ -294,7 +484,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={board}
-            alt={`${work.title} 平台榜单`}
+            alt={`${work.title} 大图`}
             className="block max-h-[85vh] max-w-full w-auto h-auto object-contain shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]"
           />
         </div>

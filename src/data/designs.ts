@@ -5,6 +5,39 @@ export type DesignBrief = { label: string; lines: string[] };
 
 export type DesignStat = { value: string; label: string };
 
+/** 两张画面各拆一套词，交叉处落成题眼 */
+export type DesignKeywords = {
+  left: string[];
+  right: string[];
+  cross: string[];
+  /** 左圈 / 右圈的名字，压在圈顶 */
+  leftLabel?: string;
+  rightLabel?: string;
+};
+
+/** 从层结构倒推出来的一步：这一版合成到哪儿了 */
+export type DesignStep = {
+  label: string;
+  note: string;
+  shot: string;
+};
+
+/** 字标单独拎出来展示，附带被毙掉的几稿 */
+export type DesignSloganVariant = {
+  image: string;
+  title: string;
+  note: string;
+};
+
+export type DesignSlogan = {
+  image: string;
+  headline: string;
+  /** 字标下面那一行小字 */
+  line?: string;
+  note?: string;
+  variants?: DesignSloganVariant[];
+};
+
 export type DesignPlateGroup = {
   label: string;
   shots: string[];
@@ -29,6 +62,8 @@ export type DesignData = {
   shape?: "portrait" | "landscape";
   /** big print at the top of the detail page, defaults to the cover */
   hero?: string;
+  /** a small caption under that print, marks the stage it belongs to */
+  heroNote?: string;
   /** narrow-screen variant of the hero, offered alongside it in the srcset */
   heroSmall?: string;
   /** cover shown in the polaroid grid */
@@ -51,6 +86,12 @@ export type DesignData = {
   platforms?: string[];
   /** store ranking screenshots, opened at full size */
   boards?: string[];
+  /** 关键词提取的交叉图 */
+  keywords?: DesignKeywords;
+  /** 过程稿：环境、人物、字标、收尾，一张一张合成上来 */
+  steps?: DesignStep[];
+  /** 字标 / slogan 独立展示 */
+  slogan?: DesignSlogan;
   meta?: string[];
   /** one section per folder the material came from */
   plates?: DesignPlateGroup[];
@@ -216,13 +257,66 @@ export const designs: Record<string, DesignData> = {
     group: "游戏项目",
     credit: "全部物料独立设计 / 制作",
     desc: "SNK 在 ChinaJoy 2026 的展台视觉，走了两版方向：夜色街区的「格斗街区 · 热血正燃」，和橙色底的热血开战版。定稿再落到一张竖版参展确认海报，展位号与展期压在左下。",
-    meta: ["KV 两版方向", "参展确认海报 · 竖版"],
+    meta: ["关键词 / 过程稿 / 字标", "KV 两版方向", "参展确认海报 · 竖版"],
+    heroNote: "定稿成品 · 6967 × 3921",
     cover: "/design/snk/snk-01.webp",
     thumb: "/design/snk/snk-01-600.webp",
     logo: "/design/snk/logo.webp",
     logoPlate: "ink",
     logoBg: "/design/snk/logo-bg.webp",
     logoTone: "#2b2724",
+    keywords: {
+      leftLabel: "人物",
+      rightLabel: "街区",
+      left: ["拳皇", "饿狼传说", "侍魂", "合金弹头", "八神庵"],
+      right: ["夜街", "霓虹招牌", "警戒线", "街机厅", "火焰"],
+      cross: ["游戏街区", "热血开战", "玩心", "ChinaJoy 2026"],
+    },
+    steps: [
+      {
+        label: "空镜与光位",
+        note: "街区先铺完，人物只留一圈描边光，九个人的站位在这步定死。",
+        shot: "/design/snk/snk-step1.webp",
+      },
+      {
+        label: "群像落位",
+        note: "角色原画逐个合进来，前后景分层，肩线、手势都对着站位调。",
+        shot: "/design/snk/snk-step2.webp",
+      },
+      {
+        label: "字标压屏",
+        note: "标题板、电光、色相对齐，重心从人物挪到中间那块牌子。",
+        shot: "/design/snk/snk-step3.webp",
+      },
+      {
+        label: "氛围收尾",
+        note: "火焰、ChinaJoy 警戒线、压暗与颗粒，出 6967×3921 定稿。",
+        shot: "/design/snk/snk-step4.webp",
+      },
+    ],
+    slogan: {
+      image: "/design/snk/snk-slogan.webp",
+      headline: "格斗街区 · Fighting for Fun · 热血正燃",
+      line: "ChinaJoy 2026　N1 馆 G302　07.31 — 08.03",
+      note: "字标换过三稿，前两版都死在标题太像游戏 logo，最后落成一块斜切的金属牌，电光从牌面穿过去。",
+      variants: [
+        {
+          image: "/design/snk/snk-slogan-alt1.webp",
+          title: "SNK 游戏街区",
+          note: "初版 · 弃",
+        },
+        {
+          image: "/design/snk/snk-slogan-alt2.webp",
+          title: "游戏发生中",
+          note: "二版 · 弃",
+        },
+        {
+          image: "/design/snk/snk-slogan-orange.webp",
+          title: "欢聚街区 · 热血开战",
+          note: "橙色方向 · 并行",
+        },
+      ],
+    },
     plates: [
       {
         label: "KV · 两版方向",
