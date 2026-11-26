@@ -342,7 +342,7 @@ function ProjectIndex({
                             alt={`${it.title} 标识`}
                             loading={gi === 0 && idx < 2 ? "eager" : "lazy"}
                             decoding="async"
-                            className="absolute inset-0 m-auto h-full w-full object-contain px-7 md:px-10 drop-shadow-[0_1px_2px_rgba(60,45,25,0.18)]"
+                            className="absolute inset-0 h-full w-full object-contain px-7 py-5 md:px-10 md:py-4 drop-shadow-[0_1px_2px_rgba(60,45,25,0.18)]"
                           />
                         </div>
                       ) : (
