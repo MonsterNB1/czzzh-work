@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { aigcOrder, animationOrder, videoOrder, works } from "@/data/works";
 import { designOrder, designs } from "@/data/designs";
@@ -454,6 +454,16 @@ export default function WorksPage() {
   const [active, setActive] = useState(0);
   const current = sections[active];
   const router = useRouter();
+
+  // the home page's four disciplines open the matching tab via ?tab=video etc.
+  // the index is static, so read the query on mount; a layout effect keeps it
+  // ahead of the first paint so the viewer never sees the default tab flash
+  useLayoutEffect(() => {
+    const tab = new URLSearchParams(window.location.search).get("tab");
+    if (!tab) return;
+    const idx = sections.findIndex((s) => s.key === tab);
+    if (idx >= 0) setActive(idx);
+  }, []);
 
   // leaving the notebook: the room goes dark, then the TV lights up
   const [leaving, setLeaving] = useState(false);

@@ -17,6 +17,17 @@ const POLAROID_INNER = {
   height: "65%",
 };
 
+// the four disciplines on the left page double as entry points into the
+// matching tab of the work index
+const DISCIPLINES = [
+  { zh: "动画", en: "Animation", tab: "animation" },
+  { zh: "设计", en: "Design", tab: "design" },
+  { zh: "视频", en: "Video", tab: "video" },
+  { zh: "AIGC", en: "", tab: "aigc" },
+];
+
+const worksHref = (tab: string) => `/works?tab=${tab}`;
+
 export default function Home() {
   return (
     <div className="grid-bg relative min-h-screen w-full overflow-hidden md:flex md:items-start md:justify-center md:px-4 md:pt-24 md:pb-8">
@@ -30,7 +41,7 @@ export default function Home() {
           <p className="hand type font-bold text-marker leading-[0.9] text-[64px]">
             Hi<span className="text-[22px] align-super">～</span>
           </p>
-          <h1 className="hand type font-bold text-marker text-[22px] mt-3 leading-[1.3]">
+          <h1 className="hand type font-bold text-ink-blue text-[22px] mt-3 leading-[1.3]">
             I&apos;m{" "}
             <span className="tracking-[0.12em] inline-flex">
               <span className="inline-block -rotate-3">蔡</span>
@@ -40,18 +51,17 @@ export default function Home() {
           </h1>
 
           <div className="mt-6 grid grid-cols-2 gap-y-2 gap-x-3">
-            {[
-              ["动画", "Animation"],
-              ["设计", "Design"],
-              ["视频", "Video"],
-              ["AIGC", ""],
-            ].map(([zh, en], i) => (
-              <div key={zh} className="flex items-baseline gap-1.5">
-                <span className={`hand font-bold text-ink-blue text-[17px] leading-[1.4]${i === 3 ? " zh" : ""}`}>
-                  {zh}
+            {DISCIPLINES.map((d) => (
+              <Link
+                key={d.zh}
+                href={worksHref(d.tab)}
+                className="flex items-baseline gap-1.5 transition-opacity hover:opacity-70"
+              >
+                <span className={`hand font-bold text-marker text-[17px] leading-[1.4]${d.zh === "AIGC" ? " zh" : ""}`}>
+                  {d.zh}
                 </span>
-                {en && <span className="note type text-[#2b2b2b] text-[12px] leading-[1.4]">{en}</span>}
-              </div>
+                {d.en && <span className="note type text-[#2b2b2b] text-[12px] leading-[1.4]">{d.en}</span>}
+              </Link>
             ))}
           </div>
 
@@ -180,7 +190,7 @@ export default function Home() {
             Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
           </p>
           <h1
-            className="hand type font-bold text-marker leading-[1.2]"
+            className="hand type font-bold text-ink-blue leading-[1.2]"
             style={{ fontSize: px(0.033), marginTop: px(0.003), marginLeft: px(0.006) }}
           >
             I&apos;m{" "}
@@ -191,7 +201,8 @@ export default function Home() {
             </span>
           </h1>
 
-          {/* four directions, two columns: animation+design left, AIGC+video right */}
+          {/* four directions, two columns: animation+design left, AIGC+video right.
+              each word is also the way into its tab on the work index */}
           <div
             style={{
               marginTop: px(0.0235),
@@ -202,9 +213,13 @@ export default function Home() {
               alignItems: "baseline",
             }}
           >
-            <div className="flex items-baseline -rotate-2" style={{ columnGap: px(0.0088) }}>
+            <Link
+              href={worksHref("animation")}
+              className="flex items-baseline -rotate-2 transition-opacity hover:opacity-70"
+              style={{ columnGap: px(0.0088) }}
+            >
               <span
-                className="hand font-bold text-ink-blue leading-[1.5]"
+                className="hand font-bold text-marker leading-[1.5]"
                 style={{ fontSize: px(0.0264) }}
               >
                 动画
@@ -215,21 +230,26 @@ export default function Home() {
               >
                 Animation
               </span>
-            </div>
-            <div className="flex items-baseline" style={{ columnGap: px(0.0088) }}>
+            </Link>
+            <Link
+              href={worksHref("aigc")}
+              className="flex items-baseline transition-opacity hover:opacity-70"
+              style={{ columnGap: px(0.0088) }}
+            >
               <span
-                className="hand zh font-bold text-ink-blue leading-[1.4] -rotate-6"
+                className="hand zh font-bold text-marker leading-[1.4] -rotate-6"
                 style={{ fontSize: px(0.022) }}
               >
                 AIGC
               </span>
-            </div>
-            <div
-              className="flex items-baseline rotate-1"
+            </Link>
+            <Link
+              href={worksHref("design")}
+              className="flex items-baseline rotate-1 transition-opacity hover:opacity-70"
               style={{ columnGap: px(0.0088), marginLeft: px(0.014), marginTop: px(0.004) }}
             >
               <span
-                className="hand font-bold text-ink-blue leading-[1.5]"
+                className="hand font-bold text-marker leading-[1.5]"
                 style={{ fontSize: px(0.0264) }}
               >
                 设计
@@ -240,13 +260,14 @@ export default function Home() {
               >
                 Design
               </span>
-            </div>
-            <div
-              className="flex items-baseline rotate-1"
+            </Link>
+            <Link
+              href={worksHref("video")}
+              className="flex items-baseline rotate-1 transition-opacity hover:opacity-70"
               style={{ columnGap: px(0.0088), marginLeft: px(0.006), marginTop: px(0.004) }}
             >
               <span
-                className="hand font-bold text-ink-blue leading-[1.5]"
+                className="hand font-bold text-marker leading-[1.5]"
                 style={{ fontSize: px(0.0264) }}
               >
                 视频
@@ -257,7 +278,7 @@ export default function Home() {
               >
                 Video
               </span>
-            </div>
+            </Link>
           </div>
         </div>
 
