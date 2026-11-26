@@ -467,7 +467,11 @@ export const designs: Record<string, DesignData> = {
     },
     plates: [
       { label: "展台规则牌", shots: local("ro3", "ro3", 4) },
-      { label: "通缉令 · 集章", shots: local("ro3", "ro3", 8).slice(4) },
+      {
+        label: "通缉令 · 集章",
+        shots: ["/design/ro3/wanted-sheet.webp"],
+        cols: 2,
+      },
       { label: "手举牌", shots: local("ro3", "ro3", 12).slice(8) },
       { label: "一米栏插牌", shots: local("ro3", "ro3", 14).slice(12) },
       {
