@@ -121,7 +121,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           <div className="mt-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
             <div>
               <div className="flex items-baseline gap-3 flex-wrap">
-                <h1 className="hand text-[30px] md:text-[44px] font-bold text-ink-blue leading-none">
+                <h1 className="hand text-[32px] md:text-[52px] font-bold text-ink-blue leading-none">
                   {work.title}
                 </h1>
                 {work.en ? (
@@ -131,7 +131,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 ) : null}
               </div>
               {work.sub ? (
-                <p className="note text-[12px] md:text-[13.5px] text-[#3b3b36] mt-2">{work.sub}</p>
+                <p className="note text-[15px] md:text-[18px] text-[#3b3b36] mt-2.5 tracking-wide">{work.sub}</p>
               ) : null}
             </div>
             {work.credit ? (
@@ -233,7 +233,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 左边是人物，右边是街，两圈叠住的那块才是这张 KV 的题。
               </p>
 
-              <div className="relative mt-4 mx-auto w-full max-w-[540px] aspect-[100/62] md:max-w-[580px]">
+              <div className="relative mt-4 mx-auto w-full max-w-[520px] aspect-[100/62]">
                 <div className="absolute left-0 md:left-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#f2e7cf]/55" />
                 <div className="absolute right-0 md:right-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#e3eae4]/55" />
 
