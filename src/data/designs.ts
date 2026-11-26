@@ -322,7 +322,7 @@ export const designs: Record<string, DesignData> = {
         {
           image: "/design/snk/snk-mono-line.webp",
           label: "线稿 · 展台结构",
-          note: "竖版那张的底稿，画幅只裁到 16:9，地面那片铅笔排线没动。",
+          note: "同一机位重画过一遍：只留展台、桁架、警戒带和地面的线，铅笔排线与纸纹都清掉了。",
         },
       ],
       points: [
