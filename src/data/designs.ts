@@ -93,6 +93,15 @@ export type DesignData = {
   logoBg?: string;
   /** the tone pulled out of that key visual, the far end of the wash */
   logoTone?: string;
+  /** 游戏介绍：一段世界观的话，配一张官方 KV，摆在自己的物料前面 */
+  intro?: {
+    label: string;
+    note?: string;
+    source?: string;
+    text?: string;
+    image: string;
+    imageSmall?: string;
+  };
   /** 项目 / 主题 / 定位 / 思路, laid out as a cross */
   brief?: DesignBrief[];
   /** the numbers the campaign landed */
@@ -231,18 +240,60 @@ export const designs: Record<string, DesignData> = {
     sub: "Bilibili World 2026 展陈物料",
     en: "EXHIBITION DESIGN · BW2026",
     group: "游戏项目",
-    credit: "全部物料独立设计 / 制作",
-    desc: "2026 Bilibili World 的线下展陈物料。主视觉、场内导视，加上人物与道具立牌，最后收进展位搭建的方案和效果图，印刷和现场都得对得上。",
-    meta: ["主视觉 / 场内导视", "人物＋道具立牌 / 搭建方案"],
+    credit: "展陈物料独立设计 / 制作 · 官方素材引自游戏官网",
+    desc: "2026 Bilibili World 的蔚蓝档案展台。主视觉、场内导视，七位少女的立牌，一路做到展位搭建的效果图和现场落地，印刷、结构和灯光都要对得上。",
+    meta: ["主视觉 / 场内导视", "立牌 / 搭建效果图 / 现场"],
     cover: `${MEDIA}/design/bluearchive/hero-01.webp`,
     thumb: `${MEDIA}/design/bluearchive/hero-01-600.webp`,
+    heroNote: "展位主视觉 · Bilibili World 2026",
     logo: `${MEDIA}/design/logos/bluearchive.webp`,
     logoPlate: "paper",
     logoBg: "/design/bluearchive/logo-bg.webp",
     logoTone: "#9ea9e8",
+    intro: {
+      label: "官方 KV · 基沃托斯学园都市",
+      note: "© NEXON Games / Yostar",
+      source: "官方资料 · bluearchive-cn.com",
+      text: "基沃托斯，头上顶着光环的少女们生活的学园都市。联邦理事会的会长不辞而别，城市陷入群龙无首的混乱，会长留下的搜查社「沙勒」和从外面来的老师接下了这座城。阿拜多斯的沙暴、废部危机、还不完的欠款——故事从五名少女的社团开始。",
+      image: "/design/bluearchive/kv-official.webp",
+      imageSmall: "/design/bluearchive/kv-official-900.webp",
+    },
+    brief: [
+      {
+        label: "游戏",
+        lines: ["学园 · 青春 · 战术 RPG", "NEXON Games 开发 · 悠星国服发行", "2023 国服上线，现版本 3.0.2"],
+      },
+      {
+        label: "世界观",
+        lines: ["基沃托斯：光环少女的学园都市", "联邦理事会失序，沙勒与老师接手", "阿拜多斯：沙暴吞城，只剩五名少女"],
+      },
+      {
+        label: "玩法",
+        lines: ["编队推进 · 掩体射击 · 自动战斗", "EX 技能、好感度与社团剧情"],
+      },
+      {
+        label: "展台",
+        lines: ["Bilibili World 2026 展陈物料", "主视觉 / 导视 / 立牌 / 搭建方案", "效果图到现场，一件件落地"],
+      },
+    ],
     plates: [
       { label: "展陈主视觉", shots: series("bluearchive", "hero", 3) },
+      {
+        label: "展台搭建 · 效果图与现场",
+        shots: ["/design/bluearchive/booth-render.webp", "/design/bluearchive/live-booth.webp"],
+        cols: 2,
+      },
+      {
+        label: "现场实拍 · 列车与展台",
+        shots: ["/design/bluearchive/live-train.webp", "/design/bluearchive/live-front.webp"],
+        cols: 2,
+      },
       { label: "人物立牌", shots: ["/design/bluearchive/standee-sheet.webp"], cols: 2 },
+      {
+        label: "官方视觉 · 学园与街景",
+        shots: ["/design/bluearchive/official-abydos.webp", "/design/bluearchive/official-street.webp"],
+        cols: 2,
+      },
     ],
   },
   xiaobingbing: {

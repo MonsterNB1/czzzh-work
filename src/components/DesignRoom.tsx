@@ -121,7 +121,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           <div className="mt-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
             <div>
               <div className="flex items-baseline gap-3 flex-wrap">
-                <h1 className="hand text-[26px] md:text-[38px] font-bold text-ink-blue leading-none">
+                <h1 className="hand text-[30px] md:text-[44px] font-bold text-ink-blue leading-none">
                   {work.title}
                 </h1>
                 {work.en ? (
@@ -143,6 +143,58 @@ export default function DesignRoom({ work }: { work: DesignData }) {
             <p className="note mt-3 text-[12.5px] md:text-[14px] leading-[1.75] text-[#2f2f2c] max-w-[62ch]">
               {work.desc}
             </p>
+          ) : null}
+
+          {/* ===== 游戏介绍：官方 KV 挂在介绍上，自己的物料从这之后才开始 ===== */}
+          {work.intro ? (
+            <section className="mt-8">
+              <div className="flex items-center gap-2 mb-2.5">
+                <span className="hand text-[13px] md:text-[15px] text-marker leading-none">
+                  游戏介绍
+                </span>
+                <span className="flex-1 h-px bg-[#e4dfd0]" />
+                {work.intro.source ? (
+                  <span className="note text-[10px] md:text-[11px] text-[#8b8779]">
+                    {work.intro.source}
+                  </span>
+                ) : null}
+              </div>
+
+              <figure className="relative bg-white p-[4px] md:p-[6px] border border-[#e8e3d4] shadow-[0_16px_32px_-24px_rgba(60,45,25,0.7)] rotate-[0.4deg]">
+                <span className="tape absolute -top-2 left-8 rotate-[-2.5deg]" />
+                <span className="tape absolute -top-2 right-10 rotate-[3deg]" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={work.intro.image}
+                  srcSet={
+                    work.intro.imageSmall
+                      ? `${work.intro.imageSmall} 900w, ${work.intro.image} 1800w`
+                      : undefined
+                  }
+                  sizes={work.intro.imageSmall ? "(min-width: 768px) 70vw, 94vw" : undefined}
+                  alt={`${work.title} 官方主视觉`}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full h-auto aspect-[2/1] object-cover"
+                />
+                <figcaption className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 px-0.5">
+                  <span className="note text-[10px] md:text-[11px] text-[#8b8779]">
+                    {work.intro.label}
+                  </span>
+                  {work.intro.note ? (
+                    <span className="note text-[9px] md:text-[10px] text-[#a8a49a]">
+                      {work.intro.note}
+                    </span>
+                  ) : null}
+                </figcaption>
+              </figure>
+
+              {work.intro.text ? (
+                <p className="note mt-3 text-[12px] md:text-[13px] leading-[1.8] text-[#3b3b36] max-w-[72ch]">
+                  {work.intro.text}
+                </p>
+              ) : null}
+            </section>
           ) : null}
 
           {/* ===== 项目 / 主题 / 定位 / 思路, hung on a cross ===== */}
@@ -181,24 +233,24 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 左边是人物，右边是街，两圈叠住的那块才是这张 KV 的题。
               </p>
 
-              <div className="relative mt-4 w-full aspect-[100/62]">
+              <div className="relative mt-4 mx-auto w-full max-w-[540px] aspect-[100/62] md:max-w-[580px]">
                 <div className="absolute left-0 md:left-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#f2e7cf]/55" />
                 <div className="absolute right-0 md:right-[1%] top-1/2 -translate-y-1/2 w-[58%] aspect-square rounded-full border border-[#d8d0ba] bg-[#e3eae4]/55" />
 
                 {work.keywords.leftLabel ? (
-                  <span className="absolute left-[10%] top-[19%] hand text-[10px] md:text-[11.5px] text-[#a39d8d] leading-none">
+                  <span className="absolute left-[10%] top-[19%] hand text-[9.5px] md:text-[10.5px] text-[#a39d8d] leading-none">
                     {work.keywords.leftLabel}
                   </span>
                 ) : null}
                 {work.keywords.rightLabel ? (
-                  <span className="absolute right-[10%] top-[19%] hand text-[10px] md:text-[11.5px] text-[#a39d8d] leading-none">
+                  <span className="absolute right-[10%] top-[19%] hand text-[9.5px] md:text-[10.5px] text-[#a39d8d] leading-none">
                     {work.keywords.rightLabel}
                   </span>
                 ) : null}
 
                 <ul className="absolute left-[8%] top-[31%] bottom-[31%] w-[27%] flex flex-col justify-between text-left">
                   {work.keywords.left.map((w) => (
-                    <li key={w} className="note text-[11px] md:text-[14.5px] leading-[1.2] text-[#3f3f39]">
+                    <li key={w} className="note text-[11px] md:text-[13.5px] leading-[1.2] text-[#3f3f39]">
                       {w}
                     </li>
                   ))}
@@ -206,7 +258,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
 
                 <ul className="absolute right-[8%] top-[31%] bottom-[31%] w-[27%] flex flex-col justify-between text-right">
                   {work.keywords.right.map((w) => (
-                    <li key={w} className="note text-[11px] md:text-[14.5px] leading-[1.2] text-[#3f3f39]">
+                    <li key={w} className="note text-[11px] md:text-[13.5px] leading-[1.2] text-[#3f3f39]">
                       {w}
                     </li>
                   ))}
@@ -218,8 +270,8 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                       key={w}
                       className={`hand leading-[1.2] ${
                         i === 0
-                          ? "text-[14px] md:text-[18px] text-marker"
-                          : "text-[10px] md:text-[12px] text-[#6f6a5e]"
+                          ? "text-[13px] md:text-[16px] text-marker"
+                          : "text-[9.5px] md:text-[11px] text-[#6f6a5e]"
                       }`}
                     >
                       {w}
@@ -245,7 +297,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 </p>
               ) : null}
 
-              <div className="mt-3 grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-3">
+              <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-x-5 md:gap-y-6">
                 {work.directions.map((d, i) => (
                   <figure key={d.label}>
                     <button
@@ -258,7 +310,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                       <img
                         src={d.image.replace(/\.webp$/, "-800.webp")}
                         srcSet={`${d.image.replace(/\.webp$/, "-800.webp")} 800w, ${d.image} 1600w`}
-                        sizes="(min-width: 768px) 23vw, 45vw"
+                        sizes="(min-width: 640px) 46vw, 92vw"
                         alt={`${work.title} 方向草稿 ${i + 1} ${d.label}`}
                         width={1600}
                         height={900}
