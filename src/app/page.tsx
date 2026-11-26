@@ -38,7 +38,7 @@ export default function Home() {
         <div className="relative bg-[#fbfaf4] border border-[#e6e0cf] shadow-[0_20px_44px_-20px_rgba(60,45,25,0.5)] rotate-[-0.7deg] px-6 pt-9 pb-8">
           <span className="tape -top-2 left-10 -rotate-2" style={{ width: 58, height: 14 }} />
 
-          <p className="hand type font-bold text-marker leading-[0.9] text-[64px]">
+          <p className="hand type font-bold text-ink-blue leading-[0.9] text-[64px]">
             Hi<span className="text-[22px] align-super">～</span>
           </p>
           <h1 className="hand type font-bold text-ink-blue text-[22px] mt-3 leading-[1.3]">
@@ -184,7 +184,7 @@ export default function Home() {
         {/* big "Hi, I'm" + smaller name, left aligned */}
         <div className="absolute" style={{ left: "13%", top: "13%" }}>
           <p
-            className="hand type font-bold text-marker leading-none"
+            className="hand type font-bold text-ink-blue leading-none"
             style={{ fontSize: px(0.068) }}
           >
             Hi<span className="text-[0.3em] align-middle -mt-2 inline-block">～</span>
