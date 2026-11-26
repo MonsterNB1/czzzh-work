@@ -251,12 +251,12 @@ export const designs: Record<string, DesignData> = {
     logoBg: "/design/bluearchive/logo-bg.webp",
     logoTone: "#9ea9e8",
     intro: {
-      label: "官方 KV · 基沃托斯学园都市",
+      label: "官方 KV · 基沃托斯 · 黄昏",
       note: "© NEXON Games / Yostar",
       source: "官方资料 · bluearchive-cn.com",
       text: "基沃托斯，头上顶着光环的少女们生活的学园都市。联邦理事会的会长不辞而别，城市陷入群龙无首的混乱，会长留下的搜查社「沙勒」和从外面来的老师接下了这座城。阿拜多斯的沙暴、废部危机、还不完的欠款——故事从五名少女的社团开始。",
-      image: "/design/bluearchive/kv-official.webp",
-      imageSmall: "/design/bluearchive/kv-official-900.webp",
+      image: "/design/bluearchive/kv-official-dusk.webp",
+      imageSmall: "/design/bluearchive/kv-official-dusk-900.webp",
     },
     brief: [
       {
@@ -326,7 +326,7 @@ export const designs: Record<string, DesignData> = {
     en: "KEY VISUAL · CHINAJOY",
     group: "游戏项目",
     credit: "全部物料独立设计 / 制作",
-    desc: "SNK 在 ChinaJoy 2026 的展台视觉，走了两版方向：夜色街区的「格斗街区 · 热血正燃」，和橙色底的热血开战版。定稿再落到一张竖版参展确认海报，展位号与展期压在左下。",
+    desc: "SNK 在 ChinaJoy 2026 的展台视觉，夜色街区的「格斗街区 · 热血正燃」与橙色底的热血开战版，定稿落在竖版参展确认海报上。",
     meta: ["关键词 / 过程稿 / 字标", "KV 两版方向", "参展确认海报 · 竖版"],
     heroNote: "定稿成品 · 6967 × 3921",
     cover: "/design/snk/snk-01.webp",

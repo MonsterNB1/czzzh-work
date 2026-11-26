@@ -140,7 +140,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
           </div>
 
           {work.desc ? (
-            <p className="note mt-3 text-[12.5px] md:text-[14px] leading-[1.75] text-[#2f2f2c] max-w-[62ch]">
+            <p className="note mt-3 text-[12.5px] md:text-[14px] leading-[1.75] text-[#2f2f2c]">
               {work.desc}
             </p>
           ) : null}
