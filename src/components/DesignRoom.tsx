@@ -131,7 +131,7 @@ export default function DesignRoom({ work }: { work: DesignData }) {
                 ) : null}
               </div>
               {work.sub ? (
-                <p className="note text-[15px] md:text-[18px] text-[#3b3b36] mt-2.5 tracking-wide">{work.sub}</p>
+                <p className="note text-[16px] md:text-[24px] text-[#26261f] mt-2.5 tracking-wide leading-[1.35]">{work.sub}</p>
               ) : null}
             </div>
             {work.credit ? (
