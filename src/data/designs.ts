@@ -242,7 +242,7 @@ export const designs: Record<string, DesignData> = {
     logoTone: "#9ea9e8",
     plates: [
       { label: "展陈主视觉", shots: series("bluearchive", "hero", 3) },
-      { label: "人物立牌", shots: series("bluearchive", "standee", 7) },
+      { label: "人物立牌", shots: ["/design/bluearchive/standee-sheet.webp"], cols: 2 },
       { label: "品牌标识", shots: series("bluearchive", "brand", 2) },
     ],
   },
